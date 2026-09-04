@@ -52,7 +52,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   return (
     <header className="sticky top-0 z-40 bg-[#FDFCFB]/95 backdrop-blur-md border-b border-[#E8E2D8] shadow-xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-18 lg:h-20">
+        <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Clean, Friendly Brand Identity */}
           <button 
             id="brand-logo-button"
@@ -67,10 +67,10 @@ export const Navbar: React.FC<NavbarProps> = ({
               />
             </div>
             <div>
-              <div className="font-serif font-bold text-lg sm:text-xl tracking-tight text-[#002366] leading-tight">
+              <div className="font-serif font-bold text-base sm:text-xl tracking-tight text-[#002366] leading-tight">
                 Ella Ruth
               </div>
-              <p className="text-[11px] sm:text-xs text-[#1A1A1A]/70 font-medium tracking-wide">
+              <p className="hidden xs:block text-[10px] sm:text-xs text-[#1A1A1A]/70 font-medium tracking-wide truncate max-w-[140px] sm:max-w-none">
                 Author • Vitality Coach • Speaker
               </p>
             </div>

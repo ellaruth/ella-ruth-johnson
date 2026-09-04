@@ -56,7 +56,7 @@ export interface GalleryPhoto {
   id: string;
   url: string;
   caption: string;
-  album: 'ministry' | 'banquets' | 'youth' | 'mombasa' | 'family';
+  album: 'ministry' | 'banquets' | 'youth' | 'mombasa' | 'family' | 'milestones' | 'grandchildren' | 'heritage' | 'celebrations' | 'conferences' | 'travel' | 'social';
   tag: string;
   dateStr: string;
   featured?: boolean;

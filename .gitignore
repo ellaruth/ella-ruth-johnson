@@ -9,4 +9,5 @@ coverage/
 data/*.sqlite*
 data/*.db*
 *.local
+ellaruth/
 

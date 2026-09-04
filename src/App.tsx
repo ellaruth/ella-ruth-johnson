@@ -180,8 +180,8 @@ export default function App() {
     <div className="min-h-screen flex flex-col bg-[#FDFCFB] text-[#1A1A1A] font-sans selection:bg-[#D4AF37]/30 selection:text-[#002366]">
       {/* Toast Notification */}
       {toast && (
-        <div className="fixed bottom-6 right-6 z-50 animate-in slide-in-from-bottom-5 duration-300 max-w-sm">
-          <div className="bg-[#002366] text-white p-4 rounded-2xl shadow-xl border border-[#D4AF37]/40 flex items-start gap-3">
+        <div className="fixed bottom-0 inset-x-0 sm:bottom-6 sm:right-6 sm:left-auto z-50 animate-in slide-in-from-bottom-5 duration-300 sm:max-w-sm">
+          <div className="bg-[#002366] text-white p-4 sm:rounded-2xl shadow-xl border-t sm:border border-[#D4AF37]/40 flex items-start gap-3">
             <CheckCircle2 className="w-5 h-5 text-[#D4AF37] shrink-0 mt-0.5" />
             <div className="flex-1 text-xs">
               <div className="font-semibold text-white text-sm leading-tight">{toast.message}</div>

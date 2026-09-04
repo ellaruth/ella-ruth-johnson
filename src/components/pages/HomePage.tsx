@@ -95,7 +95,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             </div>
 
             {/* Main Headline */}
-            <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-[#002366] tracking-tight leading-[1.14]">
+            <h1 className="font-serif text-2xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-[#002366] tracking-tight leading-[1.14]">
               Walking in Faith, <br className="hidden sm:inline" />
               <span className="bg-gradient-to-r from-[#002366] via-[#2a1b54] to-[#7b5417] bg-clip-text text-transparent">
                 Living in Vitality.
@@ -171,11 +171,11 @@ export const HomePage: React.FC<HomePageProps> = ({
             </div>
 
             {/* Primary Action Buttons */}
-            <div className="pt-2 flex flex-wrap items-center gap-3">
+            <div className="pt-2 flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3">
               <button
                 id="hero-coaching-cta"
                 onClick={() => onNavigate('coaching')}
-                className="px-6 py-3.5 rounded-full bg-[#002366] hover:bg-[#001a4e] text-white font-semibold text-sm shadow-md transition-all flex items-center gap-2 border border-[#D4AF37]/30 hover:scale-[1.02] active:scale-[0.98]"
+                className="px-6 py-3.5 rounded-full bg-[#002366] hover:bg-[#001a4e] text-white font-semibold text-sm shadow-md transition-all flex items-center justify-center gap-2 border border-[#D4AF37]/30 hover:scale-[1.02] active:scale-[0.98]"
               >
                 <Activity className="w-4 h-4 text-[#D4AF37]" />
                 <span>Explore Vitality Coaching</span>
@@ -184,7 +184,7 @@ export const HomePage: React.FC<HomePageProps> = ({
               <button
                 id="hero-devotional-guide-cta"
                 onClick={onOpenDevotional}
-                className="px-5 py-3.5 rounded-full bg-[#FDFCFB] hover:bg-[#EFEBE4] text-[#002366] font-semibold text-sm border border-[#E8E2D8] transition-all flex items-center gap-2 hover:border-[#D4AF37]/60"
+                className="px-5 py-3.5 rounded-full bg-[#FDFCFB] hover:bg-[#EFEBE4] text-[#002366] font-semibold text-sm border border-[#E8E2D8] transition-all flex items-center justify-center gap-2 hover:border-[#D4AF37]/60"
               >
                 <Download className="w-4 h-4 text-[#D4AF37]" />
                 <span>Free 7-Day Guide</span>
@@ -193,7 +193,7 @@ export const HomePage: React.FC<HomePageProps> = ({
               <button
                 id="hero-church-home-cta"
                 onClick={() => onNavigate('ministry')}
-                className="px-5 py-3.5 rounded-full bg-transparent hover:bg-[#F5F2ED] text-[#002366] font-medium text-sm transition-colors flex items-center gap-1.5"
+                className="px-5 py-3.5 rounded-full bg-transparent hover:bg-[#F5F2ED] text-[#002366] font-medium text-sm transition-colors flex items-center justify-center gap-1.5"
               >
                 <span>My Church Home</span>
                 <ArrowRight className="w-4 h-4 text-[#D4AF37]" />
@@ -201,24 +201,24 @@ export const HomePage: React.FC<HomePageProps> = ({
             </div>
 
             {/* Trust Badges */}
-            <div className="pt-4 border-t border-[#E8E2D8] flex flex-wrap items-center gap-6 text-xs text-[#1A1A1A]/60 font-medium">
+            <div className="pt-4 border-t border-[#E8E2D8] flex flex-wrap items-center gap-3 sm:gap-6 text-xs text-[#1A1A1A]/60 font-medium">
               <div className="flex items-center gap-2">
-                <ShieldCheck className="w-4 h-4 text-[#D4AF37]" />
+                <ShieldCheck className="w-4 h-4 text-[#D4AF37] shrink-0" />
                 <span>Certified Vitality Coach</span>
               </div>
-              <div className="flex items-center gap-2">
-                <Church className="w-4 h-4 text-[#002366]" />
-                <span>Safe Haven Ministries (Worshipper)</span>
+              <div className="hidden sm:flex items-center gap-2">
+                <Church className="w-4 h-4 text-[#002366] shrink-0" />
+                <span>Safe Haven Ministries</span>
               </div>
               <div className="flex items-center gap-2">
-                <Globe2 className="w-4 h-4 text-[#D4AF37]" />
+                <Globe2 className="w-4 h-4 text-[#D4AF37] shrink-0" />
                 <span>Columbia, Mississippi</span>
               </div>
             </div>
           </div>
 
-          {/* Right Column: Breathtaking Authentic Portrait Showcase */}
-          <div className="lg:col-span-5 relative flex justify-center">
+          {/* Right Column: Portrait — hidden on mobile to keep hero clean */}
+          <div className="hidden sm:flex lg:col-span-5 relative justify-center">
             {/* Ambient Multi-Ring Glow */}
             <div className="absolute inset-0 max-w-sm mx-auto rounded-[3rem] bg-gradient-to-tr from-[#D4AF37]/30 via-[#FDFCFB]/50 to-[#002366]/20 blur-2xl transform -rotate-2" />
 

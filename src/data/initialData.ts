@@ -289,104 +289,391 @@ export const PAST_EVENTS_RECAP = [
 ];
 
 export const GALLERY_PHOTOS: GalleryPhoto[] = [
+  // ── FAMILY & CELEBRATIONS ──────────────────────────────────────────────────
   {
-    id: 'gal-1',
-    url: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=800&auto=format&fit=crop',
-    caption: 'Ella Ruth in her regal teal suit, radiating warmth, wisdom, and the power of an 85-year-young calling.',
+    id: 'gal-f1',
+    url: '/gallery/Good memories!.jpg',
+    caption: 'Good memories cherished with loved ones — a tapestry of laughter, love, and life\'s most precious milestones.',
     album: 'family',
-    tag: 'Portrait',
-    dateStr: 'Portrait Session',
+    tag: 'Memories',
+    dateStr: 'Family Time',
     featured: true
   },
   {
-    id: 'gal-2',
-    url: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=800&auto=format&fit=crop',
-    caption: 'The signature royal blue and golden banquet tables prepared for the Safe Haven Senior & Ministry Gala.',
-    album: 'banquets',
-    tag: 'Community Banquet',
-    dateStr: 'Annual Gala'
-  },
-  {
-    id: 'gal-3',
-    url: 'https://images.unsplash.com/photo-1489710437720-ebb67ec84dd2?q=80&w=800&auto=format&fit=crop',
-    caption: 'Joyful smiles at the Mombasa, Kenya Children\'s Centre during safe lunch and learning hour.',
-    album: 'mombasa',
-    tag: 'Kenya Mission',
-    dateStr: 'Mombasa Outreach',
-    featured: true
-  },
-  {
-    id: 'gal-4',
-    url: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=800&auto=format&fit=crop',
-    caption: 'The vibrant purple-shirted youth choir and scholarship recipients gathered for rally praise in Columbia, MS.',
-    album: 'youth',
-    tag: 'Youth Ministry',
-    dateStr: 'Youth Rally'
-  },
-  {
-    id: 'gal-5',
-    url: 'https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=800&auto=format&fit=crop',
-    caption: 'Ordained teaching: Ella Ruth expounding scripture at the Divine Transformation Conference.',
-    album: 'ministry',
-    tag: 'Preaching',
-    dateStr: 'Conference Stage',
-    featured: true
-  },
-  {
-    id: 'gal-6',
-    url: 'https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?q=80&w=800&auto=format&fit=crop',
-    caption: 'Safe Haven Reentry team providing graduation certificates and family fellowship kits.',
-    album: 'ministry',
-    tag: 'Prison Outreach',
-    dateStr: 'Reentry Ministry'
-  },
-  {
-    id: 'gal-7',
-    url: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=800&auto=format&fit=crop',
-    caption: 'Street outreach teams distributing warm meals, hot soup, and blankets during winter chill.',
-    album: 'banquets',
-    tag: 'Relief',
-    dateStr: 'Street Ministry'
-  },
-  {
-    id: 'gal-8',
-    url: 'https://images.unsplash.com/photo-1543083477-4f785aeafaa9?q=80&w=800&auto=format&fit=crop',
-    caption: 'The sacred Thanksgiving feast: multi-generational families sharing turkey, greens, and heartfelt gratitude.',
-    album: 'banquets',
-    tag: 'Thanksgiving Feast',
-    dateStr: 'Sacred Thanksgiving'
-  },
-  {
-    id: 'gal-9',
-    url: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=800&auto=format&fit=crop',
-    caption: 'Classroom supplies, storybooks, and school uniforms delivered to students at Mombasa Children’s Centre.',
-    album: 'mombasa',
-    tag: 'Education',
-    dateStr: 'Mombasa, Kenya'
-  },
-  {
-    id: 'gal-10',
-    url: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=800&auto=format&fit=crop',
-    caption: 'Coach Ella Ruth walking briskly with women in the morning sunshine, teaching posture and stamina.',
+    id: 'gal-f2',
+    url: '/gallery/Family is very special to us!.jpg',
+    caption: 'Family is the cornerstone of everything. Ella Ruth has always held her loved ones close, pouring into each generation with intention and grace.',
     album: 'family',
-    tag: 'Wellness Walk',
-    dateStr: 'Longevity Coach'
+    tag: 'Family',
+    dateStr: 'Family Gathering'
   },
   {
-    id: 'gal-11',
-    url: 'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?q=80&w=800&auto=format&fit=crop',
-    caption: 'Honoring community matriarchs and faith leaders at the royal blue anniversary dinner celebration.',
-    album: 'banquets',
-    tag: 'Anniversary',
-    dateStr: 'Gala Night'
+    id: 'gal-f3',
+    url: '/gallery/My children. I love these people!.jpg',
+    caption: '"My children — I love these people!" A mother\'s heart overflows with pride and joy for the remarkable lives she\'s shaped.',
+    album: 'family',
+    tag: 'Children',
+    dateStr: 'Family Portrait',
+    featured: true
   },
   {
-    id: 'gal-12',
-    url: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=800&auto=format&fit=crop',
-    caption: 'Ella Ruth in her private prayer study with open scriptures, devotionals, and journal in hand.',
+    id: 'gal-f4',
+    url: '/gallery/My two sons and daughter on Mother\'s Day. I love family life!.jpg',
+    caption: 'A precious Mother\'s Day portrait with her two sons and daughter — a testament to a life built on love and intentional parenting.',
+    album: 'family',
+    tag: "Mother's Day",
+    dateStr: "Mother's Day"
+  },
+  {
+    id: 'gal-f5',
+    url: '/gallery/Happy to celebrate daughters day! Love my girls!.jpg',
+    caption: 'Celebrating Daughters\' Day with pure joy! Ella Ruth\'s love for her girls is boundless — she is their greatest encourager.',
+    album: 'family',
+    tag: 'Daughters',
+    dateStr: "Daughters' Day"
+  },
+  {
+    id: 'gal-f6',
+    url: '/gallery/My Sister and I after lunch. We enjoyed ourselves together..jpg',
+    caption: 'A beautiful afternoon shared with her sister over lunch — proof that sibling bonds only grow sweeter with time.',
+    album: 'family',
+    tag: 'Sisterhood',
+    dateStr: 'Sister Lunch'
+  },
+  {
+    id: 'gal-f7',
+    url: '/gallery/my children, Sunday evening at my granddaughter and grandson\'s home..jpg',
+    caption: 'A warm Sunday evening gathered at her grandchildren\'s home — the kind of multi-generational love story that blesses everyone at the table.',
+    album: 'family',
+    tag: 'Sunday Family',
+    dateStr: 'Sunday Evening'
+  },
+  // ── BIRTHDAYS & MILESTONES ────────────────────────────────────────────────
+  {
+    id: 'gal-b1',
+    url: '/gallery/I am so thankful to God for the years that I have lived. I am grateful for the years ahead. my 85th birthday.jpg',
+    caption: '"I am so thankful to God for the years that I have lived and grateful for the years ahead." — Ella Ruth celebrates her glorious 85th birthday, still vibrant, still full of purpose.',
+    album: 'milestones',
+    tag: '85th Birthday',
+    dateStr: '85th Birthday',
+    featured: true
+  },
+  {
+    id: 'gal-b2',
+    url: '/gallery/Still happy at age 84!.jpg',
+    caption: 'Still radiant and deeply happy at age 84 — living proof that joy is a medicine that never expires.',
+    album: 'milestones',
+    tag: 'Age 84',
+    dateStr: '84th Birthday'
+  },
+  {
+    id: 'gal-b3',
+    url: '/gallery/You can flourish at age 82.jpg',
+    caption: '"You can flourish at age 82!" Ella Ruth shows the world that vitality has no expiry date — thriving beautifully at 82.',
+    album: 'milestones',
+    tag: 'Age 82',
+    dateStr: '82nd Birthday'
+  },
+  {
+    id: 'gal-b4',
+    url: '/gallery/This is me at 11 pm on my 83rd birthday. After lunch with my Sisters, nieces, nephew, Son and Daughter at the Magnolia Grill. NAACP Banquet and cooking dinner for tomorrow..jpg',
+    caption: 'The unstoppable Ella Ruth at 11 PM on her 83rd birthday — after a full day of family lunch at Magnolia Grill, the NAACP Banquet, and still preparing dinner for the next day!',
+    album: 'milestones',
+    tag: '83rd Birthday',
+    dateStr: '83rd Birthday'
+  },
+  {
+    id: 'gal-b5',
+    url: '/gallery/Saturday. Birthday Luncheon party! Thanks to my niece Linda for treating me with lunch..jpg',
+    caption: 'A heartwarming birthday luncheon party — sincere thanks to her niece Linda for the beautiful celebration and generous treat.',
+    album: 'milestones',
+    tag: 'Birthday Lunch',
+    dateStr: 'Birthday Celebration'
+  },
+  // ── GRANDCHILDREN & GREAT-GRANDCHILDREN ──────────────────────────────────
+  {
+    id: 'gal-g1',
+    url: '/gallery/Great grand children.jpg',
+    caption: 'Her great-grandchildren — the 6th generation of a faith-filled family legacy. Ella Ruth\'s greatest treasure on earth.',
+    album: 'grandchildren',
+    tag: 'Great-Grandchildren',
+    dateStr: 'Family Legacy',
+    featured: true
+  },
+  {
+    id: 'gal-g2',
+    url: '/gallery/grandchildren.jpg',
+    caption: 'A beautiful moment with her grandchildren — the next chapter of a family story written in love, prayer, and purpose.',
+    album: 'grandchildren',
+    tag: 'Grandchildren',
+    dateStr: 'Grandchildren'
+  },
+  {
+    id: 'gal-g3',
+    url: '/gallery/With great grandchildren.jpg',
+    caption: 'Surrounded by her great-grandchildren — laughter, hugs, and the warm legacy of a grandmother who poured everything into her family.',
+    album: 'grandchildren',
+    tag: 'Great-Grandchildren',
+    dateStr: 'Family Time'
+  },
+  {
+    id: 'gal-g4',
+    url: '/gallery/Sharing a picture with my Great Grandchildren. 4 are absent in the picture, but present in our hearts..jpg',
+    caption: '"4 are absent in the picture, but present in our hearts." A precious photo with most of her great-grandchildren — love stretches even across distance.',
+    album: 'grandchildren',
+    tag: 'Great-Grandchildren',
+    dateStr: 'Family Portrait'
+  },
+  {
+    id: 'gal-g5',
+    url: '/gallery/So blessed to live to see the 7th generation! To God be the glory!.jpg',
+    caption: '"So blessed to live to see the 7th generation! To God be the glory!" — A milestone testimony of a life well-lived and a family legacy that spans seven generations.',
+    album: 'grandchildren',
+    tag: '7th Generation',
+    dateStr: '7th Generation',
+    featured: true
+  },
+  {
+    id: 'gal-g6',
+    url: '/gallery/Beautiful Great granddaughter #5 congratulations my dearest Queen!.jpg',
+    caption: 'Congratulations to her beautiful great-granddaughter #5 — her proud "dearest Queen"! Every milestone is a cause for celebration.',
+    album: 'grandchildren',
+    tag: 'Great-Granddaughter',
+    dateStr: 'Congratulations'
+  },
+  {
+    id: 'gal-g7',
+    url: '/gallery/It was great attending my Great Granddaughters #5 graduation!.jpg',
+    caption: 'Attending her great-granddaughter\'s graduation — a proud grandmother beaming with joy as a new chapter begins.',
+    album: 'grandchildren',
+    tag: 'Graduation',
+    dateStr: 'Graduation Day'
+  },
+  {
+    id: 'gal-g8',
+    url: '/gallery/Look who is 46! Happy birthday to my Granddaughter#1! Granny loves you. You birthed some awesome, smart children! Enjoy your day!.jpg',
+    caption: '"Look who is 46! Happy birthday to my Granddaughter #1! Granny loves you — you birthed some awesome, smart children. Enjoy your day!"',
+    album: 'grandchildren',
+    tag: 'Granddaughter Birthday',
+    dateStr: 'Granddaughter #1 Birthday'
+  },
+  {
+    id: 'gal-g9',
+    url: '/gallery/Celebrating my 4th Great grandson 9th birthday. It was a joyful experience! Granny love you!.jpg',
+    caption: 'Celebrating her 4th great-grandson\'s 9th birthday — a joyful experience overflowing with love! Granny loves you always.',
+    album: 'grandchildren',
+    tag: 'Birthday',
+    dateStr: '9th Birthday'
+  },
+  {
+    id: 'gal-g10',
+    url: '/gallery/Happy birthday to my Great grandson #4! I pray that you are having a wonderful 10th birthday! Granny loves you now and always!.jpg',
+    caption: '"Happy birthday to my Great-grandson #4! I pray you are having a wonderful 10th birthday — Granny loves you now and always!"',
+    album: 'grandchildren',
+    tag: 'Great-Grandson Birthday',
+    dateStr: '10th Birthday'
+  },
+  {
+    id: 'gal-g11',
+    url: '/gallery/Sharing a photo with my Great grandson #2#Tyler Isaiah Pope#trackrunner!.jpg',
+    caption: 'A proud moment with Great-grandson #2, Tyler Isaiah Pope — a gifted track runner with a bright future ahead.',
+    album: 'grandchildren',
+    tag: 'Great-Grandson',
+    dateStr: 'Tyler Isaiah Pope'
+  },
+  {
+    id: 'gal-g12',
+    url: '/gallery/My granddaughter\'s parents and grandmother and Raeshon\'s Mother and Grandmother..jpg',
+    caption: 'Three generations of family love gathered together — grandparents and grandmothers united in celebration and support.',
+    album: 'grandchildren',
+    tag: 'Three Generations',
+    dateStr: 'Family Portrait'
+  },
+  // ── MOTHER & HERITAGE ────────────────────────────────────────────────────
+  {
+    id: 'gal-h1',
+    url: '/gallery/Honoring my Mother the one who gave birth to me and nourished and cared for me. I learned so much from her, which helped to shape me into the person I am today!.jpg',
+    caption: '"Honoring my Mother — the one who gave birth to me, nourished and cared for me. I learned so much from her, which helped shape me into the person I am today."',
+    album: 'heritage',
+    tag: 'Honoring Mother',
+    dateStr: 'Heritage',
+    featured: true
+  },
+  {
+    id: 'gal-h2',
+    url: '/gallery/The Seniors of the Ned Ratcliff descendants! By God\'s grace we met again!.jpg',
+    caption: '"The Seniors of the Ned Ratcliff descendants — by God\'s grace we met again!" A beautiful reunion of elders carrying forward a proud family name.',
+    album: 'heritage',
+    tag: 'Family Reunion',
+    dateStr: 'Ned Ratcliff Descendants'
+  },
+  {
+    id: 'gal-h3',
+    url: '/gallery/My family present at the Family Reunion! It was so much fun!— in Petal, MS, United States..jpg',
+    caption: 'A joyful Family Reunion in Petal, MS — so much fun and so much love! The family that prays together stays together.',
+    album: 'heritage',
+    tag: 'Family Reunion',
+    dateStr: 'Petal, MS Reunion'
+  },
+  {
+    id: 'gal-h4',
+    url: '/gallery/I was blessed to meet my Cousins for the first time! We all met in McKinney, Tx at another cousin\'s wedding..jpg',
+    caption: '"I was blessed to meet my Cousins for the first time!" A divine appointment at a cousin\'s wedding in McKinney, TX — family found across the miles.',
+    album: 'heritage',
+    tag: 'First Meeting',
+    dateStr: 'McKinney, TX'
+  },
+  {
+    id: 'gal-h5',
+    url: '/gallery/Enjoying my great and great great nephews and nieces. Dallas, TX.jpg',
+    caption: 'Enjoying precious time with her great and great-great nephews and nieces in Dallas, TX — the family circle keeps growing bigger and brighter.',
+    album: 'heritage',
+    tag: 'Nephews & Nieces',
+    dateStr: 'Dallas, TX'
+  },
+  {
+    id: 'gal-h6',
+    url: '/gallery/Happy birthday to my beautiful niece. I hope that you had a wonderful day! Love you.jpg',
+    caption: '"Happy birthday to my beautiful niece — I hope you had a wonderful day! Love you." Ella Ruth\'s heart for her extended family knows no bounds.',
+    album: 'heritage',
+    tag: 'Niece Birthday',
+    dateStr: 'Birthday Blessing'
+  },
+  // ── WEDDINGS & CELEBRATIONS ───────────────────────────────────────────────
+  {
+    id: 'gal-w1',
+    url: '/gallery/A beautiful wedding and a wonderful, blessed couple!.jpg',
+    caption: '"A beautiful wedding and a wonderful, blessed couple!" — Ella Ruth celebrated love and covenant with joy in her heart.',
+    album: 'celebrations',
+    tag: 'Wedding',
+    dateStr: 'Wedding Celebration'
+  },
+  // ── MINISTRY & CHURCH ────────────────────────────────────────────────────
+  {
+    id: 'gal-m1',
+    url: '/gallery/Current and some past Board members! Safe Haven celebrated 22 years of serving those in need..jpg',
+    caption: 'Current and past Board members of Safe Haven Ministries — celebrating 22 remarkable years of faithfully serving those in need across Marion County.',
     album: 'ministry',
-    tag: 'Prayer Life',
-    dateStr: 'Study of the Word'
+    tag: 'Safe Haven Board',
+    dateStr: '22 Years of Service',
+    featured: true
+  },
+  {
+    id: 'gal-m2',
+    url: '/gallery/Mothers Day family gathering at our home church. I love my family!.jpg',
+    caption: 'A heartwarming Mother\'s Day family gathering at Safe Haven Ministries — "I love my family!" — celebrating both earthly family and the family of faith.',
+    album: 'ministry',
+    tag: "Mother's Day",
+    dateStr: 'Church Gathering'
+  },
+  {
+    id: 'gal-m3',
+    url: '/gallery/Great and inspiring testimony from these Men. I pray that they will continue to lift up the name of Jesus!.jpg',
+    caption: '"Great and inspiring testimony from these Men. I pray they will continue to lift up the name of Jesus!" — powerful moments of transformation and faith.',
+    album: 'ministry',
+    tag: 'Testimony',
+    dateStr: 'Men of Faith'
+  },
+  {
+    id: 'gal-m4',
+    url: '/gallery/Love God, and love others as you love yourself! This is the key to happiness and success..jpg',
+    caption: '"Love God, and love others as you love yourself — this is the key to happiness and success." A timeless truth Ella Ruth lives and teaches every day.',
+    album: 'ministry',
+    tag: 'Faith',
+    dateStr: 'Words of Wisdom'
+  },
+  {
+    id: 'gal-m5',
+    url: '/gallery/Wow! Well stated with emphasis on the last paragraph..jpg',
+    caption: '"Wow! Well stated — with emphasis on the last paragraph." Ella Ruth shares a powerful word that stirred her spirit, always passing along wisdom to those she loves.',
+    album: 'ministry',
+    tag: 'Inspiration',
+    dateStr: 'Inspired Word'
+  },
+  // ── CONFERENCES ───────────────────────────────────────────────────────────
+  {
+    id: 'gal-c1',
+    url: '/gallery/Great april 20 2026 conference.jpg',
+    caption: 'A powerful April 20, 2026 conference — the atmosphere was electric with the Holy Spirit as lives were touched and testimonies were born.',
+    album: 'conferences',
+    tag: 'Conference 2026',
+    dateStr: 'April 20, 2026',
+    featured: true
+  },
+  {
+    id: 'gal-c2',
+    url: '/gallery/Great April 20 2026 conference, 1.jpg',
+    caption: 'More stirring moments from the April 20, 2026 conference — Spirit-led worship, heartfelt preaching, and a community gathered in transformative unity.',
+    album: 'conferences',
+    tag: 'Conference 2026',
+    dateStr: 'April 20, 2026'
+  },
+  {
+    id: 'gal-c3',
+    url: '/gallery/Great april 20 2026 conference,2.jpg',
+    caption: 'The closing sessions of the April 20, 2026 conference — faith declarations, prayer, and lasting impartations that attendees will carry home.',
+    album: 'conferences',
+    tag: 'Conference 2026',
+    dateStr: 'April 20, 2026'
+  },
+  {
+    id: 'gal-c4',
+    url: '/gallery/at-petal-civic-center.jpg',
+    caption: 'A memorable gathering at the Petal Civic Center — community, worship, and the kind of fellowship that strengthens the spirit and restores hope.',
+    album: 'conferences',
+    tag: 'Civic Center Event',
+    dateStr: 'Petal, MS'
+  },
+  // ── TRAVEL & CULTURE ─────────────────────────────────────────────────────
+  {
+    id: 'gal-t1',
+    url: '/gallery/Touring The Grammy Museum, Los Angeles!.jpg',
+    caption: 'Touring the Grammy Museum in Los Angeles — Ella Ruth brought her signature curiosity and joy to one of music\'s most iconic institutions.',
+    album: 'travel',
+    tag: 'Grammy Museum',
+    dateStr: 'Los Angeles, CA'
+  },
+  {
+    id: 'gal-t2',
+    url: '/gallery/We toured the Martin Luther King National Park. Atlanta. Very educational and very interesting..jpg',
+    caption: '"We toured the Martin Luther King Jr. National Park in Atlanta — very educational and very interesting." Walking the legacy of a great man with reverence and gratitude.',
+    album: 'travel',
+    tag: 'MLK National Park',
+    dateStr: 'Atlanta, GA'
+  },
+  // ── DINING & SOCIAL ───────────────────────────────────────────────────────
+  {
+    id: 'gal-d1',
+    url: '/gallery/I enjoyed having Breakfast at the Cracker Barrel Restaurant in Hattiesburg celebrating my friend Lorenza\'s birthday .. Never too late to celebrate— in Hattiesburg, MS, United States..jpg',
+    caption: '"Never too late to celebrate!" Enjoying a delightful birthday breakfast at Cracker Barrel in Hattiesburg, MS — honoring her dear friend Lorenza with love and laughter.',
+    album: 'social',
+    tag: 'Friends & Dining',
+    dateStr: 'Hattiesburg, MS'
+  },
+  // ── NUMERIC FACEBOOK IDs (unlabeled community moments) ───────────────────
+  {
+    id: 'gal-fb1',
+    url: '/gallery/700124371_27788187230768048_8278905818232501846_n.jpg',
+    caption: 'A candid community moment — life as it happens, people gathered in joy, the kind of authentic connection that defines Ella Ruth\'s world.',
+    album: 'family',
+    tag: 'Community',
+    dateStr: 'Community Moment'
+  },
+  {
+    id: 'gal-fb2',
+    url: '/gallery/722859751_28194746096778824_454259432063154988_n.jpg',
+    caption: 'Another treasured memory captured in real time — evidence that Ella Ruth\'s life is filled with genuine love, vibrant relationships, and meaningful purpose.',
+    album: 'family',
+    tag: 'Community',
+    dateStr: 'Special Moment'
+  },
+  {
+    id: 'gal-fb3',
+    url: '/gallery/765929398_28879759261610834_7571131321084503590_n.jpg',
+    caption: 'Preserving yet another God-given moment — each photograph a testimony that a life of faith, family, and service is a life beautifully lived.',
+    album: 'family',
+    tag: 'Moment Captured',
+    dateStr: 'Life in Pictures'
   }
 ];
 
