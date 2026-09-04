@@ -13,7 +13,8 @@ import {
   Grid3X3,
   LayoutGrid,
   Camera,
-  Maximize2
+  Maximize2,
+  Sparkles
 } from 'lucide-react';
 
 interface GalleryPageProps {
@@ -45,19 +46,19 @@ export const GalleryPage: React.FC<GalleryPageProps> = ({ onOpenDonate }) => {
     : GALLERY_PHOTOS.filter(p => p.album === selectedAlbum);
 
   // ── HKM 3D Coverflow Slideshow State ─────────────────────────────────────
-  // We use the full gallery photos (or filtered set) for the coverflow
   const coverflowPhotos = selectedAlbum === 'all'
     ? GALLERY_PHOTOS
     : filteredPhotos;
 
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
+  const [isHovered, setIsHovered] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const dragStartX = useRef<number>(0);
   const dragDeltaX = useRef<number>(0);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Safety check on index if filtered photos length changes
+  // Keep index within bounds if filtered photos length changes
   useEffect(() => {
     if (activeIndex >= coverflowPhotos.length) {
       setActiveIndex(0);
@@ -78,19 +79,22 @@ export const GalleryPage: React.FC<GalleryPageProps> = ({ onOpenDonate }) => {
     goToSlide(activeIndex - 1);
   }, [activeIndex, goToSlide]);
 
-  // Autoplay (5000ms delay, paused on drag or when user pauses)
+  // ── Auto-Advance on Opening: Automatically runs immediately on page load ──
   useEffect(() => {
-    if (!isPlaying || isDragging || coverflowPhotos.length <= 1) {
+    // If paused manually or actively dragging, stop timer
+    if (!isPlaying || isDragging || isHovered || coverflowPhotos.length <= 1) {
       if (timerRef.current) clearTimeout(timerRef.current);
       return;
     }
+
     timerRef.current = setTimeout(() => {
       goToSlide(activeIndex + 1);
-    }, 5000);
+    }, 4500);
+
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
     };
-  }, [isPlaying, isDragging, activeIndex, coverflowPhotos.length, goToSlide]);
+  }, [isPlaying, isDragging, isHovered, activeIndex, coverflowPhotos.length, goToSlide]);
 
   // ── Touch & Mouse Drag Handlers ──────────────────────────────────────────
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -107,9 +111,9 @@ export const GalleryPage: React.FC<GalleryPageProps> = ({ onOpenDonate }) => {
   const handleTouchEnd = () => {
     if (!isDragging) return;
     setIsDragging(false);
-    if (dragDeltaX.current > 45) {
+    if (dragDeltaX.current > 40) {
       prevSlide();
-    } else if (dragDeltaX.current < -45) {
+    } else if (dragDeltaX.current < -40) {
       nextSlide();
     }
     dragDeltaX.current = 0;
@@ -129,9 +133,9 @@ export const GalleryPage: React.FC<GalleryPageProps> = ({ onOpenDonate }) => {
   const handleMouseUp = () => {
     if (!isDragging) return;
     setIsDragging(false);
-    if (dragDeltaX.current > 50) {
+    if (dragDeltaX.current > 45) {
       prevSlide();
-    } else if (dragDeltaX.current < -50) {
+    } else if (dragDeltaX.current < -45) {
       nextSlide();
     }
     dragDeltaX.current = 0;
@@ -169,43 +173,64 @@ export const GalleryPage: React.FC<GalleryPageProps> = ({ onOpenDonate }) => {
   const currentCoverPhoto = coverflowPhotos[activeIndex] || coverflowPhotos[0];
 
   return (
-    <div className="min-h-screen bg-[#0B0A09] text-white">
+    <div className="min-h-screen bg-[#070605] text-white selection:bg-[#D4AF37] selection:text-black">
 
       {/* ═══════════════════════════════════════════════════════════════════
-          1. HKM-STYLE MEDIA GALLERY HEADER BANNER
+          1. HKM-STYLE MEDIA GALLERY HERO BANNER
       ══════════════════════════════════════════════════════════════════════ */}
-      <section className="bg-gradient-to-b from-[#001740] via-[#002366] to-[#0B0A09] text-white py-12 sm:py-16 px-4 sm:px-6 lg:px-8 border-b border-white/10">
-        <div className="max-w-5xl mx-auto text-center space-y-3">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-[#D4AF37]/30 text-[#D4AF37] text-xs font-semibold uppercase tracking-wider mb-2">
-            <Camera className="w-3.5 h-3.5" />
-            <span>Living Archive & Highlights</span>
-            <span className="text-white/60">·</span>
-            <span className="text-white">{GALLERY_PHOTOS.length} Photographs</span>
+      <section className="relative bg-gradient-to-b from-[#001333] via-[#002366] to-[#070605] text-white pt-10 pb-8 sm:py-14 px-4 sm:px-6 lg:px-8 border-b border-white/10 overflow-hidden">
+        {/* Ambient Top Glow */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-5xl h-48 bg-gradient-to-r from-transparent via-[#D4AF37]/15 to-transparent blur-3xl pointer-events-none" />
+
+        <div className="relative max-w-4xl mx-auto text-center space-y-3">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-[#D4AF37]/35 text-[#D4AF37] text-xs font-semibold uppercase tracking-widest shadow-lg">
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>Official Life & Ministry Archive</span>
+            <span className="text-white/40">·</span>
+            <span className="text-white font-mono">{GALLERY_PHOTOS.length} Photos</span>
           </div>
 
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold tracking-tight text-white">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold tracking-tight text-white drop-shadow-lg">
             Media <span className="text-[#D4AF37]">Gallery</span>
           </h1>
 
-          <p className="text-gray-300 text-sm sm:text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
-            Highlights from the life, preaching ministry, conference appearances, and precious multi-generational family milestones of <strong>Pastor Ella Ruth Johnson</strong>.
+          <p className="text-gray-300 text-xs sm:text-sm md:text-base max-w-2xl mx-auto leading-relaxed">
+            Seven decades of faith, ministry leadership, conference addresses, and precious family memories of <strong>Pastor Ella Ruth Johnson</strong>.
           </p>
         </div>
       </section>
 
       {/* ═══════════════════════════════════════════════════════════════════
-          2. HKM 3D COVERFLOW SHOWCASE SLIDESHOW (Replica of hkm-coverflow)
+          2. REALISTIC 3D COVERFLOW SHOWCASE (Full Height & Sharp Focus)
       ══════════════════════════════════════════════════════════════════════ */}
       <section
         id="hkm-coverflow-showcase"
-        aria-label="3D Coverflow photo slideshow"
-        className="relative bg-[#0B0A09] pt-6 pb-12 px-4 sm:px-6 overflow-hidden select-none"
-        onMouseEnter={() => setIsPlaying(false)}
-        onMouseLeave={() => setIsPlaying(true)}
+        aria-label="3D Coverflow photo showcase"
+        className="relative bg-[#070605] pt-6 pb-12 px-2 sm:px-6 overflow-hidden select-none"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
       >
-        {/* Subtle Ambient Glow Behind 3D Stage */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-[#D4AF37]/10 rounded-full blur-[100px] pointer-events-none" />
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[250px] bg-[#002366]/30 rounded-full blur-[80px] pointer-events-none" />
+        {/* Dynamic Ambient Background Aura */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[750px] h-[400px] bg-[#D4AF37]/10 rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] bg-[#002366]/40 rounded-full blur-[90px] pointer-events-none" />
+
+        {/* Status Pill: Autoplay status & quick pause toggle */}
+        <div className="max-w-4xl mx-auto flex items-center justify-between px-3 sm:px-6 mb-3 text-xs">
+          <div className="flex items-center gap-2">
+            <span className={`inline-block w-2 h-2 rounded-full ${isPlaying && !isHovered ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'}`} />
+            <span className="text-white/70 font-medium">
+              {isPlaying && !isHovered ? 'Auto-Slideshow Active' : isHovered ? 'Paused (Hovering)' : 'Slideshow Paused'}
+            </span>
+          </div>
+
+          <button
+            onClick={() => setIsPlaying(p => !p)}
+            className="touch-sm inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 hover:bg-[#D4AF37] hover:text-black text-white/80 transition-all text-xs font-semibold"
+          >
+            {isPlaying ? <Pause className="w-3 h-3" /> : <Play className="w-3 h-3 fill-current" />}
+            <span>{isPlaying ? 'Pause' : 'Resume'}</span>
+          </button>
+        </div>
 
         {/* 3D Coverflow Stage */}
         <div
@@ -222,66 +247,76 @@ export const GalleryPage: React.FC<GalleryPageProps> = ({ onOpenDonate }) => {
           <div className="hkm-coverflow__stage">
             {coverflowPhotos.map((photo, idx) => {
               const total = coverflowPhotos.length;
-              // Calculate shortest circular difference (-total/2 to total/2)
+              // Circular difference (-total/2 to total/2)
               let diff = idx - activeIndex;
               if (diff > total / 2) diff -= total;
               if (diff < -total / 2) diff += total;
 
-              // Only render slides within 3 steps of center for performance & 3D aesthetics
+              // Render visible range
               const isVisible = Math.abs(diff) <= 3;
               if (!isVisible) return null;
 
               const isCenter = diff === 0;
 
-              // Coverflow 3D Math matching HKM:
-              // Center: scale 1, rotateY 0, translateZ 0, blur 0, opacity 1
-              // Side 1: translateX +/- 68%, translateZ -220px, rotateY -/+ 32deg, scale 0.85, blur 1.5px, opacity 0.65
-              // Side 2: translateX +/- 118%, translateZ -420px, rotateY -/+ 48deg, scale 0.70, blur 3.5px, opacity 0.30
-              // Side 3: translateX +/- 155%, translateZ -580px, rotateY -/+ 55deg, scale 0.58, blur 5px, opacity 0.10
+              // ── Realistic 3D Coverflow Physics with High Distinction ──
+              // Center card: elevated in Z space, scale 1.06, crisp 0px blur, gold glow
+              // Side 1: stepped back (-280px), angled (38deg), blur 4px, dimmed (0.55 brightness)
+              // Side 2: far back (-520px), angled (52deg), blur 8px, dimmed (0.35 brightness)
+              // Side 3: background (-750px), angled (65deg), blur 12px, dimmed (0.18 brightness)
               let translateX = 0;
               let translateZ = 0;
               let rotateY = 0;
               let scale = 1;
               let opacity = 1;
               let blurPx = 0;
-              let zIndex = 30;
+              let brightness = 1;
+              let zIndex = 40;
+              let boxShadow = '0 25px 60px -10px rgba(212, 175, 55, 0.45), 0 20px 40px rgba(0, 0, 0, 0.95)';
 
               if (isCenter) {
                 translateX = 0;
-                translateZ = 0;
+                translateZ = 80;
                 rotateY = 0;
-                scale = 1;
+                scale = 1.06;
                 opacity = 1;
                 blurPx = 0;
-                zIndex = 30;
+                brightness = 1.05;
+                zIndex = 40;
+                boxShadow = '0 30px 70px -10px rgba(212, 175, 55, 0.5), 0 25px 50px rgba(0, 0, 0, 0.95)';
               } else {
                 const sign = diff > 0 ? 1 : -1;
                 const absD = Math.abs(diff);
 
                 if (absD === 1) {
-                  translateX = sign * 68;
-                  translateZ = -220;
-                  rotateY = -sign * 32;
-                  scale = 0.85;
-                  opacity = 0.65;
-                  blurPx = 1.5;
+                  translateX = sign * 74;
+                  translateZ = -280;
+                  rotateY = -sign * 38;
+                  scale = 0.82;
+                  opacity = 0.60;
+                  blurPx = 4;
+                  brightness = 0.55;
                   zIndex = 20;
+                  boxShadow = '0 15px 35px rgba(0, 0, 0, 0.85)';
                 } else if (absD === 2) {
-                  translateX = sign * 118;
-                  translateZ = -420;
-                  rotateY = -sign * 48;
-                  scale = 0.70;
-                  opacity = 0.30;
-                  blurPx = 3.5;
+                  translateX = sign * 128;
+                  translateZ = -520;
+                  rotateY = -sign * 52;
+                  scale = 0.68;
+                  opacity = 0.25;
+                  blurPx = 8;
+                  brightness = 0.35;
                   zIndex = 10;
+                  boxShadow = '0 10px 25px rgba(0, 0, 0, 0.9)';
                 } else {
-                  translateX = sign * 155;
-                  translateZ = -580;
-                  rotateY = -sign * 55;
-                  scale = 0.58;
-                  opacity = 0.10;
-                  blurPx = 5;
+                  translateX = sign * 170;
+                  translateZ = -750;
+                  rotateY = -sign * 65;
+                  scale = 0.55;
+                  opacity = 0.08;
+                  blurPx = 12;
+                  brightness = 0.18;
                   zIndex = 5;
+                  boxShadow = 'none';
                 }
               }
 
@@ -295,77 +330,89 @@ export const GalleryPage: React.FC<GalleryPageProps> = ({ onOpenDonate }) => {
                       goToSlide(idx);
                     }
                   }}
-                  className={`hkm-coverflow__card group ${
+                  className={`hkm-coverflow__card group relative overflow-hidden bg-[#001740] ${
                     isCenter
-                      ? 'ring-2 ring-[#D4AF37] ring-offset-2 ring-offset-black cursor-pointer'
+                      ? 'ring-2 ring-[#D4AF37] ring-offset-2 ring-offset-[#070605] cursor-pointer'
                       : 'cursor-pointer'
                   }`}
                   style={{
                     transform: `translateX(${translateX}%) translateZ(${translateZ}px) rotateY(${rotateY}deg) scale(${scale})`,
                     opacity,
-                    filter: `blur(${blurPx}px)`,
+                    filter: `blur(${blurPx}px) brightness(${brightness})`,
                     zIndex,
+                    boxShadow,
                   }}
                   title={photo.caption}
                 >
-                  {/* Photo Image */}
+                  {/* ── AMBIENT BLURRED BACKDROP: Fills entire card with matching colors ── */}
                   <img
                     src={photo.url}
-                    alt={photo.caption}
-                    className="w-full h-full object-cover select-none pointer-events-none"
-                    loading={isCenter ? 'eager' : 'lazy'}
+                    alt=""
+                    aria-hidden="true"
+                    className="absolute inset-0 w-full h-full object-cover blur-2xl scale-125 opacity-40 select-none pointer-events-none"
                   />
 
-                  {/* Three-tier Gradient Overlay for HKM Cinematic Feel */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent pointer-events-none" />
-                  <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-transparent pointer-events-none" />
+                  {/* ── CRISP UNCRIPPED PHOTO: 100% visible, landscape or portrait ── */}
+                  <div className="relative z-10 w-full h-full flex items-center justify-center p-3 sm:p-4">
+                    <img
+                      src={photo.url}
+                      alt={photo.caption}
+                      className="max-w-full max-h-full object-contain rounded-xl drop-shadow-2xl select-none pointer-events-none transition-transform duration-500"
+                      loading={isCenter ? 'eager' : 'lazy'}
+                    />
+                  </div>
 
-                  {/* Top Badge: Tag & Milestone */}
-                  <div className="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between pointer-events-none">
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-[#D4AF37] text-[11px] font-bold tracking-wide uppercase border border-[#D4AF37]/30">
+                  {/* Top Specular Sheen for 3D realism */}
+                  {isCenter && (
+                    <div className="absolute inset-0 bg-gradient-to-b from-white/15 via-transparent to-black/60 pointer-events-none z-15" />
+                  )}
+
+                  {/* Top Badges */}
+                  <div className="absolute top-3 left-3 right-3 flex items-center justify-between z-20 pointer-events-none">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/75 backdrop-blur-md text-[#D4AF37] text-[10px] sm:text-xs font-bold tracking-wide uppercase border border-[#D4AF37]/40 shadow-md">
                       <Camera className="w-3 h-3" />
                       {photo.tag}
                     </span>
-                    <span className="text-[11px] font-medium text-white/80 bg-black/50 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/10">
+                    <span className="text-[10px] sm:text-xs font-medium text-white/90 bg-black/70 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/15 shadow-md">
                       {photo.dateStr}
                     </span>
                   </div>
 
-                  {/* Bottom Caption Overlay */}
-                  <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5 pointer-events-none">
-                    <p className="text-white text-xs sm:text-sm font-serif italic line-clamp-2 drop-shadow-md mb-2">
-                      “{photo.caption}”
-                    </p>
+                  {/* Bottom Caption Overlay on Center Slide */}
+                  {isCenter && (
+                    <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5 bg-gradient-to-t from-black/95 via-black/70 to-transparent z-20 pointer-events-none">
+                      <p className="text-white text-xs sm:text-sm font-serif italic line-clamp-2 drop-shadow-md mb-2 leading-snug">
+                        “{photo.caption}”
+                      </p>
 
-                    {/* Action Button on Center Slide */}
-                    {isCenter && (
                       <div className="flex items-center justify-between pt-1">
-                        <span className="text-[11px] font-bold text-[#D4AF37] uppercase tracking-wider">
-                          Slide {idx + 1} of {total}
+                        <span className="text-[10px] sm:text-[11px] font-bold text-[#D4AF37] uppercase tracking-wider font-mono">
+                          Slide {idx + 1} / {total}
                         </span>
+
                         <button
                           type="button"
                           onClick={(e) => {
                             e.stopPropagation();
                             setActivePhoto(photo);
                           }}
-                          className="pointer-events-auto touch-sm inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#D4AF37] hover:bg-[#c9a430] text-[#0B0A09] text-xs font-bold transition-all shadow-md active:scale-95"
-                          aria-label="View full image in lightbox"
+                          className="pointer-events-auto touch-sm inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#D4AF37] hover:bg-[#c9a430] text-[#070605] text-xs font-bold transition-all shadow-lg active:scale-95"
+                          aria-label="View full photo in lightbox"
                         >
                           <Maximize2 className="w-3.5 h-3.5" />
                           <span>View Full Photo</span>
                         </button>
                       </div>
-                    )}
-                  </div>
+                    </div>
+                  )}
                 </div>
               );
             })}
           </div>
         </div>
 
-        {/* ── Slideshow Controls Bar (HKM Layout) ─────────────────────────── */}
-        <div className="max-w-4xl mx-auto flex flex-col items-center gap-4 mt-4">
+        {/* ── Slideshow Controls Bar (HKM Luxury Layout) ────────────────────── */}
+        <div className="max-w-4xl mx-auto flex flex-col items-center gap-4 mt-2">
           {/* Navigation Controls: Prev, Play/Pause, Next */}
           <div className="flex items-center justify-center gap-4 z-40">
             {/* Previous Slide Arrow */}
@@ -381,17 +428,17 @@ export const GalleryPage: React.FC<GalleryPageProps> = ({ onOpenDonate }) => {
             <button
               onClick={() => setIsPlaying(p => !p)}
               aria-label={isPlaying ? 'Pause slideshow' : 'Play slideshow'}
-              className="p-3 sm:p-3.5 rounded-full bg-white/10 hover:bg-[#D4AF37] hover:text-black text-white backdrop-blur-md border border-white/15 transition-all shadow-lg active:scale-95 flex items-center gap-2 px-4"
+              className="p-3 sm:p-3.5 rounded-full bg-white/10 hover:bg-[#D4AF37] hover:text-black text-white backdrop-blur-md border border-white/15 transition-all shadow-lg active:scale-95 flex items-center gap-2 px-5"
             >
               {isPlaying ? (
                 <>
                   <Pause className="w-4 h-4 text-[#D4AF37]" />
-                  <span className="text-xs font-semibold hidden sm:inline">Pause</span>
+                  <span className="text-xs font-semibold">Pause</span>
                 </>
               ) : (
                 <>
                   <Play className="w-4 h-4 text-[#D4AF37] fill-current" />
-                  <span className="text-xs font-semibold hidden sm:inline">Play</span>
+                  <span className="text-xs font-semibold">Play</span>
                 </>
               )}
             </button>
@@ -408,22 +455,22 @@ export const GalleryPage: React.FC<GalleryPageProps> = ({ onOpenDonate }) => {
 
           {/* Active Photo Pro Description Box */}
           {currentCoverPhoto && (
-            <div className="w-full max-w-2xl bg-[#002366]/40 backdrop-blur-md rounded-2xl p-4 sm:p-5 border border-white/10 shadow-xl text-center space-y-2">
+            <div className="w-full max-w-2xl bg-[#001c4d]/50 backdrop-blur-md rounded-2xl p-4 sm:p-5 border border-[#D4AF37]/25 shadow-2xl text-center space-y-2">
               <div className="flex items-center justify-center gap-2">
                 <span className="text-xs font-bold text-[#D4AF37] uppercase tracking-wider">
                   {currentCoverPhoto.tag}
                 </span>
                 <span className="text-white/40 text-xs">·</span>
-                <span className="text-white/60 text-xs">{currentCoverPhoto.dateStr}</span>
+                <span className="text-white/70 text-xs">{currentCoverPhoto.dateStr}</span>
               </div>
-              <p className="text-white/90 text-sm sm:text-base font-serif italic leading-relaxed">
+              <p className="text-white/95 text-sm sm:text-base font-serif italic leading-relaxed max-w-xl mx-auto">
                 “{currentCoverPhoto.caption}”
               </p>
             </div>
           )}
 
-          {/* Clickable Pagination Bullets (matching HKM coverflow pagination) */}
-          <div className="flex items-center justify-center gap-1.5 flex-wrap max-w-sm sm:max-w-md pt-2">
+          {/* Clickable Pagination Bullets */}
+          <div className="flex items-center justify-center gap-1.5 flex-wrap max-w-xs sm:max-w-md pt-2">
             {coverflowPhotos.slice(0, 24).map((_, i) => (
               <button
                 key={i}
@@ -442,7 +489,7 @@ export const GalleryPage: React.FC<GalleryPageProps> = ({ onOpenDonate }) => {
       {/* ═══════════════════════════════════════════════════════════════════
           3. ALBUM FILTER BAR (Sticky Category Pills)
       ══════════════════════════════════════════════════════════════════════ */}
-      <div className="bg-[#0B0A09]/95 backdrop-blur-md sticky top-0 z-30 border-t border-b border-white/10 shadow-2xl">
+      <div className="bg-[#070605]/95 backdrop-blur-md sticky top-0 z-30 border-t border-b border-white/10 shadow-2xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 py-3 overflow-x-auto scrollbar-none" style={{ WebkitOverflowScrolling: 'touch' }}>
             {ALBUMS.map(alb => {
@@ -462,7 +509,7 @@ export const GalleryPage: React.FC<GalleryPageProps> = ({ onOpenDonate }) => {
                   }}
                   className={`flex-shrink-0 flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold transition-all whitespace-nowrap ${
                     isSelected
-                      ? 'bg-[#002366] text-white ring-2 ring-[#D4AF37] shadow-lg shadow-[#002366]/40'
+                      ? 'bg-[#002366] text-white ring-2 ring-[#D4AF37] shadow-lg shadow-[#002366]/50'
                       : 'bg-white/5 text-white/70 hover:bg-white/10 hover:text-white border border-white/10'
                   }`}
                 >
@@ -503,21 +550,21 @@ export const GalleryPage: React.FC<GalleryPageProps> = ({ onOpenDonate }) => {
       </div>
 
       {/* ═══════════════════════════════════════════════════════════════════
-          4. PHOTO GRID (With Hover Zoom & Captions matching HKM)
+          4. PHOTO GRID (Uncropped, Ambient Fit for Portrait & Landscape)
       ══════════════════════════════════════════════════════════════════════ */}
-      <section className="bg-[#0B0A09] min-h-[400px] py-10 sm:py-14 px-4 sm:px-6 lg:px-8">
+      <section className="bg-[#070605] min-h-[400px] py-10 sm:py-14 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          {/* Section Subheading */}
+          {/* Section Header */}
           <div className="flex items-center justify-between mb-8">
             <div>
               <h2 className="text-xl sm:text-2xl font-serif font-bold text-white">
                 {selectedAlbum === 'all'
-                  ? 'All Photo Archives'
+                  ? 'Complete Photographic Archive'
                   : ALBUMS.find(a => a.id === selectedAlbum)?.label || 'Album'}{' '}
                 <span className="text-[#D4AF37]">({filteredPhotos.length})</span>
               </h2>
               <p className="text-xs sm:text-sm text-gray-400 mt-1">
-                Click on any photograph to enlarge and read its full historical background.
+                Every photo is preserved uncropped in full frame — click any image to enlarge in high definition.
               </p>
             </div>
           </div>
@@ -534,21 +581,32 @@ export const GalleryPage: React.FC<GalleryPageProps> = ({ onOpenDonate }) => {
                 key={photo.id}
                 id={`gallery-photo-${photo.id}`}
                 onClick={() => setActivePhoto(photo)}
-                className="group relative overflow-hidden rounded-2xl shadow-lg cursor-pointer bg-[#141210] border border-white/5 hover:border-[#D4AF37]/50 transition-all duration-300 hover:shadow-2xl hover:shadow-black/80"
+                className="group relative overflow-hidden rounded-2xl shadow-lg cursor-pointer bg-[#100e0c] border border-white/10 hover:border-[#D4AF37]/60 transition-all duration-300 hover:shadow-2xl hover:shadow-black/90 hover:-translate-y-1"
               >
-                {/* Photo Image Container */}
-                <div className={`relative overflow-hidden ${isCompact ? 'aspect-square' : 'aspect-[4/3]'}`}>
+                {/* ── PHOTO CONTAINER: Ambient blurred fill + centered uncropped image ── */}
+                <div className={`relative overflow-hidden bg-black/80 flex items-center justify-center ${isCompact ? 'aspect-square' : 'aspect-[4/3]'}`}>
+                  {/* Blurred Ambient Fill */}
                   <img
                     src={photo.url}
-                    alt={photo.caption}
-                    loading="lazy"
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    alt=""
+                    aria-hidden="true"
+                    className="absolute inset-0 w-full h-full object-cover blur-xl scale-125 opacity-35 select-none pointer-events-none"
                   />
 
+                  {/* Uncropped Main Photo */}
+                  <div className="relative z-10 w-full h-full flex items-center justify-center p-2">
+                    <img
+                      src={photo.url}
+                      alt={photo.caption}
+                      loading="lazy"
+                      className="max-w-full max-h-full object-contain drop-shadow-md transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </div>
+
                   {/* Gradient Overlay on Hover */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4 pointer-events-none">
+                  <div className="absolute inset-0 z-20 bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4 pointer-events-none">
                     <div className="flex items-center justify-between">
-                      <span className="text-[#D4AF37] text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-sm border border-[#D4AF37]/40">
+                      <span className="text-[#D4AF37] text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-black/70 backdrop-blur-sm border border-[#D4AF37]/40">
                         {photo.tag}
                       </span>
                       <ZoomIn className="w-5 h-5 text-white drop-shadow-md" />
@@ -558,15 +616,15 @@ export const GalleryPage: React.FC<GalleryPageProps> = ({ onOpenDonate }) => {
                     </p>
                   </div>
 
-                  {/* Tag badge when not hovering */}
+                  {/* Permanent Tag badge when not hovering */}
                   {!isCompact && (
-                    <div className="absolute top-2.5 left-2.5 px-2.5 py-1 rounded-full bg-black/70 backdrop-blur-md text-[#D4AF37] text-[10px] font-bold uppercase border border-white/10 group-hover:opacity-0 transition-opacity">
+                    <div className="absolute top-2.5 left-2.5 z-20 px-2.5 py-0.5 rounded-full bg-black/75 backdrop-blur-md text-[#D4AF37] text-[10px] font-bold uppercase border border-white/10 group-hover:opacity-0 transition-opacity">
                       {photo.tag}
                     </div>
                   )}
 
                   {photo.featured && (
-                    <div className="absolute top-2.5 right-2.5 px-2 py-0.5 rounded-full bg-[#D4AF37] text-black text-[9px] font-black uppercase tracking-wider shadow-md">
+                    <div className="absolute top-2.5 right-2.5 z-20 px-2 py-0.5 rounded-full bg-[#D4AF37] text-black text-[9px] font-black uppercase tracking-wider shadow-md">
                       Featured
                     </div>
                   )}
@@ -574,7 +632,7 @@ export const GalleryPage: React.FC<GalleryPageProps> = ({ onOpenDonate }) => {
 
                 {/* Permanent Card Description Footer (Large Grid) */}
                 {!isCompact && (
-                  <div className="p-4 bg-[#141210] space-y-1.5 border-t border-white/5">
+                  <div className="p-4 bg-[#100e0c] space-y-1.5 border-t border-white/5">
                     <p className="text-white/80 text-xs leading-relaxed line-clamp-2 group-hover:text-white transition-colors">
                       {photo.caption}
                     </p>
@@ -599,18 +657,18 @@ export const GalleryPage: React.FC<GalleryPageProps> = ({ onOpenDonate }) => {
       {/* ═══════════════════════════════════════════════════════════════════
           5. DONATION & OUTREACH SUPPORT BANNER
       ══════════════════════════════════════════════════════════════════════ */}
-      <section className="bg-gradient-to-b from-[#0B0A09] to-[#001740] border-t border-white/10 py-14 px-4 sm:px-6 lg:px-8 text-center">
+      <section className="bg-gradient-to-b from-[#070605] to-[#001333] border-t border-white/10 py-14 px-4 sm:px-6 lg:px-8 text-center">
         <div className="max-w-2xl mx-auto space-y-5">
           <h3 className="text-2xl font-serif font-bold text-white">
             Honoring a Lifetime of <span className="text-[#D4AF37]">Generous Service</span>
           </h3>
           <p className="text-white/70 text-sm sm:text-base leading-relaxed">
-            These photographs celebrate seven decades of faith, community upliftment, and love. Join Pastor Ella Ruth Johnson in advancing life-changing community outreach.
+            These photographs celebrate seven decades of faith, community upliftment, and unconditional love. Join Pastor Ella Ruth Johnson in advancing life-changing community outreach.
           </p>
           <button
             onClick={onOpenDonate}
             id="gallery-donate-btn"
-            className="inline-flex items-center gap-2.5 px-8 py-3.5 rounded-full bg-[#D4AF37] hover:bg-[#c9a430] text-[#0B0A09] font-bold text-sm shadow-xl shadow-[#D4AF37]/20 transition-all hover:scale-105 active:scale-95"
+            className="inline-flex items-center gap-2.5 px-8 py-3.5 rounded-full bg-[#D4AF37] hover:bg-[#c9a430] text-[#070605] font-bold text-sm shadow-xl shadow-[#D4AF37]/20 transition-all hover:scale-105 active:scale-95"
           >
             <Heart className="w-4 h-4 fill-current" />
             Support Safe Haven Community Outreach
@@ -619,7 +677,7 @@ export const GalleryPage: React.FC<GalleryPageProps> = ({ onOpenDonate }) => {
       </section>
 
       {/* ═══════════════════════════════════════════════════════════════════
-          6. FULLSCREEN LIGHTBOX MODAL (With Full Resolution & Pro Details)
+          6. FULLSCREEN LIGHTBOX MODAL (Uncropped, Ambient Portrait/Landscape)
       ══════════════════════════════════════════════════════════════════════ */}
       {activePhoto && (
         <div
@@ -631,51 +689,60 @@ export const GalleryPage: React.FC<GalleryPageProps> = ({ onOpenDonate }) => {
           onClick={() => setActivePhoto(null)}
         >
           <div
-            className="relative w-full max-w-5xl bg-[#141210] rounded-3xl overflow-hidden shadow-2xl border border-white/10 flex flex-col lg:flex-row max-h-[92vh]"
+            className="relative w-full max-w-5xl bg-[#100e0c] rounded-3xl overflow-hidden shadow-2xl border border-white/15 flex flex-col lg:flex-row max-h-[92vh]"
             onClick={e => e.stopPropagation()}
           >
             {/* Close Button */}
             <button
               onClick={() => setActivePhoto(null)}
               aria-label="Close photo preview"
-              className="absolute top-4 right-4 z-30 p-2.5 rounded-full bg-black/70 hover:bg-black text-white border border-white/20 transition-all active:scale-95"
+              className="absolute top-4 right-4 z-30 p-2.5 rounded-full bg-black/75 hover:bg-black text-white border border-white/20 transition-all active:scale-95"
             >
               <X className="w-5 h-5" />
             </button>
 
-            {/* Lightbox Image Container */}
-            <div className="relative w-full lg:w-2/3 bg-black flex items-center justify-center min-h-[280px] sm:min-h-[380px] lg:min-h-[500px] overflow-hidden">
+            {/* ── LIGHTBOX IMAGE AREA: Uncropped with ambient blurred backdrop ── */}
+            <div className="relative w-full lg:w-2/3 bg-black flex items-center justify-center min-h-[300px] sm:min-h-[420px] lg:min-h-[520px] overflow-hidden p-3 sm:p-6">
+              {/* Blurred Ambient Glow Layer */}
+              <img
+                src={activePhoto.url}
+                alt=""
+                aria-hidden="true"
+                className="absolute inset-0 w-full h-full object-cover blur-3xl scale-125 opacity-35 select-none pointer-events-none"
+              />
+
+              {/* 100% Uncropped Original Image */}
               <img
                 src={activePhoto.url}
                 alt={activePhoto.caption}
-                className="max-w-full max-h-[60vh] sm:max-h-[75vh] object-contain select-none"
+                className="relative z-10 max-w-full max-h-[62vh] sm:max-h-[76vh] object-contain rounded-lg drop-shadow-2xl select-none"
               />
 
               {/* Prev / Next Buttons */}
               <button
                 onClick={() => handleLightboxNav(-1)}
                 aria-label="Previous photo in album"
-                className="touch-sm absolute left-3 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/60 hover:bg-[#D4AF37] hover:text-black text-white border border-white/20 transition-all shadow-lg active:scale-95"
+                className="touch-sm absolute left-3 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-black/65 hover:bg-[#D4AF37] hover:text-black text-white border border-white/20 transition-all shadow-xl active:scale-95"
               >
                 <ChevronLeft className="w-6 h-6" />
               </button>
               <button
                 onClick={() => handleLightboxNav(1)}
                 aria-label="Next photo in album"
-                className="touch-sm absolute right-3 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/60 hover:bg-[#D4AF37] hover:text-black text-white border border-white/20 transition-all shadow-lg active:scale-95"
+                className="touch-sm absolute right-3 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-black/65 hover:bg-[#D4AF37] hover:text-black text-white border border-white/20 transition-all shadow-xl active:scale-95"
               >
                 <ChevronRight className="w-6 h-6" />
               </button>
             </div>
 
-            {/* Lightbox Sidebar: Pro Description, Album & Metadata */}
-            <div className="w-full lg:w-1/3 p-6 sm:p-8 flex flex-col justify-between gap-6 border-t lg:border-t-0 lg:border-l border-white/10 bg-[#161412] overflow-y-auto">
+            {/* Lightbox Sidebar: Pro Description & Metadata */}
+            <div className="w-full lg:w-1/3 p-6 sm:p-8 flex flex-col justify-between gap-6 border-t lg:border-t-0 lg:border-l border-white/10 bg-[#141210] overflow-y-auto">
               <div className="space-y-4">
                 <div className="flex items-center gap-2 flex-wrap">
-                  <span className="px-3 py-1 rounded-full bg-[#D4AF37]/20 text-[#D4AF37] text-xs font-bold uppercase tracking-wide border border-[#D4AF37]/30">
+                  <span className="px-3 py-1 rounded-full bg-[#D4AF37]/20 text-[#D4AF37] text-xs font-bold uppercase tracking-wide border border-[#D4AF37]/35">
                     {activePhoto.tag}
                   </span>
-                  <span className="text-white/60 text-xs font-medium">
+                  <span className="text-white/70 text-xs font-medium">
                     {activePhoto.dateStr}
                   </span>
                 </div>
@@ -689,17 +756,17 @@ export const GalleryPage: React.FC<GalleryPageProps> = ({ onOpenDonate }) => {
                   </p>
                 </div>
 
-                <div className="pt-3 border-t border-white/10 text-xs text-white/50 space-y-1">
+                <div className="pt-3 border-t border-white/10 text-xs text-white/60 space-y-1">
                   <p><strong>Archived Under:</strong> {activePhoto.album.charAt(0).toUpperCase() + activePhoto.album.slice(1)} Collection</p>
-                  <p><strong>Subject:</strong> Pastor Ella Ruth Johnson & Community</p>
+                  <p><strong>Subject:</strong> Pastor Ella Ruth Johnson & Loved Ones</p>
                 </div>
               </div>
 
               {/* Sidebar Footer */}
               <div className="space-y-3 pt-4 border-t border-white/10">
-                <div className="flex items-center justify-between text-xs text-white/40">
-                  <span>Photo Index</span>
-                  <span className="font-mono font-bold text-white">
+                <div className="flex items-center justify-between text-xs text-white/50 font-mono">
+                  <span>PHOTO INDEX</span>
+                  <span className="font-bold text-white">
                     {filteredPhotos.findIndex(p => p.id === activePhoto.id) + 1} / {filteredPhotos.length}
                   </span>
                 </div>
@@ -710,7 +777,7 @@ export const GalleryPage: React.FC<GalleryPageProps> = ({ onOpenDonate }) => {
                     onOpenDonate();
                   }}
                   id="lightbox-donate-btn"
-                  className="w-full py-3 rounded-full bg-[#D4AF37] hover:bg-[#c9a430] text-[#0B0A09] font-bold text-xs transition-all flex items-center justify-center gap-2 shadow-lg"
+                  className="w-full py-3 rounded-full bg-[#D4AF37] hover:bg-[#c9a430] text-[#070605] font-bold text-xs transition-all flex items-center justify-center gap-2 shadow-lg active:scale-95"
                 >
                   <Heart className="w-4 h-4 fill-current" />
                   Support Safe Haven Ministries

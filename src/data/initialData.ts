@@ -292,7 +292,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   // ── FAMILY & CELEBRATIONS ──────────────────────────────────────────────────
   {
     id: 'gal-f1',
-    url: '/gallery/Good memories!.jpg',
+    url: '/gallery/photo-11-good-memoriesjpg.jpg',
     caption: 'Good memories cherished with loved ones — a tapestry of laughter, love, and life\'s most precious milestones.',
     album: 'family',
     tag: 'Memories',
@@ -301,7 +301,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   },
   {
     id: 'gal-f2',
-    url: '/gallery/Family is very special to us!.jpg',
+    url: '/gallery/photo-10-family-is-very-special-to-usjpg.jpg',
     caption: 'Family is the cornerstone of everything. Ella Ruth has always held her loved ones close, pouring into each generation with intention and grace.',
     album: 'family',
     tag: 'Family',
@@ -309,7 +309,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   },
   {
     id: 'gal-f3',
-    url: '/gallery/My children. I love these people!.jpg',
+    url: '/gallery/photo-30-my-children-i-love-these-peoplejpg.jpg',
     caption: '"My children — I love these people!" A mother\'s heart overflows with pride and joy for the remarkable lives she\'s shaped.',
     album: 'family',
     tag: 'Children',
@@ -318,7 +318,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   },
   {
     id: 'gal-f4',
-    url: '/gallery/My two sons and daughter on Mother\'s Day. I love family life!.jpg',
+    url: '/gallery/photo-34-my-two-sons-and-daughter-on-mothers.jpg',
     caption: 'A precious Mother\'s Day portrait with her two sons and daughter — a testament to a life built on love and intentional parenting.',
     album: 'family',
     tag: "Mother's Day",
@@ -326,7 +326,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   },
   {
     id: 'gal-f5',
-    url: '/gallery/Happy to celebrate daughters day! Love my girls!.jpg',
+    url: '/gallery/photo-20-happy-to-celebrate-daughters-day-lo.jpg',
     caption: 'Celebrating Daughters\' Day with pure joy! Ella Ruth\'s love for her girls is boundless — she is their greatest encourager.',
     album: 'family',
     tag: 'Daughters',
@@ -334,7 +334,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   },
   {
     id: 'gal-f6',
-    url: '/gallery/My Sister and I after lunch. We enjoyed ourselves together..jpg',
+    url: '/gallery/photo-33-my-sister-and-i-after-lunch-we-enjo.jpg',
     caption: 'A beautiful afternoon shared with her sister over lunch — proof that sibling bonds only grow sweeter with time.',
     album: 'family',
     tag: 'Sisterhood',
@@ -342,7 +342,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   },
   {
     id: 'gal-f7',
-    url: '/gallery/my children, Sunday evening at my granddaughter and grandson\'s home..jpg',
+    url: '/gallery/photo-29-my-children-sunday-evening-at-my-gr.jpg',
     caption: 'A warm Sunday evening gathered at her grandchildren\'s home — the kind of multi-generational love story that blesses everyone at the table.',
     album: 'family',
     tag: 'Sunday Family',
@@ -351,7 +351,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   // ── BIRTHDAYS & MILESTONES ────────────────────────────────────────────────
   {
     id: 'gal-b1',
-    url: '/gallery/I am so thankful to God for the years that I have lived. I am grateful for the years ahead. my 85th birthday.jpg',
+    url: '/gallery/photo-22-i-am-so-thankful-to-god-for-the-yea.jpg',
     caption: '"I am so thankful to God for the years that I have lived and grateful for the years ahead." — Ella Ruth celebrates her glorious 85th birthday, still vibrant, still full of purpose.',
     album: 'milestones',
     tag: '85th Birthday',
@@ -360,7 +360,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   },
   {
     id: 'gal-b2',
-    url: '/gallery/Still happy at age 84!.jpg',
+    url: '/gallery/photo-39-still-happy-at-age-84jpg.jpg',
     caption: 'Still radiant and deeply happy at age 84 — living proof that joy is a medicine that never expires.',
     album: 'milestones',
     tag: 'Age 84',
@@ -368,7 +368,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   },
   {
     id: 'gal-b3',
-    url: '/gallery/You can flourish at age 82.jpg',
+    url: '/gallery/photo-46-you-can-flourish-at-age-82jpg.jpg',
     caption: '"You can flourish at age 82!" Ella Ruth shows the world that vitality has no expiry date — thriving beautifully at 82.',
     album: 'milestones',
     tag: 'Age 82',
@@ -376,7 +376,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   },
   {
     id: 'gal-b4',
-    url: '/gallery/This is me at 11 pm on my 83rd birthday. After lunch with my Sisters, nieces, nephew, Son and Daughter at the Magnolia Grill. NAACP Banquet and cooking dinner for tomorrow..jpg',
+    url: '/gallery/photo-41-this-is-me-at-11-pm-on-my-83rd-birt.jpg',
     caption: 'The unstoppable Ella Ruth at 11 PM on her 83rd birthday — after a full day of family lunch at Magnolia Grill, the NAACP Banquet, and still preparing dinner for the next day!',
     album: 'milestones',
     tag: '83rd Birthday',
@@ -384,7 +384,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   },
   {
     id: 'gal-b5',
-    url: '/gallery/Saturday. Birthday Luncheon party! Thanks to my niece Linda for treating me with lunch..jpg',
+    url: '/gallery/photo-35-saturday-birthday-luncheon-party-th.jpg',
     caption: 'A heartwarming birthday luncheon party — sincere thanks to her niece Linda for the beautiful celebration and generous treat.',
     album: 'milestones',
     tag: 'Birthday Lunch',
@@ -393,7 +393,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   // ── GRANDCHILDREN & GREAT-GRANDCHILDREN ──────────────────────────────────
   {
     id: 'gal-g1',
-    url: '/gallery/Great grand children.jpg',
+    url: '/gallery/photo-17-great-grand-childrenjpg.jpg',
     caption: 'Her great-grandchildren — the 6th generation of a faith-filled family legacy. Ella Ruth\'s greatest treasure on earth.',
     album: 'grandchildren',
     tag: 'Great-Grandchildren',
@@ -402,7 +402,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   },
   {
     id: 'gal-g2',
-    url: '/gallery/grandchildren.jpg',
+    url: '/gallery/photo-12-grandchildrenjpg.jpg',
     caption: 'A beautiful moment with her grandchildren — the next chapter of a family story written in love, prayer, and purpose.',
     album: 'grandchildren',
     tag: 'Grandchildren',
@@ -410,7 +410,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   },
   {
     id: 'gal-g3',
-    url: '/gallery/With great grandchildren.jpg',
+    url: '/gallery/photo-44-with-great-grandchildrenjpg.jpg',
     caption: 'Surrounded by her great-grandchildren — laughter, hugs, and the warm legacy of a grandmother who poured everything into her family.',
     album: 'grandchildren',
     tag: 'Great-Grandchildren',
@@ -418,7 +418,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   },
   {
     id: 'gal-g4',
-    url: '/gallery/Sharing a picture with my Great Grandchildren. 4 are absent in the picture, but present in our hearts..jpg',
+    url: '/gallery/photo-37-sharing-a-picture-with-my-great-gra.jpg',
     caption: '"4 are absent in the picture, but present in our hearts." A precious photo with most of her great-grandchildren — love stretches even across distance.',
     album: 'grandchildren',
     tag: 'Great-Grandchildren',
@@ -426,7 +426,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   },
   {
     id: 'gal-g5',
-    url: '/gallery/So blessed to live to see the 7th generation! To God be the glory!.jpg',
+    url: '/gallery/photo-38-so-blessed-to-live-to-see-the-7th-g.jpg',
     caption: '"So blessed to live to see the 7th generation! To God be the glory!" — A milestone testimony of a life well-lived and a family legacy that spans seven generations.',
     album: 'grandchildren',
     tag: '7th Generation',
@@ -435,7 +435,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   },
   {
     id: 'gal-g6',
-    url: '/gallery/Beautiful Great granddaughter #5 congratulations my dearest Queen!.jpg',
+    url: '/gallery/photo-06-beautiful-great-granddaughter-5-con.jpg',
     caption: 'Congratulations to her beautiful great-granddaughter #5 — her proud "dearest Queen"! Every milestone is a cause for celebration.',
     album: 'grandchildren',
     tag: 'Great-Granddaughter',
@@ -443,7 +443,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   },
   {
     id: 'gal-g7',
-    url: '/gallery/It was great attending my Great Granddaughters #5 graduation!.jpg',
+    url: '/gallery/photo-25-it-was-great-attending-my-great-gra.jpg',
     caption: 'Attending her great-granddaughter\'s graduation — a proud grandmother beaming with joy as a new chapter begins.',
     album: 'grandchildren',
     tag: 'Graduation',
@@ -451,7 +451,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   },
   {
     id: 'gal-g8',
-    url: '/gallery/Look who is 46! Happy birthday to my Granddaughter#1! Granny loves you. You birthed some awesome, smart children! Enjoy your day!.jpg',
+    url: '/gallery/photo-18-happy-birthday-to-my-beautiful-niec.jpg',
     caption: '"Look who is 46! Happy birthday to my Granddaughter #1! Granny loves you — you birthed some awesome, smart children. Enjoy your day!"',
     album: 'grandchildren',
     tag: 'Granddaughter Birthday',
@@ -459,7 +459,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   },
   {
     id: 'gal-g9',
-    url: '/gallery/Celebrating my 4th Great grandson 9th birthday. It was a joyful experience! Granny love you!.jpg',
+    url: '/gallery/photo-07-celebrating-my-4th-great-grandson-9.jpg',
     caption: 'Celebrating her 4th great-grandson\'s 9th birthday — a joyful experience overflowing with love! Granny loves you always.',
     album: 'grandchildren',
     tag: 'Birthday',
@@ -467,7 +467,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   },
   {
     id: 'gal-g10',
-    url: '/gallery/Happy birthday to my Great grandson #4! I pray that you are having a wonderful 10th birthday! Granny loves you now and always!.jpg',
+    url: '/gallery/photo-19-happy-birthday-to-my-great-grandson.jpg',
     caption: '"Happy birthday to my Great-grandson #4! I pray you are having a wonderful 10th birthday — Granny loves you now and always!"',
     album: 'grandchildren',
     tag: 'Great-Grandson Birthday',
@@ -475,7 +475,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   },
   {
     id: 'gal-g11',
-    url: '/gallery/Sharing a photo with my Great grandson #2#Tyler Isaiah Pope#trackrunner!.jpg',
+    url: '/gallery/photo-36-sharing-a-photo-with-my-great-grand.jpg',
     caption: 'A proud moment with Great-grandson #2, Tyler Isaiah Pope — a gifted track runner with a bright future ahead.',
     album: 'grandchildren',
     tag: 'Great-Grandson',
@@ -483,7 +483,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   },
   {
     id: 'gal-g12',
-    url: '/gallery/My granddaughter\'s parents and grandmother and Raeshon\'s Mother and Grandmother..jpg',
+    url: '/gallery/photo-32-my-granddaughterparents-and-grandmo.jpg',
     caption: 'Three generations of family love gathered together — grandparents and grandmothers united in celebration and support.',
     album: 'grandchildren',
     tag: 'Three Generations',
@@ -492,7 +492,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   // ── MOTHER & HERITAGE ────────────────────────────────────────────────────
   {
     id: 'gal-h1',
-    url: '/gallery/Honoring my Mother the one who gave birth to me and nourished and cared for me. I learned so much from her, which helped to shape me into the person I am today!.jpg',
+    url: '/gallery/photo-21-honoring-my-mother-the-one-who-gave.jpg',
     caption: '"Honoring my Mother — the one who gave birth to me, nourished and cared for me. I learned so much from her, which helped shape me into the person I am today."',
     album: 'heritage',
     tag: 'Honoring Mother',
@@ -501,7 +501,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   },
   {
     id: 'gal-h2',
-    url: '/gallery/The Seniors of the Ned Ratcliff descendants! By God\'s grace we met again!.jpg',
+    url: '/gallery/photo-40-the-seniors-of-the-ned-ratcliff-des.jpg',
     caption: '"The Seniors of the Ned Ratcliff descendants — by God\'s grace we met again!" A beautiful reunion of elders carrying forward a proud family name.',
     album: 'heritage',
     tag: 'Family Reunion',
@@ -509,7 +509,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   },
   {
     id: 'gal-h3',
-    url: '/gallery/My family present at the Family Reunion! It was so much fun!— in Petal, MS, United States..jpg',
+    url: '/gallery/photo-31-my-family-present-at-the-family-reu.jpg',
     caption: 'A joyful Family Reunion in Petal, MS — so much fun and so much love! The family that prays together stays together.',
     album: 'heritage',
     tag: 'Family Reunion',
@@ -517,7 +517,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   },
   {
     id: 'gal-h4',
-    url: '/gallery/I was blessed to meet my Cousins for the first time! We all met in McKinney, Tx at another cousin\'s wedding..jpg',
+    url: '/gallery/photo-24-i-was-blessed-to-meet-my-cousins-fo.jpg',
     caption: '"I was blessed to meet my Cousins for the first time!" A divine appointment at a cousin\'s wedding in McKinney, TX — family found across the miles.',
     album: 'heritage',
     tag: 'First Meeting',
@@ -525,7 +525,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   },
   {
     id: 'gal-h5',
-    url: '/gallery/Enjoying my great and great great nephews and nieces. Dallas, TX.jpg',
+    url: '/gallery/photo-09-enjoying-my-great-and-great-great-n.jpg',
     caption: 'Enjoying precious time with her great and great-great nephews and nieces in Dallas, TX — the family circle keeps growing bigger and brighter.',
     album: 'heritage',
     tag: 'Nephews & Nieces',
@@ -533,7 +533,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   },
   {
     id: 'gal-h6',
-    url: '/gallery/Happy birthday to my beautiful niece. I hope that you had a wonderful day! Love you.jpg',
+    url: '/gallery/photo-18-happy-birthday-to-my-beautiful-niec.jpg',
     caption: '"Happy birthday to my beautiful niece — I hope you had a wonderful day! Love you." Ella Ruth\'s heart for her extended family knows no bounds.',
     album: 'heritage',
     tag: 'Niece Birthday',
@@ -542,7 +542,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   // ── WEDDINGS & CELEBRATIONS ───────────────────────────────────────────────
   {
     id: 'gal-w1',
-    url: '/gallery/A beautiful wedding and a wonderful, blessed couple!.jpg',
+    url: '/gallery/photo-04-a-beautiful-wedding-and-a-wonderful.jpg',
     caption: '"A beautiful wedding and a wonderful, blessed couple!" — Ella Ruth celebrated love and covenant with joy in her heart.',
     album: 'celebrations',
     tag: 'Wedding',
@@ -551,7 +551,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   // ── MINISTRY & CHURCH ────────────────────────────────────────────────────
   {
     id: 'gal-m1',
-    url: '/gallery/Current and some past Board members! Safe Haven celebrated 22 years of serving those in need..jpg',
+    url: '/gallery/photo-08-current-and-some-past-board-members.jpg',
     caption: 'Current and past Board members of Safe Haven Ministries — celebrating 22 remarkable years of faithfully serving those in need across Marion County.',
     album: 'ministry',
     tag: 'Safe Haven Board',
@@ -560,7 +560,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   },
   {
     id: 'gal-m2',
-    url: '/gallery/Mothers Day family gathering at our home church. I love my family!.jpg',
+    url: '/gallery/photo-28-mothers-day-family-gathering-at-our.jpg',
     caption: 'A heartwarming Mother\'s Day family gathering at Safe Haven Ministries — "I love my family!" — celebrating both earthly family and the family of faith.',
     album: 'ministry',
     tag: "Mother's Day",
@@ -568,7 +568,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   },
   {
     id: 'gal-m3',
-    url: '/gallery/Great and inspiring testimony from these Men. I pray that they will continue to lift up the name of Jesus!.jpg',
+    url: '/gallery/photo-13-great-and-inspiring-testimony-from-.jpg',
     caption: '"Great and inspiring testimony from these Men. I pray they will continue to lift up the name of Jesus!" — powerful moments of transformation and faith.',
     album: 'ministry',
     tag: 'Testimony',
@@ -576,7 +576,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   },
   {
     id: 'gal-m4',
-    url: '/gallery/Love God, and love others as you love yourself! This is the key to happiness and success..jpg',
+    url: '/gallery/photo-27-love-god-and-love-others-as-you-lov.jpg',
     caption: '"Love God, and love others as you love yourself — this is the key to happiness and success." A timeless truth Ella Ruth lives and teaches every day.',
     album: 'ministry',
     tag: 'Faith',
@@ -584,7 +584,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   },
   {
     id: 'gal-m5',
-    url: '/gallery/Wow! Well stated with emphasis on the last paragraph..jpg',
+    url: '/gallery/photo-45-wow-well-stated-with-emphasis-on-th.jpg',
     caption: '"Wow! Well stated — with emphasis on the last paragraph." Ella Ruth shares a powerful word that stirred her spirit, always passing along wisdom to those she loves.',
     album: 'ministry',
     tag: 'Inspiration',
@@ -593,7 +593,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   // ── CONFERENCES ───────────────────────────────────────────────────────────
   {
     id: 'gal-c1',
-    url: '/gallery/Great april 20 2026 conference.jpg',
+    url: '/gallery/photo-14-great-april-20-2026-conference-1jpg.jpg',
     caption: 'A powerful April 20, 2026 conference — the atmosphere was electric with the Holy Spirit as lives were touched and testimonies were born.',
     album: 'conferences',
     tag: 'Conference 2026',
@@ -602,7 +602,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   },
   {
     id: 'gal-c2',
-    url: '/gallery/Great April 20 2026 conference, 1.jpg',
+    url: '/gallery/photo-15-great-april-20-2026-conference2jpg.jpg',
     caption: 'More stirring moments from the April 20, 2026 conference — Spirit-led worship, heartfelt preaching, and a community gathered in transformative unity.',
     album: 'conferences',
     tag: 'Conference 2026',
@@ -610,7 +610,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   },
   {
     id: 'gal-c3',
-    url: '/gallery/Great april 20 2026 conference,2.jpg',
+    url: '/gallery/photo-16-great-april-20-2026-conferencejpg.jpg',
     caption: 'The closing sessions of the April 20, 2026 conference — faith declarations, prayer, and lasting impartations that attendees will carry home.',
     album: 'conferences',
     tag: 'Conference 2026',
@@ -618,7 +618,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   },
   {
     id: 'gal-c4',
-    url: '/gallery/at-petal-civic-center.jpg',
+    url: '/gallery/photo-05-at-petal-civic-centerjpg.jpg',
     caption: 'A memorable gathering at the Petal Civic Center — community, worship, and the kind of fellowship that strengthens the spirit and restores hope.',
     album: 'conferences',
     tag: 'Civic Center Event',
@@ -627,7 +627,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   // ── TRAVEL & CULTURE ─────────────────────────────────────────────────────
   {
     id: 'gal-t1',
-    url: '/gallery/Touring The Grammy Museum, Los Angeles!.jpg',
+    url: '/gallery/photo-42-touring-the-grammy-museum-los-angel.jpg',
     caption: 'Touring the Grammy Museum in Los Angeles — Ella Ruth brought her signature curiosity and joy to one of music\'s most iconic institutions.',
     album: 'travel',
     tag: 'Grammy Museum',
@@ -635,7 +635,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   },
   {
     id: 'gal-t2',
-    url: '/gallery/We toured the Martin Luther King National Park. Atlanta. Very educational and very interesting..jpg',
+    url: '/gallery/photo-43-we-toured-the-martin-luther-king-na.jpg',
     caption: '"We toured the Martin Luther King Jr. National Park in Atlanta — very educational and very interesting." Walking the legacy of a great man with reverence and gratitude.',
     album: 'travel',
     tag: 'MLK National Park',
@@ -644,7 +644,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   // ── DINING & SOCIAL ───────────────────────────────────────────────────────
   {
     id: 'gal-d1',
-    url: '/gallery/I enjoyed having Breakfast at the Cracker Barrel Restaurant in Hattiesburg celebrating my friend Lorenza\'s birthday .. Never too late to celebrate— in Hattiesburg, MS, United States..jpg',
+    url: '/gallery/photo-23-i-enjoyed-having-breakfast-at-the-c.jpg',
     caption: '"Never too late to celebrate!" Enjoying a delightful birthday breakfast at Cracker Barrel in Hattiesburg, MS — honoring her dear friend Lorenza with love and laughter.',
     album: 'social',
     tag: 'Friends & Dining',
@@ -653,7 +653,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   // ── NUMERIC FACEBOOK IDs (unlabeled community moments) ───────────────────
   {
     id: 'gal-fb1',
-    url: '/gallery/700124371_27788187230768048_8278905818232501846_n.jpg',
+    url: '/gallery/photo-01-700124371-27788187230768048-8278905.jpg',
     caption: 'A candid community moment — life as it happens, people gathered in joy, the kind of authentic connection that defines Ella Ruth\'s world.',
     album: 'family',
     tag: 'Community',
@@ -661,7 +661,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   },
   {
     id: 'gal-fb2',
-    url: '/gallery/722859751_28194746096778824_454259432063154988_n.jpg',
+    url: '/gallery/photo-02-722859751-28194746096778824-4542594.jpg',
     caption: 'Another treasured memory captured in real time — evidence that Ella Ruth\'s life is filled with genuine love, vibrant relationships, and meaningful purpose.',
     album: 'family',
     tag: 'Community',
@@ -669,7 +669,7 @@ export const GALLERY_PHOTOS: GalleryPhoto[] = [
   },
   {
     id: 'gal-fb3',
-    url: '/gallery/765929398_28879759261610834_7571131321084503590_n.jpg',
+    url: '/gallery/photo-03-765929398-28879759261610834-7571131.jpg',
     caption: 'Preserving yet another God-given moment — each photograph a testimony that a life of faith, family, and service is a life beautifully lived.',
     album: 'family',
     tag: 'Moment Captured',
