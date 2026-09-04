@@ -100,12 +100,11 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onOpenDonate }
         {/* Right: Clean Portrait & Foundation */}
         <div className="lg:col-span-5 space-y-6">
           <div className="bg-[#FDFCFB] rounded-3xl p-6 sm:p-7 border border-[#E8E2D8] shadow-xs space-y-5">
-            <div className="rounded-2xl overflow-hidden aspect-[4/5] bg-[#F5F2ED]">
+            <div className="rounded-2xl overflow-hidden aspect-[4/5] bg-[#F5F2ED] border border-[#D4AF37]/30">
               <img
-                src="https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=900&auto=format&fit=crop"
-                alt="Pastor Ella Ruth Johnson"
-                className="w-full h-full object-cover"
-                referrerPolicy="no-referrer"
+                src="/ellaruth.png"
+                alt="Ella Ruth"
+                className="w-full h-full object-cover object-top"
               />
             </div>
 

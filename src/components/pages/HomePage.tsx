@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { PageTab, EventItem, SermonTeaching } from '../../types';
 import { 
   Heart, 
@@ -14,7 +14,14 @@ import {
   KeyRound, 
   CheckCircle2,
   ChevronRight,
-  HandHeart
+  HandHeart,
+  Sun,
+  Flame,
+  MessageSquare,
+  Volume2,
+  VolumeX,
+  Church,
+  Download
 } from 'lucide-react';
 
 interface HomePageProps {
@@ -37,81 +44,234 @@ export const HomePage: React.FC<HomePageProps> = ({
   const nextEvent = events.find(e => e.isUpcoming) || events[0];
   const featuredSermon = sermons[0];
 
+  // Interactive Hero Greetings Widget
+  const [activeTab, setActiveTab] = useState<'welcome' | 'vitality' | 'scripture'>('welcome');
+  const [copiedQuote, setCopiedQuote] = useState(false);
+
+  const heroGreetings = {
+    welcome: {
+      tag: "Personal Welcome from Ella",
+      icon: <Sparkles className="w-4 h-4 text-[#D4AF37]" />,
+      heading: "“I’m 85 years young, and I want to tell you: God is not done with you yet!”",
+      body: "Whether you need renewal for your physical body, encouragement for your spiritual walk, or are looking for a loving church home to worship in — you are warmly welcomed into this family.",
+      actionLabel: "Read Ella's Story",
+      action: () => onNavigate('about')
+    },
+    vitality: {
+      tag: "Ella's Daily Vitality Habit",
+      icon: <Flame className="w-4 h-4 text-[#D4AF37]" />,
+      heading: "“Motion is lotion for the joints, and gratitude is medicine for the bones!”",
+      body: "Before checking your phone in the morning, drink a tall glass of cool water, take deep diaphragmatic breaths, and take a purposeful 15-minute walk while speaking life over your day.",
+      actionLabel: "Start 60-Sec Vitality Check",
+      action: () => onNavigate('coaching')
+    },
+    scripture: {
+      tag: "Today's Living Word",
+      icon: <BookOpen className="w-4 h-4 text-[#D4AF37]" />,
+      heading: "“Those who wait upon the Lord shall renew their strength; they shall mount up with wings like eagles.”",
+      body: "Isaiah 40:31 — Age does not dictate your destiny. God’s supernatural strength lifts and carries you through every season of life.",
+      actionLabel: "Read This Week's Devotional",
+      action: () => onNavigate('teaching')
+    }
+  };
+
+  const currentGreeting = heroGreetings[activeTab];
+
   return (
     <div className="space-y-16 sm:space-y-24 pb-20 pt-4 sm:pt-8 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      {/* 1. CLEAN & WELCOMING HERO SECTION */}
-      <section className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
-        {/* Left Column: Narrative & Clear Actions */}
-        <div className="lg:col-span-7 space-y-6 text-left">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#F5F2ED] text-[#002366] text-xs font-medium border border-[#D4AF37]/40">
-            <Sparkles className="w-3.5 h-3.5 text-[#D4AF37]" />
-            <span>Ella Ruth • Faith, Vitality & Devotion</span>
-          </div>
+      {/* 1. STUNNING, LIVELY & WELCOMING HERO SECTION */}
+      <section className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-[#FDFCFB] via-[#FAF7F0] to-[#F3EDE2] border border-[#E8E2D8] shadow-sm p-6 sm:p-10 lg:p-14">
+        {/* Subtle Ambient Radial Shimmers */}
+        <div className="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-[#D4AF37]/10 blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-24 -right-24 w-96 h-96 rounded-full bg-[#002366]/10 blur-3xl pointer-events-none" />
 
-          <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-[#002366] tracking-tight leading-[1.18]">
-            Walking in Faith, Living in Vitality.
-          </h1>
-
-          <p className="text-[#1A1A1A]/75 text-base sm:text-lg leading-relaxed max-w-xl">
-            Welcome to the personal ministry and wellness home of Ella Ruth — author, speaker, certified vitality coach, and devoted worshipper at Safe Haven Ministries. Guiding you into vibrant health, biblical stewardship, and joyful living.
-          </p>
-
-          {/* Clean Primary Actions */}
-          <div className="pt-2 flex flex-wrap items-center gap-3">
-            <button
-              id="hero-donate-cta"
-              onClick={() => onNavigate('coaching')}
-              className="px-6 py-3 rounded-full bg-[#002366] hover:bg-[#001a4e] text-white font-semibold text-sm shadow-sm transition-all flex items-center gap-2 border border-[#D4AF37]/30"
-            >
-              <Activity className="w-4 h-4 text-[#D4AF37]" />
-              <span>Explore Vitality Coaching</span>
-            </button>
-
-            <button
-              id="hero-about-cta"
-              onClick={() => onNavigate('about')}
-              className="px-6 py-3 rounded-full bg-[#F5F2ED] hover:bg-[#EFEBE4] text-[#002366] font-medium text-sm border border-[#E8E2D8] transition-colors flex items-center gap-1.5"
-            >
-              <span>About Ella Ruth</span>
-              <ArrowRight className="w-4 h-4 text-[#D4AF37]" />
-            </button>
-          </div>
-
-          {/* Subtle Trust Indicators */}
-          <div className="pt-4 border-t border-[#E8E2D8] flex flex-wrap items-center gap-6 text-xs text-[#1A1A1A]/60 font-medium">
-            <div className="flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-[#D4AF37]" />
-              <span>Certified Vitality Coach</span>
+        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+          {/* Left Column: Narrative, Interactive Inspiration & Clear Actions */}
+          <div className="lg:col-span-7 space-y-6 text-left">
+            {/* Top Pill */}
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FDFCFB] text-[#002366] text-xs font-semibold border border-[#D4AF37]/40 shadow-2xs">
+              <Sparkles className="w-3.5 h-3.5 text-[#D4AF37]" />
+              <span>Ella Ruth · Author, Vitality Coach & Speaker</span>
             </div>
-            <div className="flex items-center gap-2">
-              <Globe2 className="w-4 h-4 text-[#002366]" />
-              <span>Faithful Worshipper at Safe Haven Ministries</span>
-            </div>
-          </div>
-        </div>
 
-        {/* Right Column: Clean, Warm Visual Card */}
-        <div className="lg:col-span-5 relative">
-          <div className="relative rounded-3xl overflow-hidden bg-[#F5F2ED] shadow-md border border-[#E8E2D8] aspect-[4/5] max-w-md mx-auto">
-            <img
-              src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=900&auto=format&fit=crop"
-              alt="Ella Ruth"
-              className="w-full h-full object-cover object-top"
-              referrerPolicy="no-referrer"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+            {/* Main Headline */}
+            <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-[#002366] tracking-tight leading-[1.14]">
+              Walking in Faith, <br className="hidden sm:inline" />
+              <span className="bg-gradient-to-r from-[#002366] via-[#2a1b54] to-[#7b5417] bg-clip-text text-transparent">
+                Living in Vitality.
+              </span>
+            </h1>
 
-            {/* Inspiring Floating Quote Card */}
-            <div className="absolute bottom-5 left-5 right-5 bg-[#FDFCFB]/95 backdrop-blur-md rounded-2xl p-4 shadow-md border border-[#D4AF37]/30 space-y-1">
-              <div className="text-[11px] font-semibold uppercase tracking-wider text-[#D4AF37]">
-                85 Years Young & Living Longer
+            <p className="text-[#1A1A1A]/75 text-base sm:text-lg leading-relaxed max-w-xl">
+              The official personal home of <strong>Ella Ruth</strong> — empowering women and men to live longer, healthier lives through biblical body stewardship, while faithfully worshipping and serving at Safe Haven Ministries in Columbia, Mississippi.
+            </p>
+
+            {/* Interactive Inspiration Switcher */}
+            <div className="bg-[#FDFCFB]/90 backdrop-blur-md rounded-2xl p-5 border border-[#E8E2D8] shadow-2xs space-y-3">
+              {/* Tabs */}
+              <div className="flex items-center gap-1.5 border-b border-[#E8E2D8] pb-2.5">
+                <button
+                  onClick={() => setActiveTab('welcome')}
+                  className={`px-3 py-1 rounded-full text-xs font-semibold transition-all flex items-center gap-1.5 ${
+                    activeTab === 'welcome'
+                      ? 'bg-[#002366] text-white shadow-2xs'
+                      : 'text-[#1A1A1A]/70 hover:text-[#002366] hover:bg-[#F5F2ED]'
+                  }`}
+                >
+                  <span>💖 Welcome</span>
+                </button>
+                <button
+                  onClick={() => setActiveTab('vitality')}
+                  className={`px-3 py-1 rounded-full text-xs font-semibold transition-all flex items-center gap-1.5 ${
+                    activeTab === 'vitality'
+                      ? 'bg-[#002366] text-white shadow-2xs'
+                      : 'text-[#1A1A1A]/70 hover:text-[#002366] hover:bg-[#F5F2ED]'
+                  }`}
+                >
+                  <span>⚡ Vitality Habit</span>
+                </button>
+                <button
+                  onClick={() => setActiveTab('scripture')}
+                  className={`px-3 py-1 rounded-full text-xs font-semibold transition-all flex items-center gap-1.5 ${
+                    activeTab === 'scripture'
+                      ? 'bg-[#002366] text-white shadow-2xs'
+                      : 'text-[#1A1A1A]/70 hover:text-[#002366] hover:bg-[#F5F2ED]'
+                  }`}
+                >
+                  <span>🕊️ Word of the Day</span>
+                </button>
               </div>
-              <p className="text-xs text-[#1A1A1A] italic leading-snug">
-                “Age is not a slow retreat; for a child of God, it is an accumulation of wisdom, stamina, and sacred purpose.”
-              </p>
-              <p className="text-[11px] text-[#1A1A1A]/60 font-medium pt-0.5">
-                — Ella Ruth
-              </p>
+
+              {/* Dynamic Content Body */}
+              <div className="space-y-1.5 animate-in fade-in duration-200">
+                <div className="flex items-center gap-2 text-[11px] uppercase tracking-wider font-bold text-[#D4AF37]">
+                  {currentGreeting.icon}
+                  <span>{currentGreeting.tag}</span>
+                </div>
+                <p className="font-serif italic text-sm sm:text-base text-[#002366] font-medium leading-snug">
+                  {currentGreeting.heading}
+                </p>
+                <p className="text-xs text-[#1A1A1A]/70 leading-relaxed">
+                  {currentGreeting.body}
+                </p>
+              </div>
+
+              <div className="pt-1 flex items-center justify-between">
+                <button
+                  onClick={currentGreeting.action}
+                  className="inline-flex items-center gap-1 text-xs font-semibold text-[#002366] hover:text-[#D4AF37] transition-colors"
+                >
+                  <span>{currentGreeting.actionLabel}</span>
+                  <ChevronRight className="w-3.5 h-3.5" />
+                </button>
+                <span className="text-[10px] text-[#1A1A1A]/40 font-mono">
+                  Tap tabs above to explore
+                </span>
+              </div>
+            </div>
+
+            {/* Primary Action Buttons */}
+            <div className="pt-2 flex flex-wrap items-center gap-3">
+              <button
+                id="hero-coaching-cta"
+                onClick={() => onNavigate('coaching')}
+                className="px-6 py-3.5 rounded-full bg-[#002366] hover:bg-[#001a4e] text-white font-semibold text-sm shadow-md transition-all flex items-center gap-2 border border-[#D4AF37]/30 hover:scale-[1.02] active:scale-[0.98]"
+              >
+                <Activity className="w-4 h-4 text-[#D4AF37]" />
+                <span>Explore Vitality Coaching</span>
+              </button>
+
+              <button
+                id="hero-devotional-guide-cta"
+                onClick={onOpenDevotional}
+                className="px-5 py-3.5 rounded-full bg-[#FDFCFB] hover:bg-[#EFEBE4] text-[#002366] font-semibold text-sm border border-[#E8E2D8] transition-all flex items-center gap-2 hover:border-[#D4AF37]/60"
+              >
+                <Download className="w-4 h-4 text-[#D4AF37]" />
+                <span>Free 7-Day Guide</span>
+              </button>
+
+              <button
+                id="hero-church-home-cta"
+                onClick={() => onNavigate('ministry')}
+                className="px-5 py-3.5 rounded-full bg-transparent hover:bg-[#F5F2ED] text-[#002366] font-medium text-sm transition-colors flex items-center gap-1.5"
+              >
+                <span>My Church Home</span>
+                <ArrowRight className="w-4 h-4 text-[#D4AF37]" />
+              </button>
+            </div>
+
+            {/* Trust Badges */}
+            <div className="pt-4 border-t border-[#E8E2D8] flex flex-wrap items-center gap-6 text-xs text-[#1A1A1A]/60 font-medium">
+              <div className="flex items-center gap-2">
+                <ShieldCheck className="w-4 h-4 text-[#D4AF37]" />
+                <span>Certified Vitality Coach</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Church className="w-4 h-4 text-[#002366]" />
+                <span>Safe Haven Ministries (Worshipper)</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Globe2 className="w-4 h-4 text-[#D4AF37]" />
+                <span>Columbia, Mississippi</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column: Breathtaking Authentic Portrait Showcase */}
+          <div className="lg:col-span-5 relative flex justify-center">
+            {/* Ambient Multi-Ring Glow */}
+            <div className="absolute inset-0 max-w-sm mx-auto rounded-[3rem] bg-gradient-to-tr from-[#D4AF37]/30 via-[#FDFCFB]/50 to-[#002366]/20 blur-2xl transform -rotate-2" />
+
+            {/* Luxury Framed Card */}
+            <div className="relative w-full max-w-sm rounded-[2.75rem] overflow-hidden bg-gradient-to-b from-[#FFFFFF] via-[#FAF7F0] to-[#F1ECE1] shadow-2xl border-2 border-[#D4AF37]/40 p-4 sm:p-5 flex flex-col items-center text-center">
+              
+              {/* Floating Top Status Badge */}
+              <div className="w-full flex items-center justify-between pb-3 px-2">
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FDFCFB] border border-[#D4AF37]/40 text-[11px] font-semibold text-[#002366] shadow-2xs">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                  <span>85 & Thriving</span>
+                </div>
+
+                <div className="text-[11px] text-[#1A1A1A]/60 font-medium">
+                  Columbia, MS
+                </div>
+              </div>
+
+              {/* High-Resolution Portrait Display with Soft Circular Framing */}
+              <div className="relative w-full aspect-square max-w-[320px] rounded-3xl overflow-hidden bg-gradient-to-b from-[#F5F2ED] to-white border border-[#E8E2D8] flex items-center justify-center shadow-inner group">
+                <img
+                  src="/ellaruth.png"
+                  alt="Ella Ruth - Author, Vitality Coach & Speaker"
+                  className="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-700 select-none"
+                />
+
+                {/* Subtle Vignette Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#002366]/40 via-transparent to-transparent opacity-60" />
+
+                {/* Over-image Tag */}
+                <div className="absolute bottom-3 left-3 right-3 bg-[#FDFCFB]/95 backdrop-blur-md rounded-xl py-1.5 px-3 border border-[#D4AF37]/40 shadow-xs flex items-center justify-between">
+                  <span className="font-serif font-bold text-xs text-[#002366]">Ella Ruth</span>
+                  <span className="text-[10px] font-semibold text-[#D4AF37] uppercase tracking-wider">Living Testimony</span>
+                </div>
+              </div>
+
+              {/* Bottom Quote & Personal Touch */}
+              <div className="pt-4 space-y-2 w-full text-left px-1">
+                <p className="text-xs text-[#1A1A1A]/80 italic leading-snug font-serif">
+                  “Age is not a slow retreat; for a child of God, it is an accumulation of wisdom, stamina, and sacred purpose.”
+                </p>
+                <div className="flex items-center justify-between pt-1 border-t border-[#E8E2D8]/80 text-[11px]">
+                  <span className="font-medium text-[#002366]">— Ella Ruth Johnson</span>
+                  <button
+                    onClick={() => onNavigate('contact')}
+                    className="text-[#D4AF37] hover:text-[#002366] font-semibold transition-colors flex items-center gap-1"
+                  >
+                    <span>Say Hello</span>
+                    <ArrowRight className="w-3 h-3" />
+                  </button>
+                </div>
+              </div>
+
             </div>
           </div>
         </div>

@@ -59,8 +59,12 @@ export const Navbar: React.FC<NavbarProps> = ({
             onClick={() => handleNavClick('home')} 
             className="flex items-center gap-3 text-left group focus:outline-hidden"
           >
-            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-gradient-to-br from-[#002366] to-[#4B0082] flex items-center justify-center text-[#D4AF37] shadow-xs group-hover:from-[#001a4e] group-hover:to-[#380062] transition-all shrink-0 border border-[#D4AF37]/30">
-              <Church className="w-5 h-5 text-[#D4AF37]" />
+            <div className="relative w-10 h-10 sm:w-11 sm:h-11 rounded-full p-0.5 bg-gradient-to-br from-[#D4AF37] via-[#F3E5AB] to-[#002366] shadow-sm shrink-0 group-hover:scale-105 transition-transform">
+              <img
+                src="/ellaruth.png"
+                alt="Ella Ruth Logo"
+                className="w-full h-full object-cover object-top rounded-full bg-white"
+              />
             </div>
             <div>
               <div className="font-serif font-bold text-lg sm:text-xl tracking-tight text-[#002366] leading-tight">
