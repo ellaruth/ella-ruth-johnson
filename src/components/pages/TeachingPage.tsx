@@ -41,13 +41,13 @@ export const TeachingPage: React.FC<TeachingPageProps> = ({
       <section className="text-center max-w-2xl mx-auto space-y-3">
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#F5F2ED] text-[#002366] text-xs font-medium border border-[#D4AF37]/40">
           <BookOpen className="w-3.5 h-3.5 text-[#D4AF37]" />
-          <span>Ordained Ministry & Preaching</span>
+          <span>Faith Teachings & Devotionals</span>
         </div>
         <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-[#002366]">
           Teachings & Sermons
         </h1>
         <p className="text-[#1A1A1A]/75 text-base leading-relaxed">
-          Biblical encouragement, healing, and spiritual stamina preached by Pastor Ella Ruth Johnson at Safe Haven revivals and conferences.
+          Biblical encouragement, healing, and spiritual stamina shared by Ella Ruth through devotionals, conference keynotes, and scripture studies.
         </p>
       </section>
 
@@ -127,7 +127,7 @@ export const TeachingPage: React.FC<TeachingPageProps> = ({
                   {activeSermon.featuredQuote}
                 </p>
                 <p className="text-xs text-[#1A1A1A]/60 font-medium mt-2">
-                  — Pastor Ella Ruth Johnson
+                  — Ella Ruth
                 </p>
               </div>
 

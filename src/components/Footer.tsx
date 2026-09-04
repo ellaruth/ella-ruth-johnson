@@ -52,10 +52,10 @@ export const Footer: React.FC<FooterProps> = ({
         <div className="max-w-4xl mx-auto text-center space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#F5F2ED] text-[#002366] text-xs font-medium border border-[#D4AF37]/40">
             <Sparkles className="w-3.5 h-3.5 text-[#D4AF37]" />
-            <span>Pastor Ella Ruth Johnson</span>
+            <span>Ella Ruth</span>
           </div>
           <p className="font-serif text-xl sm:text-2xl text-[#002366] italic font-normal leading-relaxed">
-            “I’m 85 years young — challenging women to live longer, healthier lives while keeping our hands open to lift and heal our community.”
+            “I’m 85 years young — challenging men and women to live longer, healthier lives through biblical vitality, while walking in devoted fellowship with our church and community.”
           </p>
           <div className="flex flex-wrap justify-center items-center gap-3 pt-2">
             <button
@@ -64,7 +64,7 @@ export const Footer: React.FC<FooterProps> = ({
               className="px-5 py-2.5 rounded-full bg-[#002366] hover:bg-[#001a4e] text-white font-medium text-xs shadow-xs transition-colors flex items-center gap-2 border border-[#D4AF37]/30"
             >
               <Heart className="w-3.5 h-3.5 fill-[#D4AF37] text-[#D4AF37]" />
-              <span>Support Safe Haven Outreach</span>
+              <span>Support Outreach & Mission</span>
             </button>
             <button
               id="footer-coaching-cta-button"
@@ -84,17 +84,17 @@ export const Footer: React.FC<FooterProps> = ({
       {/* Main Links & Details */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10">
-          {/* Org Info */}
+          {/* Personal Info & Church Home */}
           <div className="lg:col-span-4 space-y-4">
             <div>
               <h2 className="font-serif text-lg font-bold text-[#002366]">
-                Safe Haven Out Reach Ministries
+                Ella Ruth
               </h2>
-              <p className="text-xs text-[#1A1A1A]/60">Founded 2001 • Columbia, Mississippi</p>
+              <p className="text-xs text-[#1A1A1A]/60">Author • Vitality Coach • Speaker</p>
             </div>
 
             <p className="text-xs text-[#1A1A1A]/75 leading-relaxed">
-              Providing compassionate wrap-around assistance for former inmates, the homeless, youth, and families, with sister support in Mombasa, Kenya.
+              Inspiring believers to walk in vibrant physical vitality and spiritual wholeness. Faithful worshipper and active community servant at Safe Haven Ministries in Columbia, Mississippi.
             </p>
 
             <div className="space-y-1.5 text-xs text-[#1A1A1A]/75 pt-1">
@@ -260,7 +260,7 @@ export const Footer: React.FC<FooterProps> = ({
         {/* Bottom Bar */}
         <div className="mt-12 pt-8 border-t border-[#E8E2D8] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#1A1A1A]/60">
           <div>
-            © {new Date().getFullYear()} Safe Haven Out Reach Ministries, Inc. 501(c)(3) Nonprofit.
+            © {new Date().getFullYear()} Ella Ruth. All rights reserved. Faithful worshipper at Safe Haven Ministries.
           </div>
 
           <div className="flex items-center gap-4">

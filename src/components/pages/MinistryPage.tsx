@@ -42,14 +42,35 @@ export const MinistryPage: React.FC<MinistryPageProps> = ({
       <section className="text-center max-w-2xl mx-auto space-y-3">
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#F5F2ED] text-[#002366] text-xs font-medium border border-[#D4AF37]/40">
           <ShieldCheck className="w-3.5 h-3.5 text-[#D4AF37]" />
-          <span>501(c)(3) Tax-Exempt Public Charity • Est. 2001</span>
+          <span>Where Ella Ruth Worships & Serves • Columbia, MS</span>
         </div>
         <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-[#002366]">
-          Safe Haven Out Reach Ministries
+          My Church Home: Safe Haven Ministries
         </h1>
         <p className="text-[#1A1A1A]/75 text-base leading-relaxed">
-          Bringing spiritual restoration, dignity, and life support to the incarcerated, homeless, former inmates, youth, and struggling families across Mississippi and abroad.
+          Ella Ruth is a faithful worshipper and active community servant at Safe Haven Ministries. Discover the heart of the church, our weekly fellowship services, and community outreach missions.
         </p>
+
+        {/* Weekly Fellowship Times Card */}
+        <div className="bg-[#F5F2ED] border border-[#D4AF37]/30 rounded-2xl p-4 sm:p-5 text-left max-w-xl mx-auto my-3 space-y-2">
+          <div className="text-xs font-semibold uppercase tracking-wider text-[#D4AF37]">
+            Weekly Fellowship & Worship Times
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-[#1A1A1A]/80">
+            <div className="bg-[#FDFCFB] p-3 rounded-xl border border-[#E8E2D8]">
+              <span className="font-semibold text-[#002366] block">Sunday Celebration Service</span>
+              <span>10:00 AM CST • Worship & Preaching</span>
+            </div>
+            <div className="bg-[#FDFCFB] p-3 rounded-xl border border-[#E8E2D8]">
+              <span className="font-semibold text-[#002366] block">Wednesday Word & Prayer</span>
+              <span>6:30 PM CST • Bible Study & Fellowship</span>
+            </div>
+          </div>
+          <p className="text-[11px] text-[#1A1A1A]/65 italic text-center pt-1">
+            “You are always invited to sit, pray, and rejoice with us this coming Sunday!” — Ella Ruth
+          </p>
+        </div>
+
         <div className="pt-2 flex flex-wrap justify-center gap-3">
           <button
             id="ministry-donate-hero-cta"
@@ -57,7 +78,7 @@ export const MinistryPage: React.FC<MinistryPageProps> = ({
             className="px-6 py-2.5 rounded-full bg-[#002366] hover:bg-[#001a4e] text-white font-semibold text-xs shadow-xs transition-all flex items-center gap-2 border border-[#D4AF37]/30"
           >
             <Heart className="w-4 h-4 fill-[#D4AF37] text-[#D4AF37]" />
-            <span>Support This Ministry</span>
+            <span>Support Church Outreach</span>
           </button>
           <button
             id="ministry-volunteer-hero-cta"
@@ -65,7 +86,7 @@ export const MinistryPage: React.FC<MinistryPageProps> = ({
             className="px-6 py-2.5 rounded-full bg-[#F5F2ED] hover:bg-[#EFEBE4] text-[#002366] font-medium text-xs border border-[#E8E2D8] transition-colors flex items-center gap-2"
           >
             <HandHeart className="w-4 h-4 text-[#D4AF37]" />
-            <span>Volunteer With Us</span>
+            <span>Serve Alongside Us</span>
           </button>
         </div>
       </section>

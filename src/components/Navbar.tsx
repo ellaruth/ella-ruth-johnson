@@ -34,11 +34,11 @@ export const Navbar: React.FC<NavbarProps> = ({
   // Streamlined, clear, friendly navigation items
   const navItems: { id: PageTab; label: string; icon: React.ReactNode }[] = [
     { id: 'home', label: 'Home', icon: <Church className="w-4 h-4" /> },
-    { id: 'about', label: 'About', icon: <Sparkles className="w-4 h-4" /> },
-    { id: 'ministry', label: 'Ministry', icon: <Heart className="w-4 h-4" /> },
+    { id: 'about', label: 'About Ella', icon: <Sparkles className="w-4 h-4" /> },
     { id: 'coaching', label: '85 & Thriving', icon: <Activity className="w-4 h-4" /> },
     { id: 'teaching', label: 'Sermons', icon: <BookOpen className="w-4 h-4" /> },
     { id: 'events', label: 'Events', icon: <Calendar className="w-4 h-4" /> },
+    { id: 'ministry', label: 'Church Home', icon: <Heart className="w-4 h-4" /> },
     { id: 'gallery', label: 'Gallery', icon: <ImageIcon className="w-4 h-4" /> },
     { id: 'contact', label: 'Contact', icon: <PhoneCall className="w-4 h-4" /> },
   ];
@@ -64,10 +64,10 @@ export const Navbar: React.FC<NavbarProps> = ({
             </div>
             <div>
               <div className="font-serif font-bold text-lg sm:text-xl tracking-tight text-[#002366] leading-tight">
-                Ella Ruth Johnson
+                Ella Ruth
               </div>
               <p className="text-[11px] sm:text-xs text-[#1A1A1A]/70 font-medium tracking-wide">
-                Safe Haven Out Reach Ministries
+                Author • Vitality Coach • Speaker
               </p>
             </div>
           </button>

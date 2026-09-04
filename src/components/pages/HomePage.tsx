@@ -45,26 +45,26 @@ export const HomePage: React.FC<HomePageProps> = ({
         <div className="lg:col-span-7 space-y-6 text-left">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#F5F2ED] text-[#002366] text-xs font-medium border border-[#D4AF37]/40">
             <Sparkles className="w-3.5 h-3.5 text-[#D4AF37]" />
-            <span>Safe Haven Out Reach Ministries • 501(c)(3)</span>
+            <span>Ella Ruth • Faith, Vitality & Devotion</span>
           </div>
 
           <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-[#002366] tracking-tight leading-[1.18]">
-            Living longer, loving deeper, and restoring hope in our community.
+            Walking in Faith, Living in Vitality.
           </h1>
 
           <p className="text-[#1A1A1A]/75 text-base sm:text-lg leading-relaxed max-w-xl">
-            Led by 85-year-young Pastor Ella Ruth Johnson. We walk alongside returning citizens, feed local families in Columbia, MS, care for children in Kenya, and inspire women to thrive in body, mind, and spirit.
+            Welcome to the personal ministry and wellness home of Ella Ruth — author, speaker, certified vitality coach, and devoted worshipper at Safe Haven Ministries. Guiding you into vibrant health, biblical stewardship, and joyful living.
           </p>
 
           {/* Clean Primary Actions */}
           <div className="pt-2 flex flex-wrap items-center gap-3">
             <button
               id="hero-donate-cta"
-              onClick={() => onOpenDonate()}
+              onClick={() => onNavigate('coaching')}
               className="px-6 py-3 rounded-full bg-[#002366] hover:bg-[#001a4e] text-white font-semibold text-sm shadow-sm transition-all flex items-center gap-2 border border-[#D4AF37]/30"
             >
-              <Heart className="w-4 h-4 fill-[#D4AF37] text-[#D4AF37]" />
-              <span>Partner With Us</span>
+              <Activity className="w-4 h-4 text-[#D4AF37]" />
+              <span>Explore Vitality Coaching</span>
             </button>
 
             <button
@@ -72,7 +72,7 @@ export const HomePage: React.FC<HomePageProps> = ({
               onClick={() => onNavigate('about')}
               className="px-6 py-3 rounded-full bg-[#F5F2ED] hover:bg-[#EFEBE4] text-[#002366] font-medium text-sm border border-[#E8E2D8] transition-colors flex items-center gap-1.5"
             >
-              <span>Meet Pastor Ella Ruth</span>
+              <span>About Ella Ruth</span>
               <ArrowRight className="w-4 h-4 text-[#D4AF37]" />
             </button>
           </div>
@@ -81,11 +81,11 @@ export const HomePage: React.FC<HomePageProps> = ({
           <div className="pt-4 border-t border-[#E8E2D8] flex flex-wrap items-center gap-6 text-xs text-[#1A1A1A]/60 font-medium">
             <div className="flex items-center gap-2">
               <ShieldCheck className="w-4 h-4 text-[#D4AF37]" />
-              <span>Incorporated 501(c)(3) Nonprofit</span>
+              <span>Certified Vitality Coach</span>
             </div>
             <div className="flex items-center gap-2">
               <Globe2 className="w-4 h-4 text-[#002366]" />
-              <span>Columbia, MS & Mombasa, Kenya</span>
+              <span>Faithful Worshipper at Safe Haven Ministries</span>
             </div>
           </div>
         </div>
@@ -95,7 +95,7 @@ export const HomePage: React.FC<HomePageProps> = ({
           <div className="relative rounded-3xl overflow-hidden bg-[#F5F2ED] shadow-md border border-[#E8E2D8] aspect-[4/5] max-w-md mx-auto">
             <img
               src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=900&auto=format&fit=crop"
-              alt="Pastor Ella Ruth Johnson"
+              alt="Ella Ruth"
               className="w-full h-full object-cover object-top"
               referrerPolicy="no-referrer"
             />
@@ -110,7 +110,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                 “Age is not a slow retreat; for a child of God, it is an accumulation of wisdom, stamina, and sacred purpose.”
               </p>
               <p className="text-[11px] text-[#1A1A1A]/60 font-medium pt-0.5">
-                — Pastor Ella Ruth Johnson
+                — Ella Ruth
               </p>
             </div>
           </div>
@@ -139,10 +139,10 @@ export const HomePage: React.FC<HomePageProps> = ({
                 <Heart className="w-5 h-5 fill-[#002366]/20 text-[#002366]" />
               </div>
               <h3 className="font-serif text-xl font-bold text-[#002366]">
-                Safe Haven Outreach
+                My Church Home
               </h3>
               <p className="text-sm text-[#1A1A1A]/70 leading-relaxed">
-                Walking alongside returning citizens from prison, feeding the unsheltered, and distributing clothes and hygiene kits across Marion County.
+                Where I worship, fellowship, and serve in community outreach and prayer alongside our church family at Safe Haven Ministries in Columbia, MS.
               </p>
             </div>
 
@@ -150,7 +150,7 @@ export const HomePage: React.FC<HomePageProps> = ({
               onClick={() => onNavigate('ministry')}
               className="text-sm font-semibold text-[#002366] hover:text-[#D4AF37] flex items-center gap-1.5 transition-colors pt-2"
             >
-              <span>Explore Outreach Work</span>
+              <span>Visit Safe Haven Ministries</span>
               <ChevronRight className="w-4 h-4" />
             </button>
           </div>
@@ -284,7 +284,7 @@ export const HomePage: React.FC<HomePageProps> = ({
           <div className="lg:col-span-8 space-y-4">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#F5F2ED] text-[#002366] text-xs font-medium border border-[#D4AF37]/40">
               <BookOpen className="w-3.5 h-3.5 text-[#D4AF37]" />
-              <span>Teaching from Pastor Ella Ruth</span>
+              <span>Devotional Teaching from Ella Ruth</span>
             </div>
 
             <h3 className="font-serif text-2xl sm:text-3xl font-bold text-[#002366]">
@@ -342,10 +342,10 @@ export const HomePage: React.FC<HomePageProps> = ({
       <section className="bg-gradient-to-r from-[#002366] via-[#001f5c] to-[#4B0082] text-white rounded-3xl p-8 sm:p-12 shadow-sm text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-6 border border-[#D4AF37]/30">
         <div className="space-y-2 max-w-xl">
           <h3 className="font-serif text-2xl sm:text-3xl font-bold">
-            Need prayer or looking to get involved?
+            Need prayer or looking to connect with Ella Ruth?
           </h3>
           <p className="text-sm text-white/80 leading-relaxed">
-            Our doors and hearts are open. Reach out to request prayer, volunteer in Columbia, MS, or invite Pastor Ella Ruth to speak.
+            Our hearts are open. Reach out to request prayer, inquire about vitality coaching, or invite Ella Ruth to speak at your gathering.
           </p>
         </div>
 
@@ -360,7 +360,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             onClick={() => onNavigate('contact')}
             className="px-6 py-3 rounded-full bg-[#D4AF37] hover:bg-[#e0bb45] text-[#002366] font-semibold text-sm transition-colors shadow-xs"
           >
-            Contact Ministry
+            Get In Touch
           </button>
         </div>
       </section>

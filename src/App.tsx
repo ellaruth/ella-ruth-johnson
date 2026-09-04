@@ -119,7 +119,7 @@ export default function App() {
     try {
       const saved = await api.submitPrayer(newReq);
       setPrayerRequests(prev => [saved, ...prev]);
-      showToast('Prayer petition received', 'Pastor Ella Ruth and our prayer circle hold your request before God.');
+      showToast('Prayer petition received', 'Ella Ruth and our prayer circle hold your request before God.');
     } catch (err) {
       console.error('Prayer submission error:', err);
       setPrayerRequests(prev => [newReq, ...prev]);

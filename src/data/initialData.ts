@@ -12,18 +12,18 @@ import {
 export const INITIAL_ANNOUNCEMENTS: AnnouncementItem[] = [
   {
     id: 'ann-1',
-    highlight: 'Upcoming Conference',
-    text: 'Divine Transformation Annual Conference 2026 — Registration is now open in Columbia, MS!',
+    highlight: 'Upcoming Gathering',
+    text: 'Divine Transformation Annual Conference 2026 — Join Ella Ruth in Columbia, MS!',
     linkTab: 'events',
     date: 'Spring 2026',
     active: true
   },
   {
     id: 'ann-2',
-    highlight: 'Mombasa Mission',
-    text: 'Safe Haven shipment of school supplies & nutrition packages has safely arrived in Mombasa, Kenya.',
+    highlight: 'Church Fellowship',
+    text: 'Join Ella Ruth this Sunday at Safe Haven Ministries for 10:00 AM Worship Service!',
     linkTab: 'ministry',
-    date: 'Recent Update',
+    date: 'Sundays',
     active: true
   }
 ];
@@ -520,38 +520,38 @@ export const COACHING_PILLARS = [
 export const LIFE_TIMELINE = [
   {
     year: '2001',
-    title: 'Founded Safe Haven Out Reach Ministries, Inc.',
-    badge: '501(c)(3) Foundation',
-    desc: 'Guided by divine vision in Columbia, MS, Ella Ruth established Safe Haven to bridge the gap for former inmates, the homeless, and neglected families with hands-on spiritual and physical relief.'
+    title: 'Fellowship & Devoted Service with Safe Haven Ministries',
+    badge: 'Faithful Service',
+    desc: 'Guided by a deep love for God in Columbia, MS, Ella Ruth began her active journey of worshipping and serving alongside Safe Haven Ministries, dedicating herself to intercessory prayer, community meals, and encouragement.'
   },
   {
     year: '2012',
-    title: 'Ordination & Pastoral Service at United Christian Baptist Church',
-    badge: 'Pastoral Calling',
-    desc: 'Deepening her pastoral mantle, Ella Ruth stepped into widespread preaching and deliverance ministry across Mississippi and neighboring states, mentoring dozens of emerging faith leaders.'
+    title: 'Ordination & Public Teaching Ministry',
+    badge: 'Spiritual Calling',
+    desc: 'Deepening her calling to teach scripture and inspire others, Ella Ruth was ordained, preaching biblical encouragement, ministering to families, and mentoring emerging faith leaders.'
   },
   {
     year: '2018',
-    title: 'Mombasa, Kenya Children\'s Centre Partnership',
-    badge: 'Global Outreach',
-    desc: 'Safe Haven expanded its heartbeat across the globe, establishing direct support for orphaned and vulnerable school children in Mombasa with daily hot lunches, water filtration, and books.'
+    title: 'Mombasa, Kenya Mission Heart',
+    badge: 'Global Compassion',
+    desc: 'Championing support for orphaned and vulnerable school children in Mombasa, Kenya with daily hot lunches, clean drinking water filtration, and educational supplies.'
   },
   {
     year: '2020',
-    title: 'Divine Transformation Annual Conference Launch',
-    badge: 'Regional Gathering',
-    desc: 'Convening hundreds of women and community leaders annually for intensive teaching on divine healing, emotional deliverance, and holistic spiritual renewal.'
+    title: 'Divine Transformation Conferences & Speaking',
+    badge: 'Author & Speaker',
+    desc: 'Convening and speaking to women and community leaders on holistic spiritual renewal, scripture study, and emotional healing.'
   },
   {
     year: '2022',
-    title: 'The "85 Years Young" Longevity & Wellness Movement',
-    badge: 'Health Coach & Creator',
-    desc: 'Challenging women to discard societal expectations of frailty, Ella Ruth stepped into active health and longevity coaching — sharing her daily habits of movement, clean nutrition, and unyielding zest.'
+    title: 'The "85 Years Young" Vitality Movement',
+    badge: 'Certified Coach',
+    desc: 'Challenging men and women to reject premature frailty, Ella Ruth stepped into active health and vitality coaching — sharing biblical body stewardship, hydration, and daily movement.'
   },
   {
     year: 'Present',
-    title: '“Wisdom in Motion” — Expanding the Harvest',
+    title: '“Wisdom in Motion” — Purpose Without Retirement',
     badge: 'Living Dynamo',
-    desc: 'Continuing daily pastoral counseling, coaching women nationwide, overseeing Safe Haven’s multi-program community footprint, and proving that purpose knows no retirement.'
+    desc: 'Coaching clients nationwide, writing devotionals, speaking at conferences, and remaining a faithful, joyful worshipper and servant at Safe Haven Ministries.'
   }
 ];

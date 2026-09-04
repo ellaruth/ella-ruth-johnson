@@ -103,7 +103,7 @@ export const EventsPage: React.FC<EventsPageProps> = ({
           Upcoming Gatherings
         </h1>
         <p className="text-[#1A1A1A]/75 text-base leading-relaxed">
-          Join Pastor Ella Ruth Johnson for annual revivals, community banquets, wellness walks, and outreach events in Columbia, MS.
+          Join Ella Ruth for upcoming conferences, vitality walks, and fellowship services at Safe Haven Ministries in Columbia, MS.
         </p>
       </section>
 

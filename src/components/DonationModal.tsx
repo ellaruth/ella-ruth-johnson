@@ -130,7 +130,7 @@ export const DonationModal: React.FC<DonationModalProps> = ({
                   Thank You for Your Support!
                 </h4>
                 <p className="text-xs text-[#1A1A1A]/70 mt-1">
-                  Pastor Ella Ruth and the Safe Haven family are grateful for your generosity.
+                  Ella Ruth and our community outreach partners are grateful for your generosity.
                 </p>
               </div>
 

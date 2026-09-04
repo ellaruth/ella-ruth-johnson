@@ -54,7 +54,7 @@ export const PrayerModal: React.FC<PrayerModalProps> = ({
         <div className="px-6 py-5 flex items-center justify-between border-b border-[#E8E2D8]">
           <div>
             <h3 className="font-serif text-lg font-bold text-[#002366]">Request Prayer</h3>
-            <p className="text-xs text-[#1A1A1A]/60">Pastor Ella Ruth & Prayer Circle</p>
+            <p className="text-xs text-[#1A1A1A]/60">Ella Ruth & Prayer Circle</p>
           </div>
           <button
             onClick={handleReset}
@@ -74,7 +74,7 @@ export const PrayerModal: React.FC<PrayerModalProps> = ({
                 Petition Received
               </h4>
               <p className="text-xs text-[#1A1A1A]/70 max-w-md mx-auto leading-relaxed">
-                Pastor Ella Ruth and our prayer circle hold your request in intercession.
+                Ella Ruth and our prayer circle hold your request in intercession.
               </p>
 
               <div className="bg-[#F5F2ED] border border-[#E8E2D8] rounded-2xl p-4 text-left">

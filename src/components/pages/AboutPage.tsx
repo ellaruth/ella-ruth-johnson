@@ -23,13 +23,13 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onOpenDonate }
       <section className="text-center max-w-2xl mx-auto space-y-3">
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#F5F2ED] text-[#002366] text-xs font-medium border border-[#D4AF37]/40">
           <Sparkles className="w-3.5 h-3.5 text-[#D4AF37]" />
-          <span>About Pastor Ella Ruth Johnson</span>
+          <span>About Ella Ruth</span>
         </div>
         <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-[#002366]">
-          An 85-Year Journey of Faith, Vitality & Community Hope
+          An 85-Year Journey of Faith, Vitality & Sacred Purpose
         </h1>
         <p className="text-[#1A1A1A]/75 text-base leading-relaxed">
-          Executive Director of Safe Haven Out Reach Ministries, Inc., ordained minister, health coach, and community matriarch in Columbia, Mississippi.
+          Author, speaker, certified vitality coach, and devoted worshipper at Safe Haven Ministries in Columbia, Mississippi.
         </p>
       </section>
 
@@ -52,7 +52,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onOpenDonate }
             </p>
 
             <p>
-              When people ask what I do, I share that I wear three callings in one life: I am an <strong className="text-[#002366] font-semibold">ordained preacher and teacher</strong> holding healing revivals and conferences like Divine Transformation; I am the <strong className="text-[#002366] font-semibold">Executive Director of Safe Haven Out Reach Ministries, Inc.</strong>, walking into prisons and feeding families; and I am an <strong className="text-[#002366] font-semibold">85-year-young health & wellness coach</strong> inspiring women to nourish their bodies and refuse infirmity.
+              When people ask what I do, I share that I wear three callings in one life: I am an <strong className="text-[#002366] font-semibold">author, faith teacher, and speaker</strong> sharing biblical wholeness through conferences like Divine Transformation; an <strong className="text-[#002366] font-semibold">85-year-young certified vitality and wellness coach</strong> inspiring men and women to nourish their temples with hydration, fresh food, and daily locomotion; and a <strong className="text-[#002366] font-semibold">devoted worshipper and servant at Safe Haven Ministries</strong>, lifting up local families and standing in fervent intercessory prayer.
             </p>
 
             {/* Sacred Thanksgiving callout */}
@@ -67,7 +67,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onOpenDonate }
             </div>
 
             <p>
-              When Safe Haven was birthed in 2001, we didn’t have a big corporate endowment. All we had was a pickup truck, pots of hot greens, Bibles, and a heart for men and women coming out of prison with nowhere to sleep. God took that seed and turned it into a ministry that has served over 12,000 community meals and supported children in Kenya.
+              Safe Haven Ministries has been my spiritual home and church community for decades. As a faithful worshipper there, I have seen God move through grassroots outreach, community feasts, and life-changing prayer across Mississippi and into Kenya.
             </p>
           </div>
 
@@ -112,7 +112,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onOpenDonate }
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <h3 className="font-serif text-lg font-bold text-[#002366]">
-                  Pastor Ella Ruth Johnson
+                  Ella Ruth
                 </h3>
                 <span className="px-3 py-1 rounded-full bg-[#F5F2ED] text-[#002366] border border-[#D4AF37]/40 text-xs font-semibold">
                   85 Years Young
@@ -125,15 +125,15 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onOpenDonate }
                   <span className="font-medium text-[#002366]">Columbia, MS (Marion County)</span>
                 </div>
                 <div className="flex justify-between pt-1.5">
-                  <span className="text-[#1A1A1A]/55">Ministry Role:</span>
-                  <span className="font-medium text-[#002366]">Executive Director (Since 2001)</span>
+                  <span className="text-[#1A1A1A]/55">Spiritual Home:</span>
+                  <span className="font-medium text-[#002366]">Safe Haven Ministries (Worshipper)</span>
                 </div>
                 <div className="flex justify-between pt-1.5">
-                  <span className="text-[#1A1A1A]/55">Pastoral Ordination:</span>
-                  <span className="font-medium text-[#002366]">United Christian Baptist (2012)</span>
+                  <span className="text-[#1A1A1A]/55">Vocation:</span>
+                  <span className="font-medium text-[#002366]">Vitality Coach, Author & Speaker</span>
                 </div>
                 <div className="flex justify-between pt-1.5">
-                  <span className="text-[#1A1A1A]/55">Mission:</span>
+                  <span className="text-[#1A1A1A]/55">Mission Heart:</span>
                   <span className="font-medium text-[#002366]">Mombasa, Kenya School Feeding</span>
                 </div>
               </div>

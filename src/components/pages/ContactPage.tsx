@@ -63,10 +63,10 @@ export const ContactPage: React.FC<ContactPageProps> = ({
           <span>Get in Touch</span>
         </div>
         <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-[#002366]">
-          Contact Pastor Ella Ruth
+          Contact Ella Ruth
         </h1>
         <p className="text-[#1A1A1A]/75 text-base leading-relaxed">
-          Reach out for speaking engagements, wellness coaching consultations, Safe Haven outreach partnerships, or prayer intercession.
+          Reach out for speaking engagements, vitality coaching consultations, prayer intercession, or to connect with her church home at Safe Haven Ministries.
         </p>
       </section>
 
@@ -77,13 +77,13 @@ export const ContactPage: React.FC<ContactPageProps> = ({
           <div className="lg:col-span-5 space-y-6">
             <div className="bg-[#FDFCFB] rounded-3xl p-8 border border-[#E8E2D8] shadow-xs space-y-4">
               <div className="text-xs font-semibold uppercase tracking-widest text-[#D4AF37]">
-                Safe Haven Ministries
+                Connect with Ella Ruth
               </div>
               <h2 className="font-serif text-2xl font-bold text-[#002366]">
-                Marion County, MS
+                Columbia, Mississippi
               </h2>
               <p className="text-xs sm:text-sm text-[#1A1A1A]/70 leading-relaxed">
-                Whether you need support for a family member in reentry, would like to invite Coach Ella Ruth to speak, or wish to contribute to the Mombasa children’s centre, we welcome your connection.
+                Whether you would like to book Ella Ruth for speaking, inquire about 1-on-1 vitality coaching, submit a prayer petition, or connect with Safe Haven Ministries, we welcome your message.
               </p>
 
               <div className="space-y-3 pt-2">
