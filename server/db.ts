@@ -366,6 +366,8 @@ export const dbQueries = {
     db.prepare(`
       UPDATE events SET attendees_count = attendees_count + ? WHERE id = ?
     `).run(rsvp.guestsCount, rsvp.eventId);
+
+    return rsvp;
   },
 
   // Sermons

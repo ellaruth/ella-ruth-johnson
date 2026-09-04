@@ -10,13 +10,13 @@ dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const app = express();
+export const app = express();
 const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
 
 // Initialize SQLite DB
 initDatabase();
 
-const ADMIN_PASSCODE = process.env.ADMIN_PASSCODE || 'SafeHaven2026!';
+export const ADMIN_PASSCODE = process.env.ADMIN_PASSCODE || 'SafeHaven2026!';
 
 // 1. Security Headers Middleware (OWASP recommended baseline)
 app.use((_req: Request, res: Response, next: () => void) => {
@@ -512,7 +512,9 @@ async function startServer() {
   });
 }
 
-startServer().catch(err => {
-  console.error('Failed to start server:', err);
-  process.exit(1);
-});
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  startServer().catch(err => {
+    console.error('Failed to start server:', err);
+    process.exit(1);
+  });
+}
