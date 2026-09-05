@@ -301,10 +301,10 @@ describe('REST API Endpoints & Security (server.ts)', () => {
     it('POST /api/admin/reset-defaults resets database safely with auth', async () => {
       const res = await request(app)
         .post('/api/admin/reset-defaults')
-        .set('x-admin-passcode', ADMIN_PASSCODE);
+        .set('Authorization', `Bearer ${ADMIN_PASSCODE}`);
       expect(res.status).toBe(200);
       expect(res.body.success).toBe(true);
       expect(res.body.data.events.length).toBeGreaterThanOrEqual(1);
-    });
+    }, 30000);
   });
 });

@@ -58,6 +58,17 @@ export const GalleryPage: React.FC<GalleryPageProps> = ({ onOpenDonate }) => {
   const dragDeltaX = useRef<number>(0);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  // Responsive mobile screen detector for 3D physics
+  const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' ? window.innerWidth < 640 : false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   // Keep index within bounds if filtered photos length changes
   useEffect(() => {
     if (activeIndex >= coverflowPhotos.length) {
@@ -111,12 +122,34 @@ export const GalleryPage: React.FC<GalleryPageProps> = ({ onOpenDonate }) => {
   const handleTouchEnd = () => {
     if (!isDragging) return;
     setIsDragging(false);
-    if (dragDeltaX.current > 40) {
+    if (dragDeltaX.current > 35) {
       prevSlide();
-    } else if (dragDeltaX.current < -40) {
+    } else if (dragDeltaX.current < -35) {
       nextSlide();
     }
     dragDeltaX.current = 0;
+  };
+
+  // Lightbox touch swiping
+  const lightboxDragStartX = useRef<number>(0);
+  const lightboxDragDeltaX = useRef<number>(0);
+
+  const handleLightboxTouchStart = (e: React.TouchEvent) => {
+    lightboxDragStartX.current = e.touches[0].clientX;
+    lightboxDragDeltaX.current = 0;
+  };
+
+  const handleLightboxTouchMove = (e: React.TouchEvent) => {
+    lightboxDragDeltaX.current = e.touches[0].clientX - lightboxDragStartX.current;
+  };
+
+  const handleLightboxTouchEnd = () => {
+    if (lightboxDragDeltaX.current > 45) {
+      handleLightboxNav(-1);
+    } else if (lightboxDragDeltaX.current < -45) {
+      handleLightboxNav(1);
+    }
+    lightboxDragDeltaX.current = 0;
   };
 
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -252,17 +285,14 @@ export const GalleryPage: React.FC<GalleryPageProps> = ({ onOpenDonate }) => {
               if (diff > total / 2) diff -= total;
               if (diff < -total / 2) diff += total;
 
-              // Render visible range
-              const isVisible = Math.abs(diff) <= 3;
+              // Render visible range (on mobile, only render center + 1 neighbor on each side to avoid GPU overhead & off-screen clipping)
+              const maxVisible = isMobile ? 1 : 3;
+              const isVisible = Math.abs(diff) <= maxVisible;
               if (!isVisible) return null;
 
               const isCenter = diff === 0;
 
               // ── Realistic 3D Coverflow Physics with High Distinction ──
-              // Center card: elevated in Z space, scale 1.06, crisp 0px blur, gold glow
-              // Side 1: stepped back (-280px), angled (38deg), blur 4px, dimmed (0.55 brightness)
-              // Side 2: far back (-520px), angled (52deg), blur 8px, dimmed (0.35 brightness)
-              // Side 3: background (-750px), angled (65deg), blur 12px, dimmed (0.18 brightness)
               let translateX = 0;
               let translateZ = 0;
               let rotateY = 0;
@@ -275,9 +305,9 @@ export const GalleryPage: React.FC<GalleryPageProps> = ({ onOpenDonate }) => {
 
               if (isCenter) {
                 translateX = 0;
-                translateZ = 80;
+                translateZ = isMobile ? 40 : 80;
                 rotateY = 0;
-                scale = 1.06;
+                scale = isMobile ? 1.02 : 1.06;
                 opacity = 1;
                 blurPx = 0;
                 brightness = 1.05;
@@ -288,12 +318,12 @@ export const GalleryPage: React.FC<GalleryPageProps> = ({ onOpenDonate }) => {
                 const absD = Math.abs(diff);
 
                 if (absD === 1) {
-                  translateX = sign * 74;
-                  translateZ = -280;
-                  rotateY = -sign * 38;
-                  scale = 0.82;
-                  opacity = 0.60;
-                  blurPx = 4;
+                  translateX = sign * (isMobile ? 52 : 74);
+                  translateZ = isMobile ? -140 : -280;
+                  rotateY = -sign * (isMobile ? 26 : 38);
+                  scale = isMobile ? 0.86 : 0.82;
+                  opacity = isMobile ? 0.55 : 0.60;
+                  blurPx = isMobile ? 2 : 4;
                   brightness = 0.55;
                   zIndex = 20;
                   boxShadow = '0 15px 35px rgba(0, 0, 0, 0.85)';
@@ -685,24 +715,27 @@ export const GalleryPage: React.FC<GalleryPageProps> = ({ onOpenDonate }) => {
           role="dialog"
           aria-modal="true"
           aria-label="Photo Lightbox"
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-md p-3 sm:p-6"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-md p-2 sm:p-6"
           onClick={() => setActivePhoto(null)}
+          onTouchStart={handleLightboxTouchStart}
+          onTouchMove={handleLightboxTouchMove}
+          onTouchEnd={handleLightboxTouchEnd}
         >
           <div
-            className="relative w-full max-w-5xl bg-[#100e0c] rounded-3xl overflow-hidden shadow-2xl border border-white/15 flex flex-col lg:flex-row max-h-[92vh]"
+            className="relative w-full max-w-5xl bg-[#100e0c] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-white/15 flex flex-col lg:flex-row max-h-[94dvh] overscroll-contain"
             onClick={e => e.stopPropagation()}
           >
             {/* Close Button */}
             <button
               onClick={() => setActivePhoto(null)}
               aria-label="Close photo preview"
-              className="absolute top-4 right-4 z-30 p-2.5 rounded-full bg-black/75 hover:bg-black text-white border border-white/20 transition-all active:scale-95"
+              className="absolute top-3 right-3 sm:top-4 sm:right-4 z-30 p-2 sm:p-2.5 rounded-full bg-black/80 hover:bg-black text-white border border-white/20 transition-all active:scale-95 touch-sm"
             >
               <X className="w-5 h-5" />
             </button>
 
             {/* ── LIGHTBOX IMAGE AREA: Uncropped with ambient blurred backdrop ── */}
-            <div className="relative w-full lg:w-2/3 bg-black flex items-center justify-center min-h-[300px] sm:min-h-[420px] lg:min-h-[520px] overflow-hidden p-3 sm:p-6">
+            <div className="relative w-full lg:w-2/3 bg-black flex items-center justify-center min-h-[220px] max-h-[46vh] sm:max-h-[76vh] sm:min-h-[420px] lg:min-h-[520px] overflow-hidden p-2 sm:p-6">
               {/* Blurred Ambient Glow Layer */}
               <img
                 src={activePhoto.url}
@@ -715,28 +748,28 @@ export const GalleryPage: React.FC<GalleryPageProps> = ({ onOpenDonate }) => {
               <img
                 src={activePhoto.url}
                 alt={activePhoto.caption}
-                className="relative z-10 max-w-full max-h-[62vh] sm:max-h-[76vh] object-contain rounded-lg drop-shadow-2xl select-none"
+                className="relative z-10 max-w-full max-h-[42vh] sm:max-h-[74vh] object-contain rounded-lg drop-shadow-2xl select-none"
               />
 
               {/* Prev / Next Buttons */}
               <button
                 onClick={() => handleLightboxNav(-1)}
                 aria-label="Previous photo in album"
-                className="touch-sm absolute left-3 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-black/65 hover:bg-[#D4AF37] hover:text-black text-white border border-white/20 transition-all shadow-xl active:scale-95"
+                className="touch-sm absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 z-20 p-2.5 sm:p-3 rounded-full bg-black/65 hover:bg-[#D4AF37] hover:text-black text-white border border-white/20 transition-all shadow-xl active:scale-95"
               >
-                <ChevronLeft className="w-6 h-6" />
+                <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
               </button>
               <button
                 onClick={() => handleLightboxNav(1)}
                 aria-label="Next photo in album"
-                className="touch-sm absolute right-3 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-black/65 hover:bg-[#D4AF37] hover:text-black text-white border border-white/20 transition-all shadow-xl active:scale-95"
+                className="touch-sm absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 z-20 p-2.5 sm:p-3 rounded-full bg-black/65 hover:bg-[#D4AF37] hover:text-black text-white border border-white/20 transition-all shadow-xl active:scale-95"
               >
-                <ChevronRight className="w-6 h-6" />
+                <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
               </button>
             </div>
 
             {/* Lightbox Sidebar: Pro Description & Metadata */}
-            <div className="w-full lg:w-1/3 p-6 sm:p-8 flex flex-col justify-between gap-6 border-t lg:border-t-0 lg:border-l border-white/10 bg-[#141210] overflow-y-auto">
+            <div className="w-full lg:w-1/3 p-4 sm:p-8 flex flex-col justify-between gap-4 sm:gap-6 border-t lg:border-t-0 lg:border-l border-white/10 bg-[#141210] overflow-y-auto max-h-[46vh] lg:max-h-none">
               <div className="space-y-4">
                 <div className="flex items-center gap-2 flex-wrap">
                   <span className="px-3 py-1 rounded-full bg-[#D4AF37]/20 text-[#D4AF37] text-xs font-bold uppercase tracking-wide border border-[#D4AF37]/35">

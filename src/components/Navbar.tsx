@@ -31,6 +31,29 @@ export const Navbar: React.FC<NavbarProps> = ({
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  // Lock background scrolling when mobile menu drawer is open
+  React.useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileMenuOpen]);
+
+  // Close mobile drawer on escape
+  React.useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && mobileMenuOpen) {
+        setMobileMenuOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleEsc);
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, [mobileMenuOpen]);
+
   // Streamlined, clear, friendly navigation items
   const navItems: { id: PageTab; label: string; icon: React.ReactNode }[] = [
     { id: 'home', label: 'Home', icon: <Church className="w-4 h-4" /> },
@@ -150,7 +173,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
       {/* Clean Mobile Drawer with Generous Touch Targets */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-[#FDFCFB] border-b border-[#E8E2D8] px-4 pt-3 pb-6 shadow-lg animate-in slide-in-from-top-2 duration-200">
+        <div className="lg:hidden bg-[#FDFCFB] border-b border-[#E8E2D8] px-4 pt-3 pb-8 shadow-xl max-h-[calc(100dvh-4rem)] overflow-y-auto animate-in slide-in-from-top-2 duration-200 overscroll-contain">
           <div className="grid grid-cols-1 gap-1">
             {navItems.map((item) => {
               const isActive = currentTab === item.id;

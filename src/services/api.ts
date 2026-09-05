@@ -28,6 +28,9 @@ export function setAdminToken(token: string | null): void {
   }
 }
 
+// Kept for backward compatibility with tests and callers
+export const setAdminPasscode = setAdminToken;
+
 export function getAdminToken(): string | null {
   if (inMemoryAdminToken) return inMemoryAdminToken;
   try {
@@ -246,7 +249,7 @@ export const api = {
     });
     const json = await res.json();
     if (!json.success) throw new Error(json.error || 'Failed to record donation');
-    return json;
+    return json.data || json;
   },
 
   // 7. Volunteers
@@ -258,7 +261,11 @@ export const api = {
     });
     const json = await res.json();
     if (!json.success) throw new Error(json.error || 'Failed to submit volunteer application');
-    return json;
+    return json.data || json;
+  },
+
+  async submitVolunteer(appData: any) {
+    return this.submitVolunteerApplication(appData);
   },
 
   // 8. Coaching
@@ -270,15 +277,19 @@ export const api = {
     });
     const json = await res.json();
     if (!json.success) throw new Error(json.error || 'Failed to submit coaching inquiry');
-    return json;
+    return json.data || json;
   },
 
-  // 9. Devotional Download Lead
-  async submitDevotionalDownload(fullName: string, email: string) {
+  // 9. Devotional Download Lead (Supports either (name, email) or ({ fullName, email }))
+  async submitDevotionalDownload(param1: string | { fullName: string; email: string }, param2?: string) {
+    const payload = typeof param1 === 'object'
+      ? { fullName: param1.fullName, email: param1.email }
+      : { fullName: param1, email: param2 || '' };
+
     const res = await fetch(`${BASE_URL}/api/devotional/download`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ fullName, email })
+      body: JSON.stringify(payload)
     });
     const json = await res.json();
     if (!json.success) throw new Error(json.error || 'Failed to process devotional request');
@@ -307,6 +318,10 @@ export const api = {
     const json = await res.json();
     if (!json.success) throw new Error(json.error || 'Failed to submit message');
     return json;
+  },
+
+  async submitContact(contactData: any) {
+    return this.submitContactMessage(contactData);
   },
 
   // 12. Admin Submissions Review

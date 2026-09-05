@@ -52,7 +52,7 @@ describe('Frontend API Client (src/services/api.ts)', () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'x-admin-passcode': 'SafeHaven2026!'
+          'Authorization': 'Bearer SafeHaven2026!'
         },
         body: JSON.stringify({ title: 'Camp' })
       });
@@ -69,7 +69,7 @@ describe('Frontend API Client (src/services/api.ts)', () => {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
-          'x-admin-passcode': 'SafeHaven2026!'
+          'Authorization': 'Bearer SafeHaven2026!'
         }
       });
     });
@@ -210,7 +210,7 @@ describe('Frontend API Client (src/services/api.ts)', () => {
       expect(global.fetch).toHaveBeenCalledWith('/api/admin/submissions', {
         headers: {
           'Content-Type': 'application/json',
-          'x-admin-passcode': 'SafeHaven2026!'
+          'Authorization': 'Bearer SafeHaven2026!'
         }
       });
     });
@@ -230,7 +230,7 @@ describe('Frontend API Client (src/services/api.ts)', () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'x-admin-passcode': 'SafeHaven2026!'
+          'Authorization': 'Bearer SafeHaven2026!'
         }
       });
     });

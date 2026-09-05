@@ -96,28 +96,29 @@ export const DonationModal: React.FC<DonationModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
-      <div className="relative w-full max-w-lg bg-[#FDFCFB] rounded-3xl shadow-xl border border-[#E8E2D8] overflow-hidden my-8">
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4">
+      <div className="relative w-full max-w-lg bg-[#FDFCFB] rounded-3xl shadow-2xl border border-[#E8E2D8] overflow-hidden my-4 sm:my-8 max-h-[94dvh] flex flex-col">
         {/* Modal Header */}
-        <div className="px-6 py-5 flex items-center justify-between border-b border-[#E8E2D8]">
+        <div className="px-5 sm:px-6 py-4 sm:py-5 flex items-center justify-between border-b border-[#E8E2D8] shrink-0 bg-[#FDFCFB]">
           <div>
-            <h3 className="font-serif text-lg font-bold text-[#002366]">
+            <h3 className="font-serif text-base sm:text-lg font-bold text-[#002366]">
               Support Safe Haven Ministries
             </h3>
-            <p className="text-xs text-[#1A1A1A]/60">
+            <p className="text-[11px] sm:text-xs text-[#1A1A1A]/60">
               501(c)(3) Tax-Deductible Donation • Columbia, MS
             </p>
           </div>
           <button
             onClick={resetForm}
-            className="p-1.5 rounded-full text-[#1A1A1A]/40 hover:text-[#1A1A1A] hover:bg-[#F5F2ED] transition-colors"
+            aria-label="Close donation dialog"
+            className="p-2 rounded-full text-[#1A1A1A]/40 hover:text-[#1A1A1A] hover:bg-[#F5F2ED] transition-colors touch-sm"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Modal Body */}
-        <div className="p-6 sm:p-8">
+        <div className="p-4 sm:p-8 overflow-y-auto flex-1">
           {completedReceipt ? (
             /* Success Receipt Screen */
             <div className="text-center py-2 space-y-4">
@@ -229,10 +230,10 @@ export const DonationModal: React.FC<DonationModalProps> = ({
 
               {/* Amount Presets */}
               <div>
-                <label className="block text-xs font-medium text-[#1A1A1A] mb-1">
+                <label className="block text-xs font-medium text-[#1A1A1A] mb-1.5">
                   Select Amount:
                 </label>
-                <div className="grid grid-cols-5 gap-1.5">
+                <div className="grid grid-cols-3 sm:grid-cols-5 gap-1.5 sm:gap-2">
                   {currentFund.suggestedAmounts.map((amt) => {
                     const isSelected = selectedAmount === amt && !customAmount;
                     return (
@@ -243,7 +244,7 @@ export const DonationModal: React.FC<DonationModalProps> = ({
                           setSelectedAmount(amt);
                           setCustomAmount('');
                         }}
-                        className={`py-2 rounded-xl text-xs font-medium transition-all ${
+                        className={`py-2 sm:py-2.5 rounded-xl text-xs font-semibold transition-all ${
                           isSelected
                             ? 'bg-[#002366] text-white shadow-2xs'
                             : 'bg-[#F5F2ED] border border-[#E8E2D8] text-[#002366] hover:bg-[#EFEBE4]'

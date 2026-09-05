@@ -49,22 +49,23 @@ export const PrayerModal: React.FC<PrayerModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
-      <div className="relative w-full max-w-lg bg-[#FDFCFB] rounded-3xl shadow-xl border border-[#E8E2D8] overflow-hidden my-8">
-        <div className="px-6 py-5 flex items-center justify-between border-b border-[#E8E2D8]">
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4">
+      <div className="relative w-full max-w-lg bg-[#FDFCFB] rounded-3xl shadow-2xl border border-[#E8E2D8] overflow-hidden my-4 sm:my-8 max-h-[94dvh] flex flex-col">
+        <div className="px-5 sm:px-6 py-4 sm:py-5 flex items-center justify-between border-b border-[#E8E2D8] shrink-0 bg-[#FDFCFB]">
           <div>
-            <h3 className="font-serif text-lg font-bold text-[#002366]">Request Prayer</h3>
-            <p className="text-xs text-[#1A1A1A]/60">Ella Ruth & Prayer Circle</p>
+            <h3 className="font-serif text-base sm:text-lg font-bold text-[#002366]">Request Prayer</h3>
+            <p className="text-[11px] sm:text-xs text-[#1A1A1A]/60">Ella Ruth & Prayer Circle</p>
           </div>
           <button
             onClick={handleReset}
-            className="p-1.5 rounded-full text-[#1A1A1A]/40 hover:text-[#1A1A1A] hover:bg-[#F5F2ED] transition-colors"
+            aria-label="Close prayer modal"
+            className="p-2 rounded-full text-[#1A1A1A]/40 hover:text-[#1A1A1A] hover:bg-[#F5F2ED] transition-colors touch-sm"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        <div className="p-6 sm:p-8">
+        <div className="p-4 sm:p-8 overflow-y-auto flex-1">
           {submitted ? (
             <div className="text-center py-4 space-y-4">
               <div className="w-12 h-12 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto">

@@ -107,12 +107,12 @@ export const HomePage: React.FC<HomePageProps> = ({
             </p>
 
             {/* Interactive Inspiration Switcher */}
-            <div className="bg-[#FDFCFB]/90 backdrop-blur-md rounded-2xl p-5 border border-[#E8E2D8] shadow-2xs space-y-3">
+            <div className="bg-[#FDFCFB]/90 backdrop-blur-md rounded-2xl p-4 sm:p-5 border border-[#E8E2D8] shadow-2xs space-y-3">
               {/* Tabs */}
-              <div className="flex items-center gap-1.5 border-b border-[#E8E2D8] pb-2.5">
+              <div className="flex items-center gap-1.5 border-b border-[#E8E2D8] pb-2.5 overflow-x-auto scrollbar-none flex-nowrap">
                 <button
                   onClick={() => setActiveTab('welcome')}
-                  className={`px-3 py-1 rounded-full text-xs font-semibold transition-all flex items-center gap-1.5 ${
+                  className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all flex items-center gap-1.5 shrink-0 whitespace-nowrap ${
                     activeTab === 'welcome'
                       ? 'bg-[#002366] text-white shadow-2xs'
                       : 'text-[#1A1A1A]/70 hover:text-[#002366] hover:bg-[#F5F2ED]'
@@ -122,7 +122,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                 </button>
                 <button
                   onClick={() => setActiveTab('vitality')}
-                  className={`px-3 py-1 rounded-full text-xs font-semibold transition-all flex items-center gap-1.5 ${
+                  className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all flex items-center gap-1.5 shrink-0 whitespace-nowrap ${
                     activeTab === 'vitality'
                       ? 'bg-[#002366] text-white shadow-2xs'
                       : 'text-[#1A1A1A]/70 hover:text-[#002366] hover:bg-[#F5F2ED]'
@@ -132,7 +132,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                 </button>
                 <button
                   onClick={() => setActiveTab('scripture')}
-                  className={`px-3 py-1 rounded-full text-xs font-semibold transition-all flex items-center gap-1.5 ${
+                  className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all flex items-center gap-1.5 shrink-0 whitespace-nowrap ${
                     activeTab === 'scripture'
                       ? 'bg-[#002366] text-white shadow-2xs'
                       : 'text-[#1A1A1A]/70 hover:text-[#002366] hover:bg-[#F5F2ED]'
@@ -217,13 +217,13 @@ export const HomePage: React.FC<HomePageProps> = ({
             </div>
           </div>
 
-          {/* Right Column: Portrait — hidden on mobile to keep hero clean */}
-          <div className="hidden sm:flex lg:col-span-5 relative justify-center">
+          {/* Right Column: Portrait Display (Optimized for both mobile and desktop) */}
+          <div className="flex lg:col-span-5 relative justify-center mt-2 lg:mt-0">
             {/* Ambient Multi-Ring Glow */}
-            <div className="absolute inset-0 max-w-sm mx-auto rounded-[3rem] bg-gradient-to-tr from-[#D4AF37]/30 via-[#FDFCFB]/50 to-[#002366]/20 blur-2xl transform -rotate-2" />
+            <div className="absolute inset-0 max-w-sm mx-auto rounded-[3rem] bg-gradient-to-tr from-[#D4AF37]/30 via-[#FDFCFB]/50 to-[#002366]/20 blur-2xl transform -rotate-2 pointer-events-none" />
 
             {/* Luxury Framed Card */}
-            <div className="relative w-full max-w-sm rounded-[2.75rem] overflow-hidden bg-gradient-to-b from-[#FFFFFF] via-[#FAF7F0] to-[#F1ECE1] shadow-2xl border-2 border-[#D4AF37]/40 p-4 sm:p-5 flex flex-col items-center text-center">
+            <div className="relative w-full max-w-[310px] sm:max-w-sm rounded-[2.25rem] sm:rounded-[2.75rem] overflow-hidden bg-gradient-to-b from-[#FFFFFF] via-[#FAF7F0] to-[#F1ECE1] shadow-xl sm:shadow-2xl border-2 border-[#D4AF37]/40 p-4 sm:p-5 flex flex-col items-center text-center">
               
               {/* Floating Top Status Badge */}
               <div className="w-full flex items-center justify-between pb-3 px-2">
@@ -238,7 +238,7 @@ export const HomePage: React.FC<HomePageProps> = ({
               </div>
 
               {/* High-Resolution Portrait Display with Soft Circular Framing */}
-              <div className="relative w-full aspect-square max-w-[320px] rounded-3xl overflow-hidden bg-gradient-to-b from-[#F5F2ED] to-white border border-[#E8E2D8] flex items-center justify-center shadow-inner group">
+              <div className="relative w-full aspect-square max-w-[260px] sm:max-w-[320px] rounded-2xl sm:rounded-3xl overflow-hidden bg-gradient-to-b from-[#F5F2ED] to-white border border-[#E8E2D8] flex items-center justify-center shadow-inner group">
                 <img
                   src="/ellaruth.png"
                   alt="Ella Ruth - Author, Vitality Coach & Speaker"
@@ -246,17 +246,17 @@ export const HomePage: React.FC<HomePageProps> = ({
                 />
 
                 {/* Subtle Vignette Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#002366]/40 via-transparent to-transparent opacity-60" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#002366]/40 via-transparent to-transparent opacity-60 pointer-events-none" />
 
                 {/* Over-image Tag */}
-                <div className="absolute bottom-3 left-3 right-3 bg-[#FDFCFB]/95 backdrop-blur-md rounded-xl py-1.5 px-3 border border-[#D4AF37]/40 shadow-xs flex items-center justify-between">
+                <div className="absolute bottom-2.5 sm:bottom-3 left-2.5 sm:left-3 right-2.5 sm:right-3 bg-[#FDFCFB]/95 backdrop-blur-md rounded-xl py-1 sm:py-1.5 px-3 border border-[#D4AF37]/40 shadow-xs flex items-center justify-between pointer-events-none">
                   <span className="font-serif font-bold text-xs text-[#002366]">Ella Ruth</span>
                   <span className="text-[10px] font-semibold text-[#D4AF37] uppercase tracking-wider">Living Testimony</span>
                 </div>
               </div>
 
               {/* Bottom Quote & Personal Touch */}
-              <div className="pt-4 space-y-2 w-full text-left px-1">
+              <div className="pt-3 sm:pt-4 space-y-2 w-full text-left px-1">
                 <p className="text-xs text-[#1A1A1A]/80 italic leading-snug font-serif">
                   “Age is not a slow retreat; for a child of God, it is an accumulation of wisdom, stamina, and sacred purpose.”
                 </p>
@@ -410,30 +410,30 @@ export const HomePage: React.FC<HomePageProps> = ({
       )}
 
       {/* 4. IMPACT AT A GLANCE (Airy, Minimal Numbers) */}
-      <section className="py-6">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-          <div className="p-6 bg-[#FDFCFB] rounded-2xl border border-[#E8E2D8] shadow-xs space-y-1">
-            <div className="font-serif text-3xl sm:text-4xl font-bold text-[#002366]">23+</div>
-            <div className="text-xs font-semibold uppercase tracking-wider text-[#1A1A1A]/60">Years of Service</div>
-            <p className="text-xs text-[#1A1A1A]/45 pt-1">Serving Mississippi since 2001</p>
+      <section className="py-4 sm:py-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 text-center">
+          <div className="p-4 sm:p-6 bg-[#FDFCFB] rounded-2xl border border-[#E8E2D8] shadow-xs space-y-1">
+            <div className="font-serif text-2xl sm:text-4xl font-bold text-[#002366]">23+</div>
+            <div className="text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-[#1A1A1A]/60">Years of Service</div>
+            <p className="text-[10px] sm:text-xs text-[#1A1A1A]/45 pt-1">Serving Mississippi since 2001</p>
           </div>
 
-          <div className="p-6 bg-[#FDFCFB] rounded-2xl border border-[#E8E2D8] shadow-xs space-y-1">
-            <div className="font-serif text-3xl sm:text-4xl font-bold text-[#002366]">12,000+</div>
-            <div className="text-xs font-semibold uppercase tracking-wider text-[#1A1A1A]/60">Hot Meals Served</div>
-            <p className="text-xs text-[#1A1A1A]/45 pt-1">Community banquets & street feeds</p>
+          <div className="p-4 sm:p-6 bg-[#FDFCFB] rounded-2xl border border-[#E8E2D8] shadow-xs space-y-1">
+            <div className="font-serif text-2xl sm:text-4xl font-bold text-[#002366]">12,000+</div>
+            <div className="text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-[#1A1A1A]/60">Hot Meals Served</div>
+            <p className="text-[10px] sm:text-xs text-[#1A1A1A]/45 pt-1">Community banquets & street feeds</p>
           </div>
 
-          <div className="p-6 bg-[#FDFCFB] rounded-2xl border border-[#E8E2D8] shadow-xs space-y-1">
-            <div className="font-serif text-3xl sm:text-4xl font-bold text-[#002366]">450+</div>
-            <div className="text-xs font-semibold uppercase tracking-wider text-[#1A1A1A]/60">Returning Citizens</div>
-            <p className="text-xs text-[#1A1A1A]/45 pt-1">Mentorship & dignity care kits</p>
+          <div className="p-4 sm:p-6 bg-[#FDFCFB] rounded-2xl border border-[#E8E2D8] shadow-xs space-y-1">
+            <div className="font-serif text-2xl sm:text-4xl font-bold text-[#002366]">450+</div>
+            <div className="text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-[#1A1A1A]/60">Returning Citizens</div>
+            <p className="text-[10px] sm:text-xs text-[#1A1A1A]/45 pt-1">Mentorship & dignity care kits</p>
           </div>
 
-          <div className="p-6 bg-[#FDFCFB] rounded-2xl border border-[#E8E2D8] shadow-xs space-y-1">
-            <div className="font-serif text-3xl sm:text-4xl font-bold text-[#002366]">Mombasa</div>
-            <div className="text-xs font-semibold uppercase tracking-wider text-[#1A1A1A]/60">Children Supported</div>
-            <p className="text-xs text-[#1A1A1A]/45 pt-1">School feeding in Kenya</p>
+          <div className="p-4 sm:p-6 bg-[#FDFCFB] rounded-2xl border border-[#E8E2D8] shadow-xs space-y-1">
+            <div className="font-serif text-2xl sm:text-4xl font-bold text-[#002366]">Mombasa</div>
+            <div className="text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-[#1A1A1A]/60">Children Supported</div>
+            <p className="text-[10px] sm:text-xs text-[#1A1A1A]/45 pt-1">School feeding in Kenya</p>
           </div>
         </div>
       </section>
@@ -499,26 +499,26 @@ export const HomePage: React.FC<HomePageProps> = ({
       </section>
 
       {/* 6. CLEAN, WARM CALL TO ACTION */}
-      <section className="bg-gradient-to-r from-[#002366] via-[#001f5c] to-[#4B0082] text-white rounded-3xl p-8 sm:p-12 shadow-sm text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-6 border border-[#D4AF37]/30">
+      <section className="bg-gradient-to-r from-[#002366] via-[#001f5c] to-[#4B0082] text-white rounded-3xl p-6 sm:p-12 shadow-sm text-center sm:text-left flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-6 border border-[#D4AF37]/30">
         <div className="space-y-2 max-w-xl">
           <h3 className="font-serif text-2xl sm:text-3xl font-bold">
             Need prayer or looking to connect with Ella Ruth?
           </h3>
-          <p className="text-sm text-white/80 leading-relaxed">
+          <p className="text-xs sm:text-sm text-white/80 leading-relaxed">
             Our hearts are open. Reach out to request prayer, inquire about vitality coaching, or invite Ella Ruth to speak at your gathering.
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-3 shrink-0">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0">
           <button
             onClick={onOpenPrayer}
-            className="px-6 py-3 rounded-full bg-white text-[#002366] hover:bg-[#F5F2ED] font-semibold text-sm transition-colors shadow-xs"
+            className="px-6 py-3 rounded-full bg-white text-[#002366] hover:bg-[#F5F2ED] font-semibold text-sm transition-colors shadow-xs text-center"
           >
             Submit Prayer Request
           </button>
           <button
             onClick={() => onNavigate('contact')}
-            className="px-6 py-3 rounded-full bg-[#D4AF37] hover:bg-[#e0bb45] text-[#002366] font-semibold text-sm transition-colors shadow-xs"
+            className="px-6 py-3 rounded-full bg-[#D4AF37] hover:bg-[#e0bb45] text-[#002366] font-semibold text-sm transition-colors shadow-xs text-center"
           >
             Get In Touch
           </button>

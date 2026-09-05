@@ -324,15 +324,15 @@ export const CoachingPage: React.FC<CoachingPageProps> = ({
               <label className="block font-medium text-[#1A1A1A] mb-2">
                 1. Afternoon Energy Level (1 = Low, 5 = High):
               </label>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center justify-start sm:justify-start gap-2.5 sm:gap-3 flex-wrap">
                 {[1, 2, 3, 4, 5].map((num) => (
                   <button
                     key={num}
                     type="button"
                     onClick={() => setQuizEnergy(num)}
-                    className={`w-9 h-9 rounded-full font-semibold transition-all ${
+                    className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full font-semibold transition-all touch-sm ${
                       quizEnergy === num
-                        ? 'bg-[#002366] text-white'
+                        ? 'bg-[#002366] text-white shadow-xs'
                         : 'bg-[#FDFCFB] border border-[#E8E2D8] text-[#1A1A1A] hover:bg-[#EFEBE4]'
                     }`}
                   >
@@ -346,7 +346,7 @@ export const CoachingPage: React.FC<CoachingPageProps> = ({
               <label className="block font-medium text-[#1A1A1A] mb-2">
                 2. Daily Water Intake:
               </label>
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-3 gap-1.5 sm:gap-2">
                 {[
                   { id: 'low', label: '1–2 Glasses' },
                   { id: 'moderate', label: '3–5 Glasses' },
@@ -356,9 +356,9 @@ export const CoachingPage: React.FC<CoachingPageProps> = ({
                     key={item.id}
                     type="button"
                     onClick={() => setQuizHydration(item.id)}
-                    className={`p-3 rounded-xl border text-center transition-colors ${
+                    className={`p-2.5 sm:p-3 rounded-xl border text-center transition-colors text-[11px] sm:text-xs leading-tight ${
                       quizHydration === item.id
-                        ? 'border-[#002366] bg-[#FDFCFB] font-semibold text-[#002366]'
+                        ? 'border-[#002366] bg-[#FDFCFB] font-semibold text-[#002366] shadow-2xs'
                         : 'border-[#E8E2D8] bg-[#FDFCFB] text-[#1A1A1A]/70 hover:bg-[#EFEBE4]'
                     }`}
                   >
@@ -372,7 +372,7 @@ export const CoachingPage: React.FC<CoachingPageProps> = ({
               <label className="block font-medium text-[#1A1A1A] mb-2">
                 3. Daily Movement / Walking:
               </label>
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-3 gap-1.5 sm:gap-2">
                 {[
                   { id: 'light', label: 'Under 15 Mins' },
                   { id: 'moderate', label: '20–30 Mins' },
@@ -382,9 +382,9 @@ export const CoachingPage: React.FC<CoachingPageProps> = ({
                     key={item.id}
                     type="button"
                     onClick={() => setQuizMovement(item.id)}
-                    className={`p-3 rounded-xl border text-center transition-colors ${
+                    className={`p-2.5 sm:p-3 rounded-xl border text-center transition-colors text-[11px] sm:text-xs leading-tight ${
                       quizMovement === item.id
-                        ? 'border-[#002366] bg-[#FDFCFB] font-semibold text-[#002366]'
+                        ? 'border-[#002366] bg-[#FDFCFB] font-semibold text-[#002366] shadow-2xs'
                         : 'border-[#E8E2D8] bg-[#FDFCFB] text-[#1A1A1A]/70 hover:bg-[#EFEBE4]'
                     }`}
                   >

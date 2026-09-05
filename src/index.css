@@ -23,18 +23,22 @@ html {
   /* Prevent text size boost on orientation change (iOS) */
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+  overflow-x: hidden;
+  width: 100%;
 }
 
 body {
   font-family: var(--font-sans);
   background-color: #FDFCFB;
   color: #1A1A1A;
-  /* Safe area support for notched iPhones */
-  padding-left: env(safe-area-inset-left);
-  padding-right: env(safe-area-inset-right);
+  /* Safe area support for notched iPhones & iPads */
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
   /* Smooth momentum scrolling on iOS */
   -webkit-overflow-scrolling: touch;
   overflow-x: hidden;
+  width: 100%;
+  min-height: 100dvh;
 }
 
 h1, h2, h3, .font-serif-title {
@@ -47,39 +51,56 @@ h1, h2, h3, .font-serif-title {
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* ─── Mobile Form Optimization (Prevent iOS Safari Auto-Zoom) ─── */
+@media (max-width: 767px) {
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="number"],
+  input[type="password"],
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}
+
 /* ─── Touch & Interaction Utilities ───────────────────────────── */
-/* Hide scrollbars while keeping scroll behavior */
+/* Hide scrollbars while keeping smooth scroll behavior */
 .scrollbar-none {
   scrollbar-width: none;        /* Firefox */
   -ms-overflow-style: none;     /* IE/Edge */
+  -webkit-overflow-scrolling: touch;
 }
 .scrollbar-none::-webkit-scrollbar {
   display: none;                /* Chrome/Safari/Opera */
 }
 
-/* Minimum touch target size (WCAG 2.5.5) */
-button, a, [role="button"] {
+/* Standard mobile touch targets (for primary buttons & action pills) */
+.touch-target {
   min-height: 44px;
   min-width: 44px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
 }
 
-/* Override for purely decorative/tiny inline buttons */
+/* Override for small inline icons & badges */
 .touch-sm {
-  min-height: unset;
-  min-width: unset;
+  min-height: unset !important;
+  min-width: unset !important;
 }
 
-/* Prevent callout on long-press (iOS) */
+/* Prevent image callout on long-press (iOS) */
 img, video {
   -webkit-user-select: none;
   user-select: none;
-  pointer-events: none;
+  max-width: 100%;
 }
 img.interactive, video.interactive, button img {
   pointer-events: auto;
+}
+
+/* Focus styles for accessibility */
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: 2px solid #D4AF37;
+  outline-offset: 2px;
 }
 
 /* ─── Custom scrollbar for desktop only ───────────────────────── */
@@ -102,16 +123,17 @@ img.interactive, video.interactive, button img {
 
 /* ─── HKM Coverflow 3D Gallery Carousel ───────────────────────── */
 .hkm-coverflow {
-  padding: 16px 0 36px;
-  perspective: 1400px;
+  padding: 12px 0 28px;
+  perspective: 1200px;
   perspective-origin: 50% 50%;
   transform-style: preserve-3d;
   overflow: hidden;
+  width: 100%;
 }
 .hkm-coverflow__stage {
   position: relative;
   width: 100%;
-  height: min(520px, 72vh);
+  height: min(520px, 70vh);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -120,19 +142,36 @@ img.interactive, video.interactive, button img {
 .hkm-coverflow__card {
   position: absolute;
   width: min(420px, 86vw);
-  height: min(490px, 70vh);
+  height: min(490px, 66vh);
   border-radius: 24px;
   overflow: hidden;
   will-change: transform, opacity, filter, box-shadow;
-  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-              opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-              filter 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 0.5s ease;
+  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.4s ease;
   user-select: none;
   touch-action: pan-y;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
+
+/* Mobile adjustments for coverflow */
+@media (max-width: 640px) {
+  .hkm-coverflow {
+    padding: 8px 0 20px;
+    perspective: 800px;
+  }
+  .hkm-coverflow__stage {
+    height: min(390px, 58vh);
+  }
+  .hkm-coverflow__card {
+    width: min(310px, 84vw);
+    height: min(370px, 55vh);
+    border-radius: 18px;
+  }
+}
+
 .hkm-coverflow-bullet {
   width: 8px;
   height: 8px;
@@ -146,6 +185,7 @@ img.interactive, video.interactive, button img {
   width: 24px;
   transform: scale(1.15);
 }
+
 @media (prefers-reduced-motion: reduce) {
   .hkm-coverflow__card {
     transition: none !important;

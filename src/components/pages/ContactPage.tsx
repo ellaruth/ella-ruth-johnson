@@ -72,10 +72,10 @@ export const ContactPage: React.FC<ContactPageProps> = ({
 
       {/* Main Grid */}
       <section>
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
           {/* Info Side */}
           <div className="lg:col-span-5 space-y-6">
-            <div className="bg-[#FDFCFB] rounded-3xl p-8 border border-[#E8E2D8] shadow-xs space-y-4">
+            <div className="bg-[#FDFCFB] rounded-3xl p-5 sm:p-8 border border-[#E8E2D8] shadow-xs space-y-4">
               <div className="text-xs font-semibold uppercase tracking-widest text-[#D4AF37]">
                 Connect with Ella Ruth
               </div>
@@ -134,7 +134,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({
 
           {/* Form Side */}
           <div className="lg:col-span-7">
-            <div className="bg-[#FDFCFB] rounded-3xl p-8 sm:p-10 border border-[#E8E2D8] shadow-xs space-y-6">
+            <div className="bg-[#FDFCFB] rounded-3xl p-5 sm:p-10 border border-[#E8E2D8] shadow-xs space-y-6">
               <div className="space-y-1">
                 <div className="text-xs font-semibold uppercase tracking-widest text-[#D4AF37]">
                   Send a Message

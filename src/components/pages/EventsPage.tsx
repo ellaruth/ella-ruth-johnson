@@ -108,13 +108,13 @@ export const EventsPage: React.FC<EventsPageProps> = ({
       </section>
 
       {/* Filter Tabs */}
-      <section className="space-y-8">
-        <div className="flex flex-wrap justify-center gap-2">
+      <section className="space-y-6 sm:space-y-8">
+        <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-none flex-nowrap sm:flex-wrap sm:justify-center px-1 pb-1">
           {['all', 'Conference', 'Community Dinner', 'Youth & Family', 'Outreach'].map(cat => (
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              className={`px-4 py-2 rounded-full text-xs font-medium transition-all ${
+              className={`px-3.5 py-2 rounded-full text-xs font-medium transition-all shrink-0 whitespace-nowrap ${
                 selectedCategory === cat
                   ? 'bg-[#002366] text-white shadow-xs border border-[#D4AF37]/30'
                   : 'bg-[#F5F2ED] text-[#002366] hover:bg-[#EFEBE4] border border-[#E8E2D8]'
@@ -237,19 +237,19 @@ export const EventsPage: React.FC<EventsPageProps> = ({
 
       {/* RSVP Modal */}
       {rsvpEvent && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="relative w-full max-w-md bg-[#FDFCFB] rounded-3xl shadow-xl border border-[#E8E2D8] overflow-hidden my-8">
-            <div className="p-6 border-b border-[#E8E2D8] flex items-center justify-between">
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4">
+          <div className="relative w-full max-w-md bg-[#FDFCFB] rounded-3xl shadow-2xl border border-[#E8E2D8] overflow-hidden my-4 sm:my-8 max-h-[94dvh] flex flex-col">
+            <div className="p-5 sm:p-6 border-b border-[#E8E2D8] flex items-center justify-between shrink-0 bg-[#FDFCFB]">
               <div>
-                <h3 className="font-serif text-lg font-bold text-[#002366]">Event RSVP</h3>
-                <p className="text-xs text-[#1A1A1A]/60 truncate max-w-[280px]">{rsvpEvent.title}</p>
+                <h3 className="font-serif text-base sm:text-lg font-bold text-[#002366]">Event RSVP</h3>
+                <p className="text-[11px] sm:text-xs text-[#1A1A1A]/60 truncate max-w-[220px] sm:max-w-[280px]">{rsvpEvent.title}</p>
               </div>
-              <button onClick={closeRsvpModal} className="p-1 rounded-full text-[#1A1A1A]/40 hover:text-[#1A1A1A]">
+              <button onClick={closeRsvpModal} aria-label="Close RSVP dialog" className="p-2 rounded-full text-[#1A1A1A]/40 hover:text-[#1A1A1A] touch-sm">
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <div className="p-6">
+            <div className="p-5 sm:p-6 overflow-y-auto flex-1">
               {rsvpSuccess ? (
                 <div className="text-center py-6 space-y-3">
                   <div className="w-12 h-12 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto">

@@ -34,9 +34,9 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onOpenDonate }
       </section>
 
       {/* Main Story & Profile */}
-      <section className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
+      <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
         {/* Left: In Her Own Words */}
-        <div className="lg:col-span-7 bg-[#FDFCFB] rounded-3xl p-8 sm:p-10 border border-[#E8E2D8] shadow-xs space-y-6">
+        <div className="lg:col-span-7 bg-[#FDFCFB] rounded-3xl p-5 sm:p-10 border border-[#E8E2D8] shadow-xs space-y-6">
           <div className="space-y-2">
             <div className="text-xs font-semibold uppercase tracking-wider text-[#D4AF37]">
               In Her Own Words

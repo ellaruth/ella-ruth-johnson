@@ -226,38 +226,38 @@ export const Footer: React.FC<FooterProps> = ({
               </div>
             ) : (
               <form onSubmit={handleSubscribe} className="space-y-2">
-                <div className="flex gap-1.5">
+                <div className="flex gap-1.5 flex-wrap">
                   {(['both', 'ministry', 'wellness'] as const).map(option => (
                     <button
                       key={option}
                       type="button"
                       onClick={() => setNewsletterChoice(option)}
-                      className={`text-[11px] px-2.5 py-1 rounded-full border transition-colors ${
+                      className={`text-[11px] px-3 py-1 rounded-full border transition-colors touch-sm ${
                         newsletterChoice === option
-                          ? 'bg-[#002366] text-white border-[#002366]'
+                          ? 'bg-[#002366] text-white border-[#002366] font-semibold'
                           : 'bg-[#FDFCFB] text-[#1A1A1A]/75 border-[#E8E2D8] hover:border-[#D4AF37]'
                       }`}
                     >
-                      {option === 'both' ? 'All' : option === 'ministry' ? 'Ministry' : 'Wellness'}
+                      {option === 'both' ? 'All Updates' : option === 'ministry' ? 'Ministry' : 'Wellness'}
                     </button>
                   ))}
                 </div>
 
-                <div className="flex gap-2">
+                <div className="flex flex-col sm:flex-row gap-2">
                   <input
                     type="email"
                     required
                     value={newsletterEmail}
                     onChange={(e) => setNewsletterEmail(e.target.value)}
                     placeholder="Enter email address"
-                    className="w-full px-3.5 py-2 rounded-xl bg-[#FDFCFB] border border-[#E8E2D8] text-xs text-[#1A1A1A] placeholder-[#1A1A1A]/40 focus:outline-hidden focus:border-[#002366]"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#FDFCFB] border border-[#E8E2D8] text-xs text-[#1A1A1A] placeholder-[#1A1A1A]/40 focus:outline-hidden focus:border-[#002366]"
                   />
                   <button
                     id="newsletter-subscribe-button"
                     type="submit"
-                    className="px-4 py-2 rounded-xl bg-[#002366] hover:bg-[#001a4e] text-white text-xs font-medium shrink-0 transition-colors border border-[#D4AF37]/30"
+                    className="px-5 py-2.5 rounded-xl bg-[#002366] hover:bg-[#001a4e] text-white text-xs font-semibold shrink-0 transition-colors border border-[#D4AF37]/30 text-center"
                   >
-                    Join
+                    Join Newsletter
                   </button>
                 </div>
               </form>

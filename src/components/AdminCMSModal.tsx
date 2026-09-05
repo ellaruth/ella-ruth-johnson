@@ -393,40 +393,41 @@ export const AdminCMSModal: React.FC<AdminCMSModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4">
-      <div className="relative w-full max-w-4xl bg-[#FDFCFB] rounded-3xl shadow-2xl border border-[#E8E2D8] overflow-hidden my-4 sm:my-8 flex flex-col max-h-[90vh]">
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-xs flex items-center justify-center p-2 sm:p-4">
+      <div className="relative w-full max-w-4xl bg-[#FDFCFB] rounded-2xl sm:rounded-3xl shadow-2xl border border-[#E8E2D8] overflow-hidden my-2 sm:my-6 flex flex-col max-h-[96dvh]">
         
         {/* Header */}
-        <div className="px-6 py-4 flex items-center justify-between border-b border-[#E8E2D8] bg-[#F5F2ED] shrink-0">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-full bg-[#002366] text-[#D4AF37] flex items-center justify-center border border-[#D4AF37]/30">
+        <div className="px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between border-b border-[#E8E2D8] bg-[#F5F2ED] shrink-0">
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#002366] text-[#D4AF37] flex items-center justify-center border border-[#D4AF37]/30 shrink-0">
               <Lock className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="font-serif text-base sm:text-lg font-bold text-[#002366] flex items-center gap-2">
-                <span>Safe Haven Staff Operations Portal</span>
-                <span className="hidden sm:inline-flex items-center gap-1 text-[10px] font-normal px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300">
+              <h3 className="font-serif text-sm sm:text-lg font-bold text-[#002366] flex items-center gap-2 leading-snug">
+                <span>Safe Haven Staff Portal</span>
+                <span className="hidden md:inline-flex items-center gap-1 text-[10px] font-normal px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300">
                   <Database className="w-3 h-3 text-emerald-700" />
-                  <span>SQLite Source of Truth Active</span>
+                  <span>SQLite Active</span>
                 </span>
               </h3>
-              <p className="text-[11px] text-[#1A1A1A]/60 font-mono">
-                data/database.sqlite • Live Relational Backend
+              <p className="text-[10px] sm:text-[11px] text-[#1A1A1A]/60 font-mono truncate max-w-[200px] sm:max-w-none">
+                data/database.sqlite • Relational DB
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2">
             <button
               onClick={handleLogout}
-              className="inline-flex items-center gap-1.5 text-xs text-red-600 hover:text-red-700 bg-red-50 hover:bg-red-100 px-3 py-1.5 rounded-full border border-red-200 transition-colors"
+              className="inline-flex items-center gap-1 text-[11px] sm:text-xs text-red-600 hover:text-red-700 bg-red-50 hover:bg-red-100 px-2.5 sm:px-3 py-1.5 rounded-full border border-red-200 transition-colors touch-sm"
               title="Lock portal session"
             >
               <LogOut className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">Lock Session</span>
+              <span className="hidden xs:inline sm:inline">Lock</span>
             </button>
             <button
               onClick={onClose}
-              className="p-1.5 rounded-full text-[#1A1A1A]/40 hover:text-[#1A1A1A] hover:bg-[#E8E2D8] transition-colors"
+              className="p-1.5 rounded-full text-[#1A1A1A]/40 hover:text-[#1A1A1A] hover:bg-[#E8E2D8] transition-colors touch-sm"
+              aria-label="Close Staff Portal"
             >
               <X className="w-5 h-5" />
             </button>
@@ -434,7 +435,7 @@ export const AdminCMSModal: React.FC<AdminCMSModalProps> = ({
         </div>
 
         {/* Sub-nav tabs */}
-        <div className="bg-[#F5F2ED] border-b border-[#E8E2D8] px-4 sm:px-6 py-2.5 flex items-center justify-between shrink-0 overflow-x-auto">
+        <div className="bg-[#F5F2ED] border-b border-[#E8E2D8] px-3 sm:px-6 py-2 flex items-center justify-between shrink-0 overflow-x-auto scrollbar-none flex-nowrap gap-2">
           <div className="flex items-center gap-1.5 sm:gap-2">
             <button
               onClick={() => setActiveTab('events')}
