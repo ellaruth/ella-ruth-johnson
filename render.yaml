@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: ella-ruth-johnson
+    env: node
+    plan: free
+    region: oregon
+    buildCommand: npm install && npm run build
+    startCommand: node --import tsx/esm server.ts
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: ADMIN_PASSCODE
+        generateValue: true
+    disk:
+      name: ella-ruth-data
+      mountPath: /opt/render/project/src/data
+      sizeGB: 1

@@ -17,8 +17,16 @@ export default defineConfig(() => {
       hmr: process.env.DISABLE_HMR !== 'true',
       // Disable file watching when DISABLE_HMR is true to save CPU during agent edits.
       watch: process.env.DISABLE_HMR === 'true' ? null : {
-        // Exclude gallery images from file watching to prevent EBUSY errors on large binary files
-        ignored: ['**/public/gallery/**'],
+        // Exclude all binary assets from file watching to prevent EBUSY errors on Windows
+        ignored: [
+          '**/public/gallery/**',
+          '**/public/*.png',
+          '**/public/*.jpg',
+          '**/public/*.jpeg',
+          '**/public/*.webp',
+          '**/public/*.ico',
+          '**/public/*.svg',
+        ],
       },
     },
     test: {
