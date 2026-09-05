@@ -57,23 +57,13 @@ export const Navbar: React.FC<NavbarProps> = ({
           <button 
             id="brand-logo-button"
             onClick={() => handleNavClick('home')} 
-            className="flex items-center gap-3 text-left group focus:outline-hidden"
+            className="flex items-center text-left group focus:outline-hidden py-1 shrink-0"
           >
-            <div className="relative w-10 h-10 sm:w-11 sm:h-11 rounded-full p-0.5 bg-gradient-to-br from-[#D4AF37] via-[#F3E5AB] to-[#002366] shadow-sm shrink-0 group-hover:scale-105 transition-transform">
-              <img
-                src="/ellaruth.png"
-                alt="Ella Ruth Logo"
-                className="w-full h-full object-cover object-top rounded-full bg-white"
-              />
-            </div>
-            <div>
-              <div className="font-serif font-bold text-base sm:text-xl tracking-tight text-[#002366] leading-tight">
-                Ella Ruth
-              </div>
-              <p className="hidden xs:block text-[10px] sm:text-xs text-[#1A1A1A]/70 font-medium tracking-wide truncate max-w-[140px] sm:max-w-none">
-                Author • Vitality Coach • Speaker
-              </p>
-            </div>
+            <img
+              src="/ellaruth-logo.png"
+              alt="Ella Ruth Johnson — Creative. Purpose. Impact."
+              className="h-12 sm:h-14 lg:h-16 w-auto object-contain group-hover:scale-[1.02] transition-transform"
+            />
           </button>
 
           {/* Desktop Navigation - Clean, Airy, Minimal */}

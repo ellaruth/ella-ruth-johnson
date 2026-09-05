@@ -50,19 +50,17 @@ export const Footer: React.FC<FooterProps> = ({
       {/* Inspirational Quote Banner */}
       <div className="border-b border-[#E8E2D8] py-12 px-4 sm:px-6 lg:px-8 bg-[#FDFCFB]">
         <div className="max-w-4xl mx-auto text-center space-y-4">
-          <div className="flex flex-col items-center gap-2">
-            <div className="relative w-14 h-14 rounded-full p-0.5 bg-gradient-to-br from-[#D4AF37] via-[#F3E5AB] to-[#002366] shadow-sm">
+            <div className="flex flex-col items-center gap-3">
               <img
-                src="/ellaruth.png"
-                alt="Ella Ruth"
-                className="w-full h-full object-cover object-top rounded-full bg-white"
+                src="/ellaruth-logo.png"
+                alt="Ella Ruth Johnson — Creative. Purpose. Impact."
+                className="h-24 sm:h-28 w-auto object-contain"
               />
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#F5F2ED] text-[#002366] text-xs font-medium border border-[#D4AF37]/40">
+                <Sparkles className="w-3.5 h-3.5 text-[#D4AF37]" />
+                <span>Creative. Purpose. Impact.</span>
+              </div>
             </div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#F5F2ED] text-[#002366] text-xs font-medium border border-[#D4AF37]/40">
-              <Sparkles className="w-3.5 h-3.5 text-[#D4AF37]" />
-              <span>Ella Ruth</span>
-            </div>
-          </div>
           <p className="font-serif text-xl sm:text-2xl text-[#002366] italic font-normal leading-relaxed">
             “I’m 85 years young — challenging men and women to live longer, healthier lives through biblical vitality, while walking in devoted fellowship with our church and community.”
           </p>
@@ -95,20 +93,12 @@ export const Footer: React.FC<FooterProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10">
           {/* Personal Info & Church Home */}
           <div className="lg:col-span-4 space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="relative w-12 h-12 rounded-full p-0.5 bg-gradient-to-br from-[#D4AF37] to-[#002366] shadow-sm shrink-0">
-                <img
-                  src="/ellaruth.png"
-                  alt="Ella Ruth"
-                  className="w-full h-full object-cover object-top rounded-full bg-white"
-                />
-              </div>
-              <div>
-                <h2 className="font-serif text-lg font-bold text-[#002366]">
-                  Ella Ruth
-                </h2>
-                <p className="text-xs text-[#1A1A1A]/60">Author • Vitality Coach • Speaker</p>
-              </div>
+            <div className="flex items-center">
+              <img
+                src="/ellaruth-logo.png"
+                alt="Ella Ruth Johnson — Creative. Purpose. Impact."
+                className="h-20 w-auto object-contain"
+              />
             </div>
 
             <p className="text-xs text-[#1A1A1A]/75 leading-relaxed">
