@@ -8,12 +8,55 @@ import {
 } from '../data/initialData';
 
 const BASE_URL = ''; // Relative path leverages Vite dev server & proxy
-const ADMIN_PASSCODE = 'SafeHaven2026!';
 
-function getAdminHeaders() {
+// In-memory + sessionStorage for authenticated admin JWT session token.
+// The raw passcode is NEVER stored — only the short-lived signed token.
+let inMemoryAdminToken: string | null = null;
+
+export function setAdminToken(token: string | null): void {
+  inMemoryAdminToken = token;
+  try {
+    if (typeof window !== 'undefined' && window.sessionStorage) {
+      if (token) {
+        sessionStorage.setItem('sh_admin_token', token);
+      } else {
+        sessionStorage.removeItem('sh_admin_token');
+      }
+    }
+  } catch {
+    // Ignore storage restrictions in iframe / private test environments
+  }
+}
+
+export function getAdminToken(): string | null {
+  if (inMemoryAdminToken) return inMemoryAdminToken;
+  try {
+    if (typeof window !== 'undefined' && window.sessionStorage) {
+      return sessionStorage.getItem('sh_admin_token');
+    }
+  } catch {
+    // Ignore
+  }
+  return null;
+}
+
+// Kept for backward compat — now clears JWT token
+export function getAdminPasscode(): string | null {
+  // Returns non-null if a token exists (used for auth-gate checks)
+  return getAdminToken();
+}
+
+export function clearAdminPasscode(): void {
+  setAdminToken(null);
+  // Also clear legacy key from pre-JWT sessions
+  try { sessionStorage.removeItem('sh_admin_passcode'); } catch { /* ignore */ }
+}
+
+function getAdminHeaders(): HeadersInit {
+  const token = getAdminToken() || '';
   return {
     'Content-Type': 'application/json',
-    'x-admin-passcode': ADMIN_PASSCODE
+    'Authorization': `Bearer ${token}`
   };
 }
 
@@ -36,7 +79,28 @@ export interface AdminSubmissions {
 }
 
 export const api = {
-  // 1. Initial Page Bootstrap (Reads all live records from SQLite)
+  // 0. Staff Authentication & Verification
+  async verifyAdminPasscode(passcode: string): Promise<boolean> {
+    try {
+      const res = await fetch(`${BASE_URL}/api/admin/verify`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ passcode })
+      });
+      const json = await res.json();
+      if (res.ok && json.success && json.token) {
+        // Store the JWT token — never store the raw passcode
+        setAdminToken(json.token);
+        return true;
+      }
+      return false;
+    } catch (err) {
+      console.error('Passcode verification failed:', err);
+      return false;
+    }
+  },
+
+  // 1. Initial Page Bootstrap (Reads all live records from database)
   async getBootstrap(): Promise<BootstrapData> {
     try {
       const res = await fetch(`${BASE_URL}/api/bootstrap`);
@@ -158,40 +222,35 @@ export const api = {
       method: 'POST'
     });
     const json = await res.json();
-    if (!json.success) throw new Error(json.error || 'Failed to update prayer count');
+    if (!json.success) throw new Error(json.error || 'Failed to record prayer');
     return json.data.prayedCount;
   },
 
-  // 6. Donations
-  async submitDonation(donationData: {
-    fundId: string;
-    fundName: string;
-    amount: number;
-    frequency: string;
-    donorName: string;
-    donorEmail: string;
-    dedicationNote?: string;
-  }) {
+  // 6. Donations & Impact
+  async getDonationFunds(): Promise<DonationFund[]> {
+    try {
+      const res = await fetch(`${BASE_URL}/api/donations/funds`);
+      const json = await res.json();
+      if (json.success && json.data) return json.data;
+      return DONATION_FUNDS;
+    } catch {
+      return DONATION_FUNDS;
+    }
+  },
+
+  async submitDonation(donationData: any) {
     const res = await fetch(`${BASE_URL}/api/donations`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(donationData)
     });
     const json = await res.json();
-    if (!json.success) throw new Error(json.error || 'Failed to process donation');
-    return json.data;
+    if (!json.success) throw new Error(json.error || 'Failed to record donation');
+    return json;
   },
 
   // 7. Volunteers
-  async submitVolunteer(appData: {
-    fullName: string;
-    phone: string;
-    email: string;
-    city: string;
-    interests: string[];
-    availability: string;
-    notes?: string;
-  }) {
+  async submitVolunteerApplication(appData: any) {
     const res = await fetch(`${BASE_URL}/api/volunteers`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -199,19 +258,11 @@ export const api = {
     });
     const json = await res.json();
     if (!json.success) throw new Error(json.error || 'Failed to submit volunteer application');
-    return json.data;
+    return json;
   },
 
-  // 8. Coaching Inquiries & Vitality Assessment
-  async submitCoachingInquiry(inquiryData: {
-    fullName: string;
-    phone: string;
-    coachingFormat: string;
-    primaryGoal: string;
-    energyScore?: number;
-    hydrationLevel?: string;
-    movementLevel?: string;
-  }) {
+  // 8. Coaching
+  async submitCoachingInquiry(inquiryData: any) {
     const res = await fetch(`${BASE_URL}/api/coaching/inquiry`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -219,69 +270,63 @@ export const api = {
     });
     const json = await res.json();
     if (!json.success) throw new Error(json.error || 'Failed to submit coaching inquiry');
-    return json.data;
+    return json;
   },
 
   // 9. Devotional Download Lead
-  async submitDevotionalDownload(leadData: { fullName?: string; email: string }) {
+  async submitDevotionalDownload(fullName: string, email: string) {
     const res = await fetch(`${BASE_URL}/api/devotional/download`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(leadData)
+      body: JSON.stringify({ fullName, email })
     });
     const json = await res.json();
-    if (!json.success) throw new Error(json.error || 'Failed to register devotional download');
-    return json.data;
+    if (!json.success) throw new Error(json.error || 'Failed to process devotional request');
+    return json;
   },
 
   // 10. Newsletter
-  async subscribeNewsletter(email: string, preference: string = 'both') {
+  async subscribeNewsletter(email: string, preference: 'both' | 'ministry' | 'wellness') {
     const res = await fetch(`${BASE_URL}/api/newsletter/subscribe`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, preference })
     });
     const json = await res.json();
-    if (!json.success) throw new Error(json.error || 'Failed to subscribe to newsletter');
-    return json.data;
+    if (!json.success) throw new Error(json.error || 'Failed to subscribe');
+    return json;
   },
 
-  // 11. Contact Form
-  async submitContact(contactData: {
-    name: string;
-    email: string;
-    phone?: string;
-    inquiryType: string;
-    message: string;
-  }) {
+  // 11. Contact Message
+  async submitContactMessage(contactData: { name: string; email: string; phone?: string; inquiryType: string; message: string }) {
     const res = await fetch(`${BASE_URL}/api/contact`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(contactData)
     });
     const json = await res.json();
-    if (!json.success) throw new Error(json.error || 'Failed to send message');
-    return json.data;
+    if (!json.success) throw new Error(json.error || 'Failed to submit message');
+    return json;
   },
 
-  // 12. Admin Submissions Review (Authenticated staff only)
+  // 12. Admin Submissions Review
   async getAdminSubmissions(): Promise<AdminSubmissions> {
     const res = await fetch(`${BASE_URL}/api/admin/submissions`, {
       headers: getAdminHeaders()
     });
     const json = await res.json();
-    if (!json.success) throw new Error(json.error || 'Failed to fetch admin submissions');
+    if (!json.success) throw new Error(json.error || 'Failed to load staff submissions');
     return json.data;
   },
 
-  // 13. Admin Reset to Defaults (Authenticated staff only)
-  async resetDatabaseDefaults(): Promise<BootstrapData> {
+  // 13. Admin Reset Defaults
+  async resetDatabaseDefaults(): Promise<{ events: EventItem[]; sermons: SermonTeaching[]; announcements: AnnouncementItem[]; prayerRequests: PrayerRequest[] }> {
     const res = await fetch(`${BASE_URL}/api/admin/reset-defaults`, {
       method: 'POST',
       headers: getAdminHeaders()
     });
     const json = await res.json();
-    if (!json.success) throw new Error(json.error || 'Failed to reset database defaults');
+    if (!json.success) throw new Error(json.error || 'Failed to reset database');
     return json.data;
   }
 };

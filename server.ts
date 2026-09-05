@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import dotenv from 'dotenv';
+import jwt from 'jsonwebtoken';
 import { initDatabase, resetDatabaseToDefaults, dbQueries } from './server/db.ts';
 
 dotenv.config();
@@ -28,6 +29,26 @@ if (!_rawPasscode && process.env.NODE_ENV === 'production') {
   process.exit(1);
 }
 export const ADMIN_PASSCODE = _rawPasscode || 'SafeHaven2026!';
+
+// JWT secret is derived from the admin passcode so rotating the passcode
+// automatically invalidates all existing sessions — no separate secret needed.
+const JWT_SECRET = crypto.createHash('sha256').update(ADMIN_PASSCODE + '_jwt_secret').digest('hex');
+const JWT_EXPIRY = '4h';
+
+// Issue a short-lived signed JWT for an authenticated admin session
+export function issueAdminToken(): string {
+  return jwt.sign({ role: 'admin' }, JWT_SECRET, { expiresIn: JWT_EXPIRY, algorithm: 'HS256' });
+}
+
+// Verify a JWT token — returns true if valid, false otherwise
+export function verifyAdminToken(token: string): boolean {
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET, { algorithms: ['HS256'] }) as any;
+    return decoded?.role === 'admin';
+  } catch {
+    return false;
+  }
+}
 
 // Timing-safe constant-time string comparison to prevent timing attacks
 export function safeCompare(provided: string, expected: string): boolean {
@@ -55,12 +76,16 @@ app.use((_req: Request, res: Response, next: () => void) => {
   res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
   // HSTS: enforce HTTPS for 1 year on all platforms (Vercel, Render, etc.)
   res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+  // L1: In production, Vite emits no inline scripts so unsafe-inline is dropped
+  const scriptSrc = process.env.NODE_ENV === 'production'
+    ? "script-src 'self'"
+    : "script-src 'self' 'unsafe-inline'";
   res.setHeader(
     'Content-Security-Policy',
-    "default-src 'self'; img-src 'self' data: https:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; connect-src 'self' https:;"
+    `default-src 'self'; img-src 'self' data: https:; ${scriptSrc}; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; connect-src 'self' https:;`
   );
   next();
-});
+});;
 
 // 2. Request body size limit to prevent memory exhaustion DoS
 app.use(express.json({ limit: '1mb' }));
@@ -90,25 +115,37 @@ function rateLimitSubmissions(req: Request, res: Response, next: () => void) {
   next();
 }
 
-// 4. Admin Authentication Middleware with Timing-Safe Verification
+// 4. Admin Authentication Middleware — accepts JWT session token OR raw passcode (backward compat)
 function requireAdminAuth(req: Request, res: Response, next: () => void) {
-  const provided = (req.headers['x-admin-passcode'] as string) || (req.headers['authorization']?.replace('Bearer ', ''));
-  if (provided && safeCompare(provided, ADMIN_PASSCODE)) {
+  const authHeader = req.headers['authorization'];
+  const directPasscode = req.headers['x-admin-passcode'] as string | undefined;
+
+  // Prefer Bearer JWT token (issued by /api/admin/verify)
+  if (authHeader?.startsWith('Bearer ')) {
+    const token = authHeader.slice(7);
+    if (verifyAdminToken(token)) return next();
+    return res.status(401).json({ success: false, error: 'Unauthorized: Session expired or invalid token.' });
+  }
+
+  // Fallback: raw passcode in x-admin-passcode header (for older sessions in same tab)
+  if (directPasscode && safeCompare(directPasscode, ADMIN_PASSCODE)) {
     return next();
   }
+
   return res.status(401).json({
     success: false,
-    error: 'Unauthorized: Valid staff passcode required.'
+    error: 'Unauthorized: Valid staff session required.'
   });
 }
 
 // --- REST API ENDPOINTS ---
 
-// Admin Passcode Verification Endpoint
+// Admin Passcode Verification Endpoint — issues a signed 4-hour JWT session token
 app.post('/api/admin/verify', (req: Request, res: Response) => {
   const passcode = req.body?.passcode || req.headers['x-admin-passcode'];
   if (typeof passcode === 'string' && safeCompare(passcode, ADMIN_PASSCODE)) {
-    return res.json({ success: true, message: 'Passcode verified.' });
+    const token = issueAdminToken();
+    return res.json({ success: true, message: 'Passcode verified.', token, expiresIn: '4h' });
   }
   return res.status(401).json({ success: false, error: 'Invalid staff passcode.' });
 });

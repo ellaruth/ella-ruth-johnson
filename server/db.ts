@@ -501,7 +501,7 @@ export const dbQueries = {
     await db.execute({ sql: 'DELETE FROM announcements WHERE id = ?', args: [id] });
   },
 
-  // Prayers (Confidentiality protected)
+  // Prayers (Confidentiality protected — L4: private prayer identities are anonymized at the API layer)
   getAllPrayers: async (includePrivate: boolean = false) => {
     await initDatabase();
     const db = getDb();
@@ -509,15 +509,19 @@ export const dbQueries = {
       ? 'SELECT * FROM prayer_requests ORDER BY created_at DESC'
       : 'SELECT * FROM prayer_requests WHERE is_private = 0 ORDER BY created_at DESC';
     const res = await db.execute(query);
-    return res.rows.map((r: any) => ({
-      id: r.id,
-      authorName: r.author_name,
-      cityState: r.city_state,
-      requestText: r.request_text,
-      date: r.date,
-      isPrivate: Boolean(r.is_private),
-      prayedCount: Number(r.prayed_count) || 1
-    }));
+    return res.rows.map((r: any) => {
+      const isPriv = Boolean(r.is_private);
+      return {
+        id: r.id,
+        // Anonymize identity fields for private requests to protect submitter privacy
+        authorName: isPriv ? 'Anonymous' : r.author_name,
+        cityState: isPriv ? 'Private' : r.city_state,
+        requestText: r.request_text,
+        date: r.date,
+        isPrivate: isPriv,
+        prayedCount: Number(r.prayed_count) || 1
+      };
+    });
   },
 
   createPrayer: async (prayer: any) => {

@@ -1,9 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { api } from './api';
+import { api, setAdminPasscode } from './api';
 
 describe('Frontend API Client (src/services/api.ts)', () => {
   beforeEach(() => {
     vi.restoreAllMocks();
+    setAdminPasscode('SafeHaven2026!');
   });
 
   describe('getBootstrap', () => {

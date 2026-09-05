@@ -15,10 +15,14 @@ import {
   Sparkles,
   Mail,
   UserCheck,
-  Database
+  Database,
+  Eye,
+  EyeOff,
+  ShieldCheck,
+  LogOut
 } from 'lucide-react';
 import { EventItem, SermonTeaching, AnnouncementItem } from '../types';
-import { api, AdminSubmissions } from '../services/api';
+import { api, AdminSubmissions, getAdminPasscode, clearAdminPasscode } from '../services/api';
 
 interface AdminCMSModalProps {
   isOpen: boolean;
@@ -48,6 +52,54 @@ export const AdminCMSModal: React.FC<AdminCMSModalProps> = ({
   const [submissions, setSubmissions] = useState<AdminSubmissions | null>(null);
   const [loadingSubmissions, setLoadingSubmissions] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
+
+  // Authentication State
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => Boolean(getAdminPasscode()));
+  const [passcodeInput, setPasscodeInput] = useState('');
+  const [authError, setAuthError] = useState('');
+  const [isVerifying, setIsVerifying] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
+  // Sync auth state when modal is opened
+  useEffect(() => {
+    if (isOpen) {
+      setIsAuthenticated(Boolean(getAdminPasscode()));
+      setAuthError('');
+      setPasscodeInput('');
+    }
+  }, [isOpen]);
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!passcodeInput.trim()) {
+      setAuthError('Please enter your staff passcode.');
+      return;
+    }
+    setIsVerifying(true);
+    setAuthError('');
+    try {
+      const ok = await api.verifyAdminPasscode(passcodeInput.trim());
+      if (ok) {
+        setIsAuthenticated(true);
+        setPasscodeInput('');
+        if (activeTab === 'submissions') {
+          loadSubmissions();
+        }
+      } else {
+        setAuthError('Access denied: Invalid staff passcode.');
+      }
+    } catch {
+      setAuthError('Verification error. Please check your network.');
+    } finally {
+      setIsVerifying(false);
+    }
+  };
+
+  const handleLogout = () => {
+    clearAdminPasscode();
+    setIsAuthenticated(false);
+    setPasscodeInput('');
+  };
 
   // New event form state
   const [newEvent, setNewEvent] = useState({
@@ -95,6 +147,91 @@ export const AdminCMSModal: React.FC<AdminCMSModalProps> = ({
   };
 
   if (!isOpen) return null;
+
+  // Render Authentication Gate if user has not unlocked session
+  if (!isAuthenticated) {
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md">
+        <div className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl border border-[#D4AF37]/30 overflow-hidden">
+          {/* Header Banner */}
+          <div className="bg-gradient-to-r from-[#002366] to-[#0A192F] p-6 text-white text-center relative">
+            <button
+              onClick={onClose}
+              className="absolute top-4 right-4 p-2 rounded-full text-white/70 hover:text-white hover:bg-white/10 transition-colors"
+              aria-label="Close"
+            >
+              <X className="w-5 h-5" />
+            </button>
+            <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-[#D4AF37]/20 border border-[#D4AF37]/50 text-[#D4AF37] mb-3 shadow-inner">
+              <Lock className="w-7 h-7" />
+            </div>
+            <h2 className="text-xl font-serif font-bold tracking-wide">Staff & Ministry Portal</h2>
+            <p className="text-xs text-white/70 mt-1">Authorized pastoral staff and leadership access only</p>
+          </div>
+
+          {/* Form */}
+          <form onSubmit={handleLogin} className="p-6 space-y-4">
+            {authError && (
+              <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-xs rounded-xl flex items-center gap-2">
+                <span className="font-semibold">⚠️</span>
+                <span>{authError}</span>
+              </div>
+            )}
+
+            <div>
+              <label className="block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-1.5">
+                Staff Passcode
+              </label>
+              <div className="relative">
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  value={passcodeInput}
+                  onChange={(e) => setPasscodeInput(e.target.value)}
+                  placeholder="Enter staff passcode..."
+                  className="w-full px-4 py-3 text-sm bg-gray-50 border border-gray-200 rounded-xl pr-10 focus:outline-none focus:ring-2 focus:ring-[#D4AF37] focus:border-transparent transition-all"
+                  autoFocus
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 p-1"
+                >
+                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
+              </div>
+            </div>
+
+            <div className="pt-2 flex items-center gap-3">
+              <button
+                type="button"
+                onClick={onClose}
+                className="flex-1 py-3 px-4 rounded-xl border border-gray-200 text-xs font-semibold text-gray-600 hover:bg-gray-50 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={isVerifying}
+                className="flex-1 py-3 px-4 rounded-xl bg-gradient-to-r from-[#002366] to-[#0A192F] text-white text-xs font-semibold hover:opacity-95 transition-all shadow-md flex items-center justify-center gap-2 disabled:opacity-50"
+              >
+                {isVerifying ? (
+                  <>
+                    <RefreshCw className="w-3.5 h-3.5 animate-spin text-[#D4AF37]" />
+                    <span>Verifying...</span>
+                  </>
+                ) : (
+                  <>
+                    <ShieldCheck className="w-4 h-4 text-[#D4AF37]" />
+                    <span>Unlock Portal</span>
+                  </>
+                )}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    );
+  }
 
   const triggerSuccess = () => {
     setSaveSuccess(true);
@@ -278,12 +415,22 @@ export const AdminCMSModal: React.FC<AdminCMSModalProps> = ({
               </p>
             </div>
           </div>
-          <button
-            onClick={onClose}
-            className="p-1.5 rounded-full text-[#1A1A1A]/40 hover:text-[#1A1A1A] hover:bg-[#E8E2D8] transition-colors"
-          >
-            <X className="w-5 h-5" />
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handleLogout}
+              className="inline-flex items-center gap-1.5 text-xs text-red-600 hover:text-red-700 bg-red-50 hover:bg-red-100 px-3 py-1.5 rounded-full border border-red-200 transition-colors"
+              title="Lock portal session"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">Lock Session</span>
+            </button>
+            <button
+              onClick={onClose}
+              className="p-1.5 rounded-full text-[#1A1A1A]/40 hover:text-[#1A1A1A] hover:bg-[#E8E2D8] transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
         </div>
 
         {/* Sub-nav tabs */}
