@@ -4,8 +4,8 @@ import { app, ADMIN_PASSCODE } from '../server.ts';
 import { resetDatabaseToDefaults } from './db.ts';
 
 describe('REST API Endpoints & Security (server.ts)', () => {
-  beforeEach(() => {
-    resetDatabaseToDefaults();
+  beforeEach(async () => {
+    await resetDatabaseToDefaults();
   });
 
   describe('OWASP Security Headers', () => {

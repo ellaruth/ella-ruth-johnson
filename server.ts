@@ -13,8 +13,10 @@ const __dirname = path.dirname(__filename);
 export const app = express();
 const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
 
-// Initialize SQLite DB
-initDatabase();
+// Initialize SQLite DB (idempotent, supports both local and cloud Turso)
+initDatabase().catch(err => {
+  console.error('[Database] Initialization error:', err);
+});
 
 export const ADMIN_PASSCODE = process.env.ADMIN_PASSCODE || 'SafeHaven2026!';
 
@@ -70,13 +72,13 @@ function requireAdminAuth(req: Request, res: Response, next: () => void) {
 // --- REST API ENDPOINTS ---
 
 // 1. Bootstrap all initial data in one fast request
-app.get('/api/bootstrap', (_req: Request, res: Response) => {
+app.get('/api/bootstrap', async (_req: Request, res: Response) => {
   try {
-    const events = dbQueries.getAllEvents();
-    const sermons = dbQueries.getAllSermons();
-    const announcements = dbQueries.getAllAnnouncements();
-    const prayerRequests = dbQueries.getAllPrayers();
-    const donationFunds = dbQueries.getAllFunds();
+    const events = await dbQueries.getAllEvents();
+    const sermons = await dbQueries.getAllSermons();
+    const announcements = await dbQueries.getAllAnnouncements();
+    const prayerRequests = await dbQueries.getAllPrayers();
+    const donationFunds = await dbQueries.getAllFunds();
 
     res.json({
       success: true,
@@ -95,16 +97,16 @@ app.get('/api/bootstrap', (_req: Request, res: Response) => {
 });
 
 // 2. Events Endpoints
-app.get('/api/events', (_req: Request, res: Response) => {
+app.get('/api/events', async (_req: Request, res: Response) => {
   try {
-    const events = dbQueries.getAllEvents();
+    const events = await dbQueries.getAllEvents();
     res.json({ success: true, data: events });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });
   }
 });
 
-app.post('/api/events', requireAdminAuth, (req: Request, res: Response) => {
+app.post('/api/events', requireAdminAuth, async (req: Request, res: Response) => {
   try {
     if (!req.body.title || typeof req.body.title !== 'string') {
       return res.status(400).json({ success: false, error: 'Title is required and must be text' });
@@ -122,23 +124,23 @@ app.post('/api/events', requireAdminAuth, (req: Request, res: Response) => {
       registrationRequired: req.body.registrationRequired !== undefined ? req.body.registrationRequired : true,
       attendeesCount: Math.max(0, parseInt(req.body.attendeesCount, 10) || 0)
     };
-    const created = dbQueries.createEvent(event);
+    const created = await dbQueries.createEvent(event);
     res.status(201).json({ success: true, data: created });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });
   }
 });
 
-app.delete('/api/events/:id', requireAdminAuth, (req: Request, res: Response) => {
+app.delete('/api/events/:id', requireAdminAuth, async (req: Request, res: Response) => {
   try {
-    dbQueries.deleteEvent(req.params.id);
+    await dbQueries.deleteEvent(req.params.id);
     res.json({ success: true, message: 'Event deleted successfully' });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });
   }
 });
 
-app.post('/api/events/:id/rsvp', rateLimitSubmissions, (req: Request, res: Response) => {
+app.post('/api/events/:id/rsvp', rateLimitSubmissions, async (req: Request, res: Response) => {
   try {
     const fullName = (req.body.fullName || '').trim().slice(0, 100);
     const email = (req.body.email || '').trim().slice(0, 100);
@@ -156,7 +158,7 @@ app.post('/api/events/:id/rsvp', rateLimitSubmissions, (req: Request, res: Respo
       guestsCount,
       notes: (req.body.notes || '').slice(0, 500)
     };
-    dbQueries.addEventRsvp(rsvp);
+    await dbQueries.addEventRsvp(rsvp);
     res.status(201).json({ success: true, data: rsvp, message: 'RSVP confirmed successfully' });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });
@@ -164,16 +166,16 @@ app.post('/api/events/:id/rsvp', rateLimitSubmissions, (req: Request, res: Respo
 });
 
 // 3. Sermons Endpoints
-app.get('/api/sermons', (_req: Request, res: Response) => {
+app.get('/api/sermons', async (_req: Request, res: Response) => {
   try {
-    const sermons = dbQueries.getAllSermons();
+    const sermons = await dbQueries.getAllSermons();
     res.json({ success: true, data: sermons });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });
   }
 });
 
-app.post('/api/sermons', requireAdminAuth, (req: Request, res: Response) => {
+app.post('/api/sermons', requireAdminAuth, async (req: Request, res: Response) => {
   try {
     if (!req.body.title || !req.body.scripture) {
       return res.status(400).json({ success: false, error: 'Title and scripture are required' });
@@ -195,16 +197,16 @@ app.post('/api/sermons', requireAdminAuth, (req: Request, res: Response) => {
       featuredQuote: (req.body.featuredQuote || '“God is faithful in all seasons.”').slice(0, 500),
       audioPreviewAvailable: req.body.audioPreviewAvailable !== undefined ? req.body.audioPreviewAvailable : true
     };
-    const created = dbQueries.createSermon(sermon);
+    const created = await dbQueries.createSermon(sermon);
     res.status(201).json({ success: true, data: created });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });
   }
 });
 
-app.delete('/api/sermons/:id', requireAdminAuth, (req: Request, res: Response) => {
+app.delete('/api/sermons/:id', requireAdminAuth, async (req: Request, res: Response) => {
   try {
-    dbQueries.deleteSermon(req.params.id);
+    await dbQueries.deleteSermon(req.params.id);
     res.json({ success: true, message: 'Sermon deleted successfully' });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });
@@ -212,16 +214,16 @@ app.delete('/api/sermons/:id', requireAdminAuth, (req: Request, res: Response) =
 });
 
 // 4. Announcements Endpoints
-app.get('/api/announcements', (_req: Request, res: Response) => {
+app.get('/api/announcements', async (_req: Request, res: Response) => {
   try {
-    const announcements = dbQueries.getAllAnnouncements();
+    const announcements = await dbQueries.getAllAnnouncements();
     res.json({ success: true, data: announcements });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });
   }
 });
 
-app.post('/api/announcements', requireAdminAuth, (req: Request, res: Response) => {
+app.post('/api/announcements', requireAdminAuth, async (req: Request, res: Response) => {
   try {
     if (!req.body.text || typeof req.body.text !== 'string') {
       return res.status(400).json({ success: false, error: 'Announcement text is required' });
@@ -234,25 +236,25 @@ app.post('/api/announcements', requireAdminAuth, (req: Request, res: Response) =
       date: req.body.date || 'New Update',
       active: req.body.active !== undefined ? req.body.active : true
     };
-    const created = dbQueries.createAnnouncement(ann);
+    const created = await dbQueries.createAnnouncement(ann);
     res.status(201).json({ success: true, data: created });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });
   }
 });
 
-app.patch('/api/announcements/:id/toggle', requireAdminAuth, (req: Request, res: Response) => {
+app.patch('/api/announcements/:id/toggle', requireAdminAuth, async (req: Request, res: Response) => {
   try {
-    dbQueries.toggleAnnouncement(req.params.id);
+    await dbQueries.toggleAnnouncement(req.params.id);
     res.json({ success: true, message: 'Announcement status toggled' });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });
   }
 });
 
-app.delete('/api/announcements/:id', requireAdminAuth, (req: Request, res: Response) => {
+app.delete('/api/announcements/:id', requireAdminAuth, async (req: Request, res: Response) => {
   try {
-    dbQueries.deleteAnnouncement(req.params.id);
+    await dbQueries.deleteAnnouncement(req.params.id);
     res.json({ success: true, message: 'Announcement deleted' });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });
@@ -260,16 +262,16 @@ app.delete('/api/announcements/:id', requireAdminAuth, (req: Request, res: Respo
 });
 
 // 5. Prayer Wall Endpoints (Returns only public prayers to prevent sensitive data leaks)
-app.get('/api/prayers', (_req: Request, res: Response) => {
+app.get('/api/prayers', async (_req: Request, res: Response) => {
   try {
-    const prayers = dbQueries.getAllPrayers(false);
+    const prayers = await dbQueries.getAllPrayers(false);
     res.json({ success: true, data: prayers });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });
   }
 });
 
-app.post('/api/prayers', rateLimitSubmissions, (req: Request, res: Response) => {
+app.post('/api/prayers', rateLimitSubmissions, async (req: Request, res: Response) => {
   try {
     if (!req.body.requestText || typeof req.body.requestText !== 'string') {
       return res.status(400).json({ success: false, error: 'Prayer request text is required' });
@@ -283,16 +285,16 @@ app.post('/api/prayers', rateLimitSubmissions, (req: Request, res: Response) => 
       isPrivate: Boolean(req.body.isPrivate),
       prayedCount: 1
     };
-    const created = dbQueries.createPrayer(prayer);
+    const created = await dbQueries.createPrayer(prayer);
     res.status(201).json({ success: true, data: created });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });
   }
 });
 
-app.post('/api/prayers/:id/pray', rateLimitSubmissions, (req: Request, res: Response) => {
+app.post('/api/prayers/:id/pray', rateLimitSubmissions, async (req: Request, res: Response) => {
   try {
-    const newCount = dbQueries.incrementPrayerCount(req.params.id);
+    const newCount = await dbQueries.incrementPrayerCount(req.params.id);
     res.json({ success: true, data: { id: req.params.id, prayedCount: newCount } });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });
@@ -300,16 +302,16 @@ app.post('/api/prayers/:id/pray', rateLimitSubmissions, (req: Request, res: Resp
 });
 
 // 6. Donation Endpoints
-app.get('/api/donations/funds', (_req: Request, res: Response) => {
+app.get('/api/donations/funds', async (_req: Request, res: Response) => {
   try {
-    const funds = dbQueries.getAllFunds();
+    const funds = await dbQueries.getAllFunds();
     res.json({ success: true, data: funds });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });
   }
 });
 
-app.post('/api/donations', rateLimitSubmissions, (req: Request, res: Response) => {
+app.post('/api/donations', rateLimitSubmissions, async (req: Request, res: Response) => {
   try {
     const amount = parseFloat(req.body.amount);
     if (!amount || isNaN(amount) || amount <= 0 || amount > 500000) {
@@ -328,7 +330,7 @@ app.post('/api/donations', rateLimitSubmissions, (req: Request, res: Response) =
       dedicationNote: (req.body.dedicationNote || '').slice(0, 500),
       dateStr: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
     };
-    const saved = dbQueries.recordDonation(donation);
+    const saved = await dbQueries.recordDonation(donation);
     res.status(201).json({ success: true, data: saved });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });
@@ -336,7 +338,7 @@ app.post('/api/donations', rateLimitSubmissions, (req: Request, res: Response) =
 });
 
 // 7. Volunteer Application Endpoint
-app.post('/api/volunteers', rateLimitSubmissions, (req: Request, res: Response) => {
+app.post('/api/volunteers', rateLimitSubmissions, async (req: Request, res: Response) => {
   try {
     const fullName = (req.body.fullName || '').trim().slice(0, 150);
     const email = (req.body.email || '').trim().slice(0, 150);
@@ -353,7 +355,7 @@ app.post('/api/volunteers', rateLimitSubmissions, (req: Request, res: Response) 
       availability: (req.body.availability || 'Weekends').slice(0, 50),
       notes: (req.body.notes || '').slice(0, 1000)
     };
-    const saved = dbQueries.addVolunteerApplication(appData);
+    const saved = await dbQueries.addVolunteerApplication(appData);
     res.status(201).json({ success: true, data: saved, message: 'Volunteer application submitted successfully' });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });
@@ -361,7 +363,7 @@ app.post('/api/volunteers', rateLimitSubmissions, (req: Request, res: Response) 
 });
 
 // 8. Coaching Inquiries & Vitality Leads Endpoint
-app.post('/api/coaching/inquiry', rateLimitSubmissions, (req: Request, res: Response) => {
+app.post('/api/coaching/inquiry', rateLimitSubmissions, async (req: Request, res: Response) => {
   try {
     const fullName = (req.body.fullName || '').trim().slice(0, 150);
     const phone = (req.body.phone || '').trim().slice(0, 50);
@@ -378,7 +380,7 @@ app.post('/api/coaching/inquiry', rateLimitSubmissions, (req: Request, res: Resp
       hydrationLevel: (req.body.hydrationLevel || '').slice(0, 50) || undefined,
       movementLevel: (req.body.movementLevel || '').slice(0, 50) || undefined
     };
-    const saved = dbQueries.addCoachingInquiry(inquiry);
+    const saved = await dbQueries.addCoachingInquiry(inquiry);
     res.status(201).json({ success: true, data: saved, message: 'Coaching consultation inquiry received' });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });
@@ -386,7 +388,7 @@ app.post('/api/coaching/inquiry', rateLimitSubmissions, (req: Request, res: Resp
 });
 
 // 9. Devotional Download Lead Endpoint
-app.post('/api/devotional/download', rateLimitSubmissions, (req: Request, res: Response) => {
+app.post('/api/devotional/download', rateLimitSubmissions, async (req: Request, res: Response) => {
   try {
     const email = (req.body.email || '').trim().slice(0, 150);
     if (!email || !email.includes('@')) {
@@ -397,7 +399,7 @@ app.post('/api/devotional/download', rateLimitSubmissions, (req: Request, res: R
       fullName: (req.body.fullName || '').trim().slice(0, 150),
       email
     };
-    const saved = dbQueries.addDevotionalLead(lead);
+    const saved = await dbQueries.addDevotionalLead(lead);
     res.status(201).json({ success: true, data: saved });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });
@@ -405,7 +407,7 @@ app.post('/api/devotional/download', rateLimitSubmissions, (req: Request, res: R
 });
 
 // 10. Newsletter Subscription Endpoint
-app.post('/api/newsletter/subscribe', rateLimitSubmissions, (req: Request, res: Response) => {
+app.post('/api/newsletter/subscribe', rateLimitSubmissions, async (req: Request, res: Response) => {
   try {
     const email = (req.body.email || '').trim().slice(0, 150);
     if (!email || !email.includes('@')) {
@@ -416,7 +418,7 @@ app.post('/api/newsletter/subscribe', rateLimitSubmissions, (req: Request, res: 
       email,
       preference: (req.body.preference || 'both').slice(0, 50)
     };
-    const saved = dbQueries.addNewsletterSubscriber(sub);
+    const saved = await dbQueries.addNewsletterSubscriber(sub);
     res.status(201).json({ success: true, data: saved, message: 'Subscribed to ministry newsletter' });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });
@@ -424,7 +426,7 @@ app.post('/api/newsletter/subscribe', rateLimitSubmissions, (req: Request, res: 
 });
 
 // 11. Contact Message Endpoint
-app.post('/api/contact', rateLimitSubmissions, (req: Request, res: Response) => {
+app.post('/api/contact', rateLimitSubmissions, async (req: Request, res: Response) => {
   try {
     const name = (req.body.name || '').trim().slice(0, 150);
     const email = (req.body.email || '').trim().slice(0, 150);
@@ -440,7 +442,7 @@ app.post('/api/contact', rateLimitSubmissions, (req: Request, res: Response) => 
       inquiryType: (req.body.inquiryType || 'general').slice(0, 50),
       message
     };
-    const saved = dbQueries.addContactInquiry(contact);
+    const saved = await dbQueries.addContactInquiry(contact);
     res.status(201).json({ success: true, data: saved, message: 'Message received by Safe Haven team' });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });
@@ -448,9 +450,9 @@ app.post('/api/contact', rateLimitSubmissions, (req: Request, res: Response) => 
 });
 
 // 12. Admin Submissions & Review Portal Endpoint (Protected by staff authorization)
-app.get('/api/admin/submissions', requireAdminAuth, (_req: Request, res: Response) => {
+app.get('/api/admin/submissions', requireAdminAuth, async (_req: Request, res: Response) => {
   try {
-    const submissions = dbQueries.getAdminSubmissions();
+    const submissions = await dbQueries.getAdminSubmissions();
     res.json({ success: true, data: submissions });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });
@@ -458,13 +460,13 @@ app.get('/api/admin/submissions', requireAdminAuth, (_req: Request, res: Respons
 });
 
 // 13. Admin Database Reset Endpoint (Protected by staff authorization)
-app.post('/api/admin/reset-defaults', requireAdminAuth, (_req: Request, res: Response) => {
+app.post('/api/admin/reset-defaults', requireAdminAuth, async (_req: Request, res: Response) => {
   try {
-    resetDatabaseToDefaults();
-    const events = dbQueries.getAllEvents();
-    const sermons = dbQueries.getAllSermons();
-    const announcements = dbQueries.getAllAnnouncements();
-    const prayerRequests = dbQueries.getAllPrayers(false);
+    await resetDatabaseToDefaults();
+    const events = await dbQueries.getAllEvents();
+    const sermons = await dbQueries.getAllSermons();
+    const announcements = await dbQueries.getAllAnnouncements();
+    const prayerRequests = await dbQueries.getAllPrayers(false);
 
     res.json({
       success: true,
@@ -508,7 +510,7 @@ async function startServer() {
 
   app.listen(PORT, '0.0.0.0', () => {
     console.log(`[Safe Haven Out Reach Ministries] Server running at http://localhost:${PORT}`);
-    console.log(`[Database] SQLite running as single source of truth at ./data/database.sqlite`);
+    console.log(`[Database] Database initialized and ready.`);
   });
 }
 
@@ -518,3 +520,5 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     process.exit(1);
   });
 }
+
+export default app;
