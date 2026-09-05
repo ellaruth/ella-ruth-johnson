@@ -13,7 +13,9 @@ services:
         value: 10000
       - key: ADMIN_PASSCODE
         generateValue: true
-    disk:
-      name: ella-ruth-data
-      mountPath: /opt/render/project/src/data
-      sizeGB: 1
+    # Note: Render Free tier does NOT allow persistent disks. 
+    # If upgrading to a paid plan ($7/mo Starter), uncomment the disk block below:
+    # disk:
+    #   name: ella-ruth-data
+    #   mountPath: /opt/render/project/src/data
+    #   sizeGB: 1
