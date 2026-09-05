@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import path from 'node:path';
 import fs from 'node:fs';
+import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import dotenv from 'dotenv';
 import { initDatabase, resetDatabaseToDefaults, dbQueries } from './server/db.ts';
@@ -13,26 +14,58 @@ const __dirname = path.dirname(__filename);
 export const app = express();
 const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
 
+// Trust reverse proxies (Vercel, Cloudflare, AWS) so req.ip reflects actual visitor IP
+app.set('trust proxy', 1);
+
 // Initialize SQLite DB (idempotent, supports both local and cloud Turso)
 initDatabase().catch(err => {
   console.error('[Database] Initialization error:', err);
 });
 
-export const ADMIN_PASSCODE = process.env.ADMIN_PASSCODE || 'SafeHaven2026!';
+const _rawPasscode = process.env.ADMIN_PASSCODE;
+if (!_rawPasscode && process.env.NODE_ENV === 'production') {
+  console.error('[Security] ADMIN_PASSCODE env variable is required in production. Server will not start.');
+  process.exit(1);
+}
+export const ADMIN_PASSCODE = _rawPasscode || 'SafeHaven2026!';
 
-// 1. Security Headers Middleware (OWASP recommended baseline)
+// Timing-safe constant-time string comparison to prevent timing attacks
+export function safeCompare(provided: string, expected: string): boolean {
+  if (typeof provided !== 'string' || typeof expected !== 'string') {
+    return false;
+  }
+  const hashA = crypto.createHash('sha256').update(provided).digest();
+  const hashB = crypto.createHash('sha256').update(expected).digest();
+  return crypto.timingSafeEqual(hashA, hashB);
+}
+
+// Helper to sanitize error outputs in production
+function sanitizeError(err: any): string {
+  if (process.env.NODE_ENV === 'production') {
+    return 'An internal error occurred. Please try again.';
+  }
+  return err?.message || 'Server error';
+}
+
+// 1. Security Headers Middleware (OWASP recommended baseline + CSP + HSTS)
 app.use((_req: Request, res: Response, next: () => void) => {
   res.setHeader('X-Content-Type-Options', 'nosniff');
   res.setHeader('X-Frame-Options', 'SAMEORIGIN');
   res.setHeader('X-XSS-Protection', '1; mode=block');
   res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  // HSTS: enforce HTTPS for 1 year on all platforms (Vercel, Render, etc.)
+  res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+  res.setHeader(
+    'Content-Security-Policy',
+    "default-src 'self'; img-src 'self' data: https:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; connect-src 'self' https:;"
+  );
   next();
 });
 
 // 2. Request body size limit to prevent memory exhaustion DoS
 app.use(express.json({ limit: '1mb' }));
 
-// 3. Simple in-memory sliding-window rate limiter for public submissions
+// 3. Simple sliding-window rate limiter for public submissions
 const ipRequestCounts = new Map<string, { count: number; resetTime: number }>();
 function rateLimitSubmissions(req: Request, res: Response, next: () => void) {
   const ip = req.ip || req.socket.remoteAddress || 'unknown';
@@ -57,10 +90,10 @@ function rateLimitSubmissions(req: Request, res: Response, next: () => void) {
   next();
 }
 
-// 4. Admin Authentication Middleware
+// 4. Admin Authentication Middleware with Timing-Safe Verification
 function requireAdminAuth(req: Request, res: Response, next: () => void) {
   const provided = (req.headers['x-admin-passcode'] as string) || (req.headers['authorization']?.replace('Bearer ', ''));
-  if (provided && provided === ADMIN_PASSCODE) {
+  if (provided && safeCompare(provided, ADMIN_PASSCODE)) {
     return next();
   }
   return res.status(401).json({
@@ -70,6 +103,15 @@ function requireAdminAuth(req: Request, res: Response, next: () => void) {
 }
 
 // --- REST API ENDPOINTS ---
+
+// Admin Passcode Verification Endpoint
+app.post('/api/admin/verify', (req: Request, res: Response) => {
+  const passcode = req.body?.passcode || req.headers['x-admin-passcode'];
+  if (typeof passcode === 'string' && safeCompare(passcode, ADMIN_PASSCODE)) {
+    return res.json({ success: true, message: 'Passcode verified.' });
+  }
+  return res.status(401).json({ success: false, error: 'Invalid staff passcode.' });
+});
 
 // 1. Bootstrap all initial data in one fast request
 app.get('/api/bootstrap', async (_req: Request, res: Response) => {
@@ -92,7 +134,7 @@ app.get('/api/bootstrap', async (_req: Request, res: Response) => {
     });
   } catch (err: any) {
     console.error('Error in /api/bootstrap:', err);
-    res.status(500).json({ success: false, error: err.message });
+    res.status(500).json({ success: false, error: sanitizeError(err) });
   }
 });
 
@@ -102,7 +144,7 @@ app.get('/api/events', async (_req: Request, res: Response) => {
     const events = await dbQueries.getAllEvents();
     res.json({ success: true, data: events });
   } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
+    res.status(500).json({ success: false, error: sanitizeError(err) });
   }
 });
 
@@ -127,7 +169,7 @@ app.post('/api/events', requireAdminAuth, async (req: Request, res: Response) =>
     const created = await dbQueries.createEvent(event);
     res.status(201).json({ success: true, data: created });
   } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
+    res.status(500).json({ success: false, error: sanitizeError(err) });
   }
 });
 
@@ -136,7 +178,7 @@ app.delete('/api/events/:id', requireAdminAuth, async (req: Request, res: Respon
     await dbQueries.deleteEvent(req.params.id);
     res.json({ success: true, message: 'Event deleted successfully' });
   } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
+    res.status(500).json({ success: false, error: sanitizeError(err) });
   }
 });
 
@@ -146,8 +188,8 @@ app.post('/api/events/:id/rsvp', rateLimitSubmissions, async (req: Request, res:
     const email = (req.body.email || '').trim().slice(0, 100);
     const guestsCount = Math.min(20, Math.max(1, parseInt(req.body.guestsCount, 10) || 1));
 
-    if (!fullName || !email) {
-      return res.status(400).json({ success: false, error: 'Name and email are required' });
+    if (!fullName || !email || !EMAIL_REGEX.test(email)) {
+      return res.status(400).json({ success: false, error: 'Name and valid email are required' });
     }
 
     const rsvp = {
@@ -161,7 +203,7 @@ app.post('/api/events/:id/rsvp', rateLimitSubmissions, async (req: Request, res:
     await dbQueries.addEventRsvp(rsvp);
     res.status(201).json({ success: true, data: rsvp, message: 'RSVP confirmed successfully' });
   } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
+    res.status(500).json({ success: false, error: sanitizeError(err) });
   }
 });
 
@@ -171,7 +213,7 @@ app.get('/api/sermons', async (_req: Request, res: Response) => {
     const sermons = await dbQueries.getAllSermons();
     res.json({ success: true, data: sermons });
   } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
+    res.status(500).json({ success: false, error: sanitizeError(err) });
   }
 });
 
@@ -200,7 +242,7 @@ app.post('/api/sermons', requireAdminAuth, async (req: Request, res: Response) =
     const created = await dbQueries.createSermon(sermon);
     res.status(201).json({ success: true, data: created });
   } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
+    res.status(500).json({ success: false, error: sanitizeError(err) });
   }
 });
 
@@ -209,7 +251,7 @@ app.delete('/api/sermons/:id', requireAdminAuth, async (req: Request, res: Respo
     await dbQueries.deleteSermon(req.params.id);
     res.json({ success: true, message: 'Sermon deleted successfully' });
   } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
+    res.status(500).json({ success: false, error: sanitizeError(err) });
   }
 });
 
@@ -219,7 +261,7 @@ app.get('/api/announcements', async (_req: Request, res: Response) => {
     const announcements = await dbQueries.getAllAnnouncements();
     res.json({ success: true, data: announcements });
   } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
+    res.status(500).json({ success: false, error: sanitizeError(err) });
   }
 });
 
@@ -239,7 +281,7 @@ app.post('/api/announcements', requireAdminAuth, async (req: Request, res: Respo
     const created = await dbQueries.createAnnouncement(ann);
     res.status(201).json({ success: true, data: created });
   } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
+    res.status(500).json({ success: false, error: sanitizeError(err) });
   }
 });
 
@@ -248,7 +290,7 @@ app.patch('/api/announcements/:id/toggle', requireAdminAuth, async (req: Request
     await dbQueries.toggleAnnouncement(req.params.id);
     res.json({ success: true, message: 'Announcement status toggled' });
   } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
+    res.status(500).json({ success: false, error: sanitizeError(err) });
   }
 });
 
@@ -257,7 +299,7 @@ app.delete('/api/announcements/:id', requireAdminAuth, async (req: Request, res:
     await dbQueries.deleteAnnouncement(req.params.id);
     res.json({ success: true, message: 'Announcement deleted' });
   } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
+    res.status(500).json({ success: false, error: sanitizeError(err) });
   }
 });
 
@@ -267,7 +309,7 @@ app.get('/api/prayers', async (_req: Request, res: Response) => {
     const prayers = await dbQueries.getAllPrayers(false);
     res.json({ success: true, data: prayers });
   } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
+    res.status(500).json({ success: false, error: sanitizeError(err) });
   }
 });
 
@@ -288,7 +330,7 @@ app.post('/api/prayers', rateLimitSubmissions, async (req: Request, res: Respons
     const created = await dbQueries.createPrayer(prayer);
     res.status(201).json({ success: true, data: created });
   } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
+    res.status(500).json({ success: false, error: sanitizeError(err) });
   }
 });
 
@@ -297,7 +339,7 @@ app.post('/api/prayers/:id/pray', rateLimitSubmissions, async (req: Request, res
     const newCount = await dbQueries.incrementPrayerCount(req.params.id);
     res.json({ success: true, data: { id: req.params.id, prayedCount: newCount } });
   } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
+    res.status(500).json({ success: false, error: sanitizeError(err) });
   }
 });
 
@@ -307,7 +349,7 @@ app.get('/api/donations/funds', async (_req: Request, res: Response) => {
     const funds = await dbQueries.getAllFunds();
     res.json({ success: true, data: funds });
   } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
+    res.status(500).json({ success: false, error: sanitizeError(err) });
   }
 });
 
@@ -333,7 +375,7 @@ app.post('/api/donations', rateLimitSubmissions, async (req: Request, res: Respo
     const saved = await dbQueries.recordDonation(donation);
     res.status(201).json({ success: true, data: saved });
   } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
+    res.status(500).json({ success: false, error: sanitizeError(err) });
   }
 });
 
@@ -342,8 +384,8 @@ app.post('/api/volunteers', rateLimitSubmissions, async (req: Request, res: Resp
   try {
     const fullName = (req.body.fullName || '').trim().slice(0, 150);
     const email = (req.body.email || '').trim().slice(0, 150);
-    if (!fullName || !email) {
-      return res.status(400).json({ success: false, error: 'Full name and email are required' });
+    if (!fullName || !email || !EMAIL_REGEX.test(email)) {
+      return res.status(400).json({ success: false, error: 'Full name and valid email are required' });
     }
     const appData = {
       id: `vol-${Date.now()}`,
@@ -358,7 +400,7 @@ app.post('/api/volunteers', rateLimitSubmissions, async (req: Request, res: Resp
     const saved = await dbQueries.addVolunteerApplication(appData);
     res.status(201).json({ success: true, data: saved, message: 'Volunteer application submitted successfully' });
   } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
+    res.status(500).json({ success: false, error: sanitizeError(err) });
   }
 });
 
@@ -383,15 +425,17 @@ app.post('/api/coaching/inquiry', rateLimitSubmissions, async (req: Request, res
     const saved = await dbQueries.addCoachingInquiry(inquiry);
     res.status(201).json({ success: true, data: saved, message: 'Coaching consultation inquiry received' });
   } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
+    res.status(500).json({ success: false, error: sanitizeError(err) });
   }
 });
 
 // 9. Devotional Download Lead Endpoint
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
 app.post('/api/devotional/download', rateLimitSubmissions, async (req: Request, res: Response) => {
   try {
     const email = (req.body.email || '').trim().slice(0, 150);
-    if (!email || !email.includes('@')) {
+    if (!email || !EMAIL_REGEX.test(email)) {
       return res.status(400).json({ success: false, error: 'Valid email address required' });
     }
     const lead = {
@@ -402,7 +446,7 @@ app.post('/api/devotional/download', rateLimitSubmissions, async (req: Request, 
     const saved = await dbQueries.addDevotionalLead(lead);
     res.status(201).json({ success: true, data: saved });
   } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
+    res.status(500).json({ success: false, error: sanitizeError(err) });
   }
 });
 
@@ -410,7 +454,7 @@ app.post('/api/devotional/download', rateLimitSubmissions, async (req: Request, 
 app.post('/api/newsletter/subscribe', rateLimitSubmissions, async (req: Request, res: Response) => {
   try {
     const email = (req.body.email || '').trim().slice(0, 150);
-    if (!email || !email.includes('@')) {
+    if (!email || !EMAIL_REGEX.test(email)) {
       return res.status(400).json({ success: false, error: 'Valid email required' });
     }
     const sub = {
@@ -421,7 +465,7 @@ app.post('/api/newsletter/subscribe', rateLimitSubmissions, async (req: Request,
     const saved = await dbQueries.addNewsletterSubscriber(sub);
     res.status(201).json({ success: true, data: saved, message: 'Subscribed to ministry newsletter' });
   } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
+    res.status(500).json({ success: false, error: sanitizeError(err) });
   }
 });
 
@@ -431,8 +475,8 @@ app.post('/api/contact', rateLimitSubmissions, async (req: Request, res: Respons
     const name = (req.body.name || '').trim().slice(0, 150);
     const email = (req.body.email || '').trim().slice(0, 150);
     const message = (req.body.message || '').trim().slice(0, 3000);
-    if (!name || !email || !message) {
-      return res.status(400).json({ success: false, error: 'Name, email, and message are required' });
+    if (!name || !email || !message || !EMAIL_REGEX.test(email)) {
+      return res.status(400).json({ success: false, error: 'Name, valid email, and message are required' });
     }
     const contact = {
       id: `msg-${Date.now()}`,
@@ -445,7 +489,7 @@ app.post('/api/contact', rateLimitSubmissions, async (req: Request, res: Respons
     const saved = await dbQueries.addContactInquiry(contact);
     res.status(201).json({ success: true, data: saved, message: 'Message received by Safe Haven team' });
   } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
+    res.status(500).json({ success: false, error: sanitizeError(err) });
   }
 });
 
@@ -455,7 +499,7 @@ app.get('/api/admin/submissions', requireAdminAuth, async (_req: Request, res: R
     const submissions = await dbQueries.getAdminSubmissions();
     res.json({ success: true, data: submissions });
   } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
+    res.status(500).json({ success: false, error: sanitizeError(err) });
   }
 });
 
@@ -479,7 +523,7 @@ app.post('/api/admin/reset-defaults', requireAdminAuth, async (_req: Request, re
       }
     });
   } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
+    res.status(500).json({ success: false, error: sanitizeError(err) });
   }
 });
 
